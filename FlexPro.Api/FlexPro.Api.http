@@ -1,6 +1,6 @@
 @FlexPro.Api_HostAddress = http://localhost:5233
 
-GET {{FlexPro.Api_HostAddress}}/weatherforecast/
+GET {{FlexPro.Api_HostAddress}}/swagger/
 Accept: application/json
 
 ###
