@@ -1,0 +1,6 @@
+@FlexPro.Api_HostAddress = http://localhost:5233
+
+GET {{FlexPro.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
