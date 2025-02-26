@@ -1,4 +1,4 @@
-using FlexPro.Api.Models;
+﻿using FlexPro.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Data
@@ -37,5 +37,6 @@ namespace FlexPro.Api.Data
                 .WithMany()
                 .HasForeignKey(p => p.IdReceita);
         }
+        public DbSet<FlexPro.Api.Models.Cliente> Cliente { get; set; } = default!;
     }
 }
