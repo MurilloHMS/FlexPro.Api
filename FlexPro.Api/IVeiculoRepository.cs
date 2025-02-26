@@ -8,7 +8,7 @@ namespace FlexPro.Api
         Task<IEnumerable<Veiculo>> GetAll();
         Task<Veiculo> GetById(int id);
         Task<Veiculo> GetByName(string name);
-        Task<Veiculo> UpdateOrInsert(Veiculo vehicle);
-        Task<Veiculo> Delete(Veiculo vehicle);
+        Task UpdateOrInsert(Veiculo vehicle);
+        Task Delete(Veiculo vehicle);
     }
 }

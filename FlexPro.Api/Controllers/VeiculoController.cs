@@ -32,5 +32,52 @@ namespace FlexPro.Api.Controllers
             var veiculo = await _veiculoRepository.GetById(id);
             return veiculo == null ? NotFound() : Ok(veiculo);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Veiculo>> CreateVehicle(Veiculo veiculo)
+        {
+            await _veiculoRepository.UpdateOrInsert(veiculo);
+            return CreatedAtAction(nameof(GetVehicle), new { id = veiculo.Id }, veiculo);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateVehicle(int id, Veiculo veiculo)
+        {
+            if (id != veiculo.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _veiculoRepository.UpdateOrInsert(veiculo);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await _veiculoRepository.GetById(id) == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            var veiculo = await _veiculoRepository.GetById(id);
+            if (veiculo == null)
+            {
+                return NotFound();
+            }
+
+            await _veiculoRepository.Delete(veiculo);
+            return NoContent();
+        }
     }
 }

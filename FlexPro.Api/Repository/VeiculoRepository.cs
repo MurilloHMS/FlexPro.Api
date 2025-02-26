@@ -44,9 +44,10 @@ namespace FlexPro.Api.Repository
             }
             await _context.SaveChangesAsync();
         }
-        public Task<Veiculo> Delete(Veiculo vehicle)
+        public async Task Delete(Veiculo vehicle)
         {
-            throw new NotImplementedException();
+            _context.Veiculo.Remove(vehicle);
+            await _context.SaveChangesAsync();
         }
     }
 }
