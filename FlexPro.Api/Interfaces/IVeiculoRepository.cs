@@ -1,7 +1,7 @@
 ﻿using FlexPro.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexPro.Api
+namespace FlexPro.Api.Interfaces
 {
     public interface IVeiculoRepository
     {

@@ -1,4 +1,5 @@
 using FlexPro.Api.Data;
+using FlexPro.Api.Interfaces;
 using FlexPro.Api.Models;
 using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Mvc;
