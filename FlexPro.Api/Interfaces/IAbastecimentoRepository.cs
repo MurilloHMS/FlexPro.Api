@@ -13,5 +13,7 @@ namespace FlexPro.Api.Interfaces
         Task AddRangeFuelSupply(IList<Abastecimento> fuelSupplies);
         Task ExportData(IList<Abastecimento> fuelSupplies);
         Task ImportData();
+        Task<IEnumerable<Abastecimento>> GetFuelSupply();
+        Task<IEnumerable<Abastecimento>> CollectFuelSupplyData(IFormFile file);
     }
 }
