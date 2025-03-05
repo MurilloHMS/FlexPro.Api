@@ -27,4 +27,5 @@ RUN dotnet publish "./FlexPro.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_URLS=http://+:5000;https://+:5001
 ENTRYPOINT ["dotnet", "FlexPro.Api.dll"]

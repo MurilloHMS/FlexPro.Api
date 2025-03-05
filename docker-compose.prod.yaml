@@ -1,18 +1,19 @@
 version: '3.8'
 
 services:
-  flexpro-Api:
+  flexpro-api:
     build:
       context: . 
       dockerfile: Dockerfile 
     ports:
-    - "5000:5000"  
+      - "5000:5000"
     environment:
-      ASPNETCORE_ENVIRONMENT: Production  
+       - ASPNETCORE_URLS=http://+:5000
+       - ASPNETCORE_ENVIRONMENT= Production 
     restart: always  
     networks:
       - flexpro-network
 
 networks:
   flexpro-network:
-    driver: bridge
+    external: true
