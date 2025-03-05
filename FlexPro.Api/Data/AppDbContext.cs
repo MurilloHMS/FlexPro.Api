@@ -13,6 +13,9 @@ namespace FlexPro.Api.Data
         public DbSet<Receita> Receita { get; set; } = default!;
         public DbSet<Revisao> Revisao { get; set; } = default!;
         public DbSet<Produto> Produto { get; set; } = default!;
+        public DbSet<Cliente> Cliente { get; set; } = default!;
+        public DbSet<ApplicationUser> AspNetUsers { get; set; } = default!;
+
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -37,6 +40,5 @@ namespace FlexPro.Api.Data
                 .WithMany()
                 .HasForeignKey(p => p.IdReceita);
         }
-        public DbSet<FlexPro.Api.Models.Cliente> Cliente { get; set; } = default!;
     }
 }
