@@ -2,11 +2,10 @@
 
 # Esta fase é usada durante a execução no VS no modo rápido (Padrão para a configuração de Depuração)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
+USER app
 WORKDIR /app
-EXPOSE 5000
-EXPOSE 5001
-
+EXPOSE 8080
+EXPOSE 8081
 
 # Esta fase é usada para compilar o projeto de serviço
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -24,8 +23,7 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./FlexPro.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0  AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://+:5000;https://+:5001
 ENTRYPOINT ["dotnet", "FlexPro.Api.dll"]
