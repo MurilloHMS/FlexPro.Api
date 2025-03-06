@@ -13,6 +13,11 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+// // builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenAnyIP(5000);
+// });
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -63,8 +68,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
