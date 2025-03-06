@@ -34,7 +34,7 @@ namespace FlexPro.Api.Repository
 
         public async Task UpdateOrInsert(Veiculo vehicle)
         {
-            var vehicleFounded = _context.Veiculo.FirstOrDefaultAsync(x => x.Id == vehicle.Id);
+            var vehicleFounded = await _context.Veiculo.FirstOrDefaultAsync(x => x.Id == vehicle.Id);
             if (vehicleFounded != null)
             {
                 _context.Entry(vehicleFounded).CurrentValues.SetValues(vehicle);
