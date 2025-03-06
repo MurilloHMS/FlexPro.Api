@@ -7,12 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Controllers
 {
-    public class FuncionarioControll : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class FuncionarioController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IFuncionarioRepository _repository;
 
-        public FuncionarioControll(AppDbContext context)
+        public FuncionarioController(AppDbContext context)
         {
             _context = context;
             _repository = new FuncionarioRepository(_context);
