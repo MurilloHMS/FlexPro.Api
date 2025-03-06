@@ -1,6 +1,7 @@
 ﻿using FlexPro.Api.Data;
 using FlexPro.Api.Interfaces;
 using FlexPro.Api.Models;
+using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,10 @@ namespace FlexPro.Api.Controllers
         private readonly IEntidadeRepository _repository;
         private readonly AppDbContext _context;
 
-        public EntidadeController(IEntidadeRepository repository, AppDbContext context)
+        public EntidadeController(AppDbContext context)
         {
-            _repository = repository;
             _context = context;
+            _repository = new EntidadeRepository(_context);
         }
 
         [HttpGet]
