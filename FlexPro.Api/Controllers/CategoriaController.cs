@@ -1,6 +1,7 @@
 using FlexPro.Api.Data;
 using FlexPro.Api.Interfaces;
 using FlexPro.Api.Models;
+using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,10 @@ public class CategoriaController : ControllerBase
     private readonly ICategoriaRepository _categoriaRepository;
     private readonly AppDbContext _context;
 
-    public CategoriaController(ICategoriaRepository categoriaRepository, AppDbContext context)
+    public CategoriaController(AppDbContext context)
     {
         _context = context;
-        _categoriaRepository = categoriaRepository;
+        _categoriaRepository = new CategoriaRepository(_context);
     }
 
     [HttpGet]
