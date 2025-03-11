@@ -82,7 +82,7 @@ public class ColetarDadosNFeController : ControllerBase
         return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"DadosNFe-{DateTime.Now:dd-MM-yyyy}.xlsx");
     }   
 
-    public async Task<List<DadosNotasFiscais>> ProcessarXML(Stream stream)
+    private async Task<List<DadosNotasFiscais>> ProcessarXML(Stream stream)
     {
         try
         {
