@@ -1,6 +1,10 @@
+using System.Globalization;
 using System.Xml.Linq;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using FlexPro.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using LoadOptions = System.Xml.Linq.LoadOptions;
 
 namespace FlexPro.Api.Controllers;
 
@@ -9,31 +13,73 @@ namespace FlexPro.Api.Controllers;
 public class ICMSController : ControllerBase
 {
     [HttpPost("calcular")]
-    public async Task<IActionResult> CalcularICMS(IFormFile file)
+    public async Task<IActionResult> CalcularICMS(List<IFormFile> files)
     {
-        if (file == null || file.Length == 0)
+        if (files == null || files.Count == 0)
         {
-            return BadRequest("Nenhum arquivo fornecido.");
+            return BadRequest("Nenhum arquivo enviado.");
         }
 
-        try
+        var dadosICMS = new List<ICMS>();
+
+        foreach (var file in files)
         {
-            ICMS dados = await ProcessarXML(file);
-            return Ok(dados);
+            if (Path.GetExtension(file.FileName).ToLower() != ".xml")
+            {
+                continue;
+            }
+
+            using (var stream = file.OpenReadStream())
+            {
+                var dados = await ProcessarXML(stream);
+                if (dados != null)
+                {
+                    dadosICMS.Add(dados);
+                }
+            }
         }
-        catch (Exception e)
+
+        if (!dadosICMS.Any())
         {
-            return StatusCode(500, $"Erro ao processar o arquivo XML: {e.Message}");
+            return BadRequest("Nenhuma informação valida encontrada nos arquivos");
         }
+        
+        var memoryStream = new MemoryStream();
+        using (var workbook = new XLWorkbook())
+        {
+            var worksheet = workbook.Worksheets.Add("ICMS");
+            
+            worksheet.Cell(1, 1).Value = "Número da NFe";
+            worksheet.Cell(1, 2).Value = "Valor do ICMS";
+            worksheet.Cell(1, 3).Value = "Valor do Pis";
+            worksheet.Cell(1, 4).Value = "Valor do Cofins";
+
+            int novaLinha = 2;
+
+            foreach (var linha in dadosICMS)
+            {
+                worksheet.Cell(novaLinha, 1).Value = int.TryParse(linha.nNF, out var valor) ? valor : 0;
+                worksheet.Cell(novaLinha, 2).Value = linha.vICMS;
+                worksheet.Cell(novaLinha, 3).Value = linha.vPis;
+                worksheet.Cell(novaLinha, 4).Value = linha.vCofins;
+                novaLinha++;
+            }
+
+            workbook.SaveAs(memoryStream);
+        }
+        
+        memoryStream.Seek(0, SeekOrigin.Begin);
+        
+        return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"ICMS-{DateTime.Now:dd-MM-yyyy}.xlsx");
     }
 
-    private async Task<ICMS> ProcessarXML(IFormFile file)
+    private async Task<ICMS> ProcessarXML(Stream stream)
     {
-        using (var stream = file.OpenReadStream())
+        try
         {
-            XDocument xmlDoc = await XDocument.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
+            var xmlDoc = await XDocument.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
             XNamespace ns = xmlDoc.Root.GetDefaultNamespace();
-            
+
             var dados = new ICMS();
             var numNfTag = xmlDoc.Descendants(ns + "ide").FirstOrDefault();
             if (numNfTag != null)
@@ -44,12 +90,21 @@ public class ICMSController : ControllerBase
             var icmsTag = xmlDoc.Descendants(ns + "ICMSTot").FirstOrDefault();
             if (icmsTag != null)
             {
-                dados.vICMS = decimal.TryParse(icmsTag.Element(ns + "vICMS")?.Value, out var result) ? result : 0m;
-                dados.vPis = decimal.TryParse(icmsTag.Element(ns + "vPIS")?.Value, out var pisResult) ? pisResult : 0m;
-                dados.vCofins = decimal.TryParse(icmsTag.Element(ns + "vCOFINS")?.Value, out var cofinsResult) ? cofinsResult : 0m;
+                string icms = icmsTag.Element(ns + "vICMS")?.Value;
+                dados.vICMS = !string.IsNullOrEmpty(icms) && decimal.TryParse(icms, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal result) ? result : 0m;
+
+                string pis = icmsTag.Element(ns + "vPIS").Value;
+                dados.vPis = !string.IsNullOrEmpty(pis) && decimal.TryParse(pis, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal pisResult) ? pisResult : 0m;
+
+                string cofins = icmsTag.Element(ns + "vCOFINS").Value;
+                dados.vCofins = !string.IsNullOrEmpty(cofins) && decimal.TryParse(cofins, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal cofinsResult) ? cofinsResult : 0m;
             }
 
             return dados;
+        }
+        catch (Exception e)
+        {
+            return null;
         }
     }
     
