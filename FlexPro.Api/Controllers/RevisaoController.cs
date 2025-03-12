@@ -1,4 +1,5 @@
-﻿using FlexPro.Api.Data;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using FlexPro.Api.Data;
 using FlexPro.Api.Interfaces;
 using FlexPro.Api.Models;
 using FlexPro.Api.Repository;
@@ -41,10 +42,10 @@ namespace FlexPro.Api.Controllers
             return CreatedAtAction(nameof(GetRevisao), new { id = revisao.Id }, revisao);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> PutRevisao(Revisao revisao)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutRevisao(int id, Revisao revisao)
         {
-            if (revisao == null) { return BadRequest(); }
+            if (id != revisao.Id) { return BadRequest(); }
 
             try
             {
@@ -52,7 +53,7 @@ namespace FlexPro.Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (await _repository.GetById(revisao.Id) == null)
+                if (await _repository.GetById(id) == null)
                 {
                     return NotFound();
                 }
@@ -64,10 +65,15 @@ namespace FlexPro.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteRevisao(Revisao revisao)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRevisao(int id)
         {
-            if (revisao == null || revisao.Id == 0) { return BadRequest(); }
+            var revisao = await _repository.GetById(id);
+            if (revisao == null)
+            {
+                return NotFound();
+            }
+
             await _repository.Delete(revisao);
             return NoContent();
         }
