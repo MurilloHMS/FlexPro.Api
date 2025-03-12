@@ -26,6 +26,12 @@ namespace FlexPro.Api.Repository
             return product ?? null;
         }
 
+        public async Task<IEnumerable<Produto>> GetByIdReceita(int id)
+        {
+            var products = await _context.Produto.Where(x => x.IdReceita == id).ToListAsync();
+            return products ?? Enumerable.Empty<Produto>();
+        }
+
         public async Task SaveOrUpdate(Produto produto)
         {
             var productFounded = await _context.Produto.FirstOrDefaultAsync(x => x.Id == produto.Id);
