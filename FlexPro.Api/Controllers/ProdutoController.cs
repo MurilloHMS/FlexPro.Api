@@ -4,6 +4,7 @@ using FlexPro.Api.Models;
 using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.DependencyResolver;
 
 namespace FlexPro.Api.Controllers
 {
@@ -31,6 +32,13 @@ namespace FlexPro.Api.Controllers
         public async Task<ActionResult<Produto>> GetProduto(int id)
         {
             var product = await _produtoRepository.GetById(id);
+            return product == null ? NotFound() : Ok(product);
+        }
+
+        [HttpGet("receitas/{idReceita}")]
+        public async Task<ActionResult<List<Produto>>> GetProdutoByReceitaId(int idReceita)
+        {
+            var product = await _produtoRepository.GetByIdReceita(idReceita);
             return product == null ? NotFound() : Ok(product);
         }
 

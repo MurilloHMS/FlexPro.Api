@@ -6,6 +6,7 @@ namespace FlexPro.Api.Interfaces
     {
         Task<IEnumerable<Produto>> GetAll();
         Task<Produto> GetById(int id);
+        Task<IEnumerable<Produto>> GetByIdReceita(int id);
         Task SaveOrUpdate(Produto produto);
         Task Delete(Produto produto);
     }
