@@ -42,7 +42,7 @@ namespace FlexPro.Api.Controllers
             return CreatedAtAction(nameof(GetEntidades), new { id = entities.ID }, entities);
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<ActionResult> PutEntidades(int id, Entidade entidade)
         {
             if (id != entidade.ID)
