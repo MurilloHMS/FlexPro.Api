@@ -15,6 +15,6 @@ namespace FlexPro.Api.Models
         public string MateriaPrima { get; set; }
         public string Tipo { get; set; }
         public int IdReceita { get; set; }
-        public virtual Receita Receita { get; set; }
+        public virtual Receita? Receita { get; set; }
     }
 }
