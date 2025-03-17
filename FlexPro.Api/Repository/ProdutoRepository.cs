@@ -41,7 +41,7 @@ namespace FlexPro.Api.Repository
             }
             else
             {
-                _context.Produto.Add(produto);
+                await _context.Produto.AddAsync(produto);
             }
             await _context.SaveChangesAsync();
         }
