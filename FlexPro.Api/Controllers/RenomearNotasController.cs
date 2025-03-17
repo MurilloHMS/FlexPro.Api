@@ -108,22 +108,8 @@ public class RenomearNotasController : ControllerBase
             {
                 var novoCaminho = Path.Combine(outputFolder, $"NFe_{nota.NumeroNFe}.pdf");
 
-                try
-                {
-                    using (var sourceStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                    {
-                        using (var destStream = new FileStream(novoCaminho, FileMode.Create, FileAccess.Write))
-                        {
-                            await sourceStream.CopyToAsync(destStream);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Erro ao renomear o arquivo {filePath} para {novoCaminho}: {ex.Message}");
-                }
-
-                break;
+                System.IO.File.Copy(filePath, novoCaminho, true);
+                return;
             }
         }
     }
