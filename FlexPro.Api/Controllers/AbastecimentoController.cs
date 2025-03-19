@@ -4,6 +4,7 @@ using FlexPro.Api.Repository;
 using FlexPro.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace FlexPro.Api.Controllers
 {
@@ -52,6 +53,27 @@ namespace FlexPro.Api.Controllers
         {
             var abastecimento = await _repository.GetFuelSupply();
             return abastecimento != null ? Ok(abastecimento) : NotFound();
+        }
+
+        [HttpGet("Calcular/Individual/{data}")]
+        public async Task<ActionResult> GetIndividualMetrics(DateTime data)
+        {
+            var retorno = _service.CalcularAbastecimentoIndividual(data);
+            return retorno != null ? Ok(retorno) : NotFound();
+        }
+
+        [HttpGet("Calcular/Setor/{data}")]
+        public async Task<ActionResult> GetSetorMetrics(DateTime data)
+        {
+            var retorno = _service.CalcularAbastecimentoSetor(data);
+            return retorno != null ? Ok(retorno) : NotFound();
+        }
+
+        [HttpGet("Calcular/Geral/{data}")]
+        public async Task<ActionResult> GetGeralMetrics(DateTime data)
+        {
+            var retorno = _service.CalcularAbastecimentoGeral(data);
+            return retorno != null ? Ok(data) : NotFound();
         }
     }
 }
