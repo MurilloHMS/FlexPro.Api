@@ -35,6 +35,13 @@ namespace FlexPro.Api.Controllers
             return revisao == null ? NotFound() : Ok(revisao);
         }
 
+        [HttpGet("veiculo/{id}")]
+        public async Task<ActionResult<Revisao>> GetRevisaoByVehicleId(int id)
+        {
+            var revisao = await _repository.GetByVehicleId(id);
+            return revisao.Any() && revisao != null ? Ok(revisao) : NotFound();
+        }
+
         [HttpPost]
         public async Task<ActionResult<Revisao>> PostRevisao(Revisao revisao)
         {

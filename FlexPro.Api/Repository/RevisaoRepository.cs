@@ -31,6 +31,12 @@ namespace FlexPro.Api.Repository
             return revisao ?? null;
         }
 
+        public async Task<IEnumerable<Revisao>> GetByVehicleId(int vehicleId)
+        {
+            var revisao = _context.Revisao.Where(x => x.VeiculoId == vehicleId);
+            return revisao.Any() ? revisao : Enumerable.Empty<Revisao>();
+        }
+
         public async Task UpdateOrInsert(Revisao revisao)
         {
             var revisaoFounded = await _context.Revisao.FirstOrDefaultAsync(x => x.Id == revisao.Id);
