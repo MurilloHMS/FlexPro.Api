@@ -42,7 +42,7 @@ namespace FlexPro.Api.Repository
 
         public async Task SaveOrUpdate(Categoria category)
         {
-            var categoryFounded = _context.Categoria.FirstOrDefaultAsync(x => x.Id == category.Id);
+            var categoryFounded = await _context.Categoria.FirstOrDefaultAsync(x => x.Id == category.Id);
             if (categoryFounded != null)
             {
                 _context.Entry(categoryFounded).CurrentValues.SetValues(category);
