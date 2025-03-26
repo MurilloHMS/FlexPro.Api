@@ -1,6 +1,6 @@
 ﻿using FlexPro.Api.Data;
 using FlexPro.Api.Models;
-using FlexPro.Api.Repository;
+using FlexPro.Api.Interfaces;
 using FlexPro.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +14,12 @@ namespace FlexPro.Api.Controllers
     {
         private readonly AbastecimentoService _service;
         private readonly AppDbContext _context;
-        private readonly AbastecimentoRepository _repository;
-        public AbastecimentoController(AppDbContext context)
+        private readonly IAbastecimentoRepository _repository;
+        public AbastecimentoController(AppDbContext context, AbastecimentoService service, IAbastecimentoRepository repository)
         {
             _context = context;
-            _service = new AbastecimentoService(context);
-            _repository = new AbastecimentoRepository(context);
+            _service = service;
+            _repository = repository;
         }
 
         [HttpPost("upload")]
@@ -58,22 +58,22 @@ namespace FlexPro.Api.Controllers
         [HttpGet("Calcular/Individual/{data}")]
         public async Task<ActionResult> GetIndividualMetrics(DateTime data)
         {
-            var retorno = _service.CalcularAbastecimentoIndividual(data);
+            var retorno = await _service.CalcularAbastecimentoIndividual(data);
             return retorno != null ? Ok(retorno) : NotFound();
         }
 
         [HttpGet("Calcular/Setor/{data}")]
         public async Task<ActionResult> GetSetorMetrics(DateTime data)
         {
-            var retorno = _service.CalcularAbastecimentoSetor(data);
+            var retorno = await _service.CalcularAbastecimentoSetor(data);
             return retorno != null ? Ok(retorno) : NotFound();
         }
 
         [HttpGet("Calcular/Geral/{data}")]
         public async Task<ActionResult> GetGeralMetrics(DateTime data)
         {
-            var retorno = _service.CalcularAbastecimentoGeral(data);
-            return retorno != null ? Ok(data) : NotFound();
+            var retorno = await _service.CalcularAbastecimentoGeral(data);
+            return retorno != null ? Ok(retorno) : NotFound();
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using ClosedXML.Excel;
 using FlexPro.Api.Data;
 using FlexPro.Api.Models;
-using FlexPro.Api.Repository;
-using Microsoft.AspNetCore.Components.Forms;
+using FlexPro.Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
@@ -10,31 +9,39 @@ namespace FlexPro.Api.Services
 {
     public class AbastecimentoService
     {
-        private readonly AbastecimentoRepository _repository;
+        private readonly IAbastecimentoRepository _repository;
         private readonly AppDbContext _context;
 
-        public AbastecimentoService(AppDbContext context)
+        public AbastecimentoService(AppDbContext context, IAbastecimentoRepository repository)
         {
             _context = context;
-            _repository = new AbastecimentoRepository(_context);
+            _repository = repository;
         }
 
         public async Task<string> CalcularAbastecimentoGeral(DateTime data)
         {
-            var dataAtual = data.ToUniversalTime();
-            var inicioMesAtual = new DateTime(dataAtual.Year, dataAtual.Month, 1).ToUniversalTime();
-            var fimMesAtual = inicioMesAtual.AddMonths(1).AddDays(-1);
-            var inicioMesAnterior = inicioMesAtual.AddMonths(-1);
-            var fimMesAnterior = inicioMesAtual.AddDays(-1);
+            try
+            {
+                var dataAtual = data.ToUniversalTime().Date;
+                var inicioMesAtual = new DateTime(dataAtual.Year, dataAtual.Month, 1).ToUniversalTime().Date;
+                var fimMesAtual = inicioMesAtual.AddMonths(1).AddDays(-1);
+                var inicioMesAnterior = inicioMesAtual.AddMonths(-1);
+                var fimMesAnterior = inicioMesAtual.AddDays(-1);
 
-            var abastecimentoMesAtual = await _repository.GetFuelSupplyByDate(inicioMesAtual, fimMesAtual);
-            var abastecimentoMesAnterior = await _repository.GetFuelSupplyByDate(inicioMesAnterior, fimMesAnterior);
+                var abastecimentoMesAtual = await _repository.GetFuelSupplyByDate(inicioMesAtual, fimMesAtual);
+                var abastecimentoMesAnterior = await _repository.GetFuelSupplyByDate(inicioMesAnterior, fimMesAnterior);
 
-            var sb = new StringBuilder();
+                var sb = new StringBuilder();
 
-            sb.AppendLine(await CalculaAbastecimento(abastecimentoMesAtual, abastecimentoMesAnterior, "Geral"));
+                sb.AppendLine(await CalculaAbastecimento(abastecimentoMesAtual, abastecimentoMesAnterior, "Geral"));
 
-            return sb.ToString();
+                return sb.ToString();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public async Task<string> CalcularAbastecimentoSetor(DateTime data)
         {

@@ -51,7 +51,7 @@ namespace FlexPro.Api.Repository
 
         public async Task<List<Abastecimento>> GetFuelSupplyByDate(DateTime initial, DateTime finish)
         {
-            var fuelSupply = await _context.Abastecimento.Where(a => a.DataDoAbastecimento >= initial && a.DataDoAbastecimento <= finish).ToListAsync();
+            var fuelSupply = await _context.Abastecimento.Where(a => a.DataDoAbastecimento.ToUniversalTime().Date >= initial && a.DataDoAbastecimento.ToUniversalTime().Date <= finish).ToListAsync();
             return fuelSupply;
         }
     }

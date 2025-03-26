@@ -2,6 +2,7 @@ using FlexPro.Api.Data;
 using FlexPro.Api.Interfaces;
 using FlexPro.Api.Models;
 using FlexPro.Api.Services;
+using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +38,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+// Registros dos services email
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+// Registros dos servies 
+builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
+builder.Services.AddScoped<AbastecimentoService>();
 
 var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
