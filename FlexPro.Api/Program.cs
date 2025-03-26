@@ -1,3 +1,4 @@
+using System.Globalization;
 using FlexPro.Api.Data;
 using FlexPro.Api.Interfaces;
 using FlexPro.Api.Models;
@@ -13,19 +14,30 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Localization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
-// // builder.WebHost.ConfigureKestrel(options =>
-// {
-//     options.ListenAnyIP(5000);
-// });
+var supportedCultures = new[] { "pt-BR" };
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("pt-BR"),
+    SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList(),
+    SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList()
+};
 
-// Add services to the container.
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddDataAnnotationsLocalization()
+    .AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add((new JsonStringEnumConverter()));
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -81,6 +93,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseRequestLocalization(localizationOptions);
 
 app.UseAuthorization();
 
