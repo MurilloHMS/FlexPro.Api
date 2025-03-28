@@ -57,12 +57,13 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 // Registros dos servies 
 builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
+builder.Services.AddScoped<InformativoService>();
 
 var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.RequireHttpsMetadata = false;
+        options.RequireHttpsMetadata = true;
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -96,10 +97,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseRequestLocalization(localizationOptions);
 
+app.UseCors("AllowAll");
+
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors("AllowAll");
 
 app.Run();

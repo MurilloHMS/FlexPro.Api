@@ -31,5 +31,15 @@ namespace FlexPro.Api.Controllers
                 return StatusCode(500, $"Erro ao enviar o e-mail: {ex.Message} stack {ex.StackTrace}");
             }
         }
+
+        [HttpPost("send/informativos")]
+        public async Task<ActionResult> SendInformativosAsync(List<Informativo> informativos)
+        {
+            if (!informativos.Any()) return BadRequest();
+
+            await _emailService.EnviarInformativos(informativos);
+            return Ok();
+
+        }
     }
 }
