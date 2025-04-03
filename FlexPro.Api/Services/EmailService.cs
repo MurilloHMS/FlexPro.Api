@@ -73,87 +73,143 @@ namespace FlexPro.Api.Services
                                 <html lang=""pt-br"">
                                 <head>
                                     <meta charset=""UTF-8"">
-                                    <title>Proauto Kimium - Métricas Mensais</title>
+                                    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                                    <title>Informativo</title>
+                                    <style>
+                                        :root{
+                                            --green-color: #60bda9;
+                                            --blue-color: #252d61;
+                                        }
+                                        body {
+                                            font-family: Arial, sans-serif;
+                                            margin: 0;
+                                            padding: 0;
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            height: 100vh;
+                                            background: #f4f4f4;
+                                        }
+                                        .container {
+                                            width: 90%;
+                                            max-width: 600px;
+                                            background: white;
+                                            border-radius: 45px;
+                                            border: 3px solid var(--blue-color);
+                                            text-align: center;
+                                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+                                        }
+                                        .header{
+                                            display: flex;
+                                            justify-content: center;
+                                            padding: 8px 25px;
+                                        }
+                                        .header img {
+                                            width: 60px;
+                                        }
+                                        .header h2 {
+                                            margin: 10px 0;
+                                            text-transform: uppercase;
+                                            margin-left: 5px;
+                                            font-size: 2.4rem;
+                                        }
+                                        .blue{
+                                            color: var(--blue-color);
+                                            font-weight: 800;
+                                            margin-right: 4px;
+                                        }
+                                        .green{
+                                            color: var(--green-color);
+                                            font-weight: 800;
+                                        }
+                                        .presentation h3 {
+                                            margin: 0;
+                                            color: var(--blue-color);
+                                            font-weight: 800;
+                                        }
+                                        .presentation p {
+                                            color: var(--blue-color);
+                                            font-size: 16px;
+                                            padding: 0 120px;
+                                        }
+                                        .presentation-body {
+                                            display: flex;
+                                            flex-wrap: wrap;
+                                            justify-content: space-between;
+                                            margin-top: 40px;
+                                        }
+                                        .item {
+                                            width: 33%;
+                                            margin-top: 20px;
+                                        }
+                                        .item-title {
+                                            color: var(--green-color);
+                                            font-size: 1.6rem;
+                                            font-weight: 800;
+                                            margin: 0;
+                                            text-transform: uppercase;
+                                            padding: 0 12px;
+                                        }
+                                        .item-info {
+                                            color: var(--blue-color);
+                                            font-size: 16px;
+                                            padding: 0 25px;
+                                            font-weight: bold;
+                                        }
+                                        .divider{
+                                            display: flex;
+                                            margin-left: auto;
+                                            margin-right: auto;
+                                            width: 90%;
+                                            height: 2px;
+                                            background-color: #bdc0cf;
+                                        }
+                                        .footer {
+                                            background: var(--blue-color);
+                                            color: white;
+                                            padding: 10px;
+                                            border-radius: 0 0 40px 40px;
+                                            font-size: 14px;
+                                            margin-top: 18px;
+                                        }
+                                        .footer a {
+                                            color: #ddd;
+                                            text-decoration: none;
+                                        }
+                                        .footer img {
+                                            width: 15px;
+                                            margin-right: 5px;
+                                        }
+                                    </style>
                                 </head>
-                                <body style=""margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center;"">
-                                    <table role=""presentation"" width=""100%"" cellspacing=""0"" cellpadding=""0"" border=""0"">
-                                        <tr>
-                                            <td align=""center"">
-                                                <!-- Cabeçalho -->
-                                                <table role=""presentation"" width=""600"" cellspacing=""0"" cellpadding=""20"" border=""0"" style=""background: #262d61; color: #ffffff; border-radius: 8px 8px 0 0; background-size: 100%;"">
-                                                    <tr>
-                                                        <td align=""center"">
-                                                            <img src=""https://www.proautokimium.com.br/images/2020/11/icone-proauto-150x150.png"" alt=""Proauto Kimium"" width=""60"" height=""60"">
-                                                            <h2 style=""margin: 5px 0;"">Métricas Mensais</h2>
-                                                            <h3 style=""margin: 5px 0;"">{0}</h3>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <!-- Mensagem de Introdução -->
-                                                <table role=""presentation"" width=""600"" cellspacing=""0"" cellpadding=""20"" border=""0"" style=""background-color: #ffffff;"">
-                                                    <tr>
-                                                        <td align=""center"">
-                                                            <p style=""color: #555; font-size: 16px;"">
-                                                                Olá, <strong>{1}</strong>! Veja como foi seu desempenho neste mês com a <strong>Proauto Kimium</strong>.
-                                                            </p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <!-- Métricas Principais -->
-                                                <table role=""presentation"" width=""600"" cellspacing=""0"" cellpadding=""15"" border=""0"" style=""background-color: #ffffff;"">
-                                                    <tr>
-                                                        <td align=""center"" width=""33%"" style=""border-right: 1px solid #ddd;"">
-                                                            <h1 style=""color: #007bff; margin: 0; font-size: 2rem;"">{2}</h1>
-                                                            <p style=""color: #555; font-size: 14px;"">Litros de Produtos Comprados</p>
-                                                        </td>
-                                                        <td align=""center"" width=""33%"" style=""border-right: 1px solid #ddd;"">
-                                                            <h1 style=""color: #007bff; margin: 0; font-size: 2rem;"">{3}</h1>
-                                                            <p style=""color: #555; font-size: 14px;"">Notas Fiscais Emitidas</p>
-                                                        </td>
-                                                        <td align=""center"" width=""33%"">
-                                                            <h1 style=""color: #007bff; margin: 0; font-size: 2rem;"">{4}</h1>
-                                                            <p style=""color: #555; font-size: 14px;"">Média Dias para atendimento</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <!-- Destaques -->
-                                                <table role=""presentation"" width=""600"" cellspacing=""0"" cellpadding=""15"" border=""0"" style=""background-color: #ffffff; margin-top: 10px;"">
-                                                    <tr>
-                                                        <td align=""center"" style=""background-color: #f8f9fa; padding: 15px;"">
-                                                            <h3 style=""color: #333; margin: 5px 0;"">📌 Destaque do Mês</h3>
-                                                            <p style=""color: #555; font-size: 14px; margin: 5px 0;"">Produto mais comprado: <strong>{5}</strong></p>
-                                                            <p style=""color: #555; font-size: 14px; margin: 5px 0;"">Faturamento total: <strong>R$ {6}</strong></p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <!-- Máquinas Alugadas -->
-                                                <table role=""presentation"" width=""600"" cellspacing=""0"" cellpadding=""15"" border=""0"" style=""background-color: #ffffff;"">
-                                                    <tr>
-                                                        <td align=""center"">
-                                                            <h1 style=""color: #007bff; margin: 0; font-size: 2rem;"">{7}</h1>
-                                                            <p style=""color: #555; font-size: 14px;"">Quantidade de produtos comprados</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                                <!-- Rodapé -->
-                                                <table role=""presentation"" width=""600"" cellspacing=""0"" cellpadding=""15"" border=""0"" style=""background-color: #262d61; color: #ffffff; border-radius: 0 0 8px 8px; margin-top: 20px;"">
-                                                    <tr>
-                                                        <td align=""center"">
-                                                            <img src=""https://www.proautokimium.com.br/images/2020/11/logo-proauto.png"" alt=""Proauto Kimium"" width=""120"" style=""opacity: 0.8;"">
-                                                            <p style=""margin: 5px 0; font-size: 14px;"">📞 (11) 99999-9999 | 📧 sac@proautokimium.com.br</p>
-                                                            <p style=""margin: 5px 0; font-size: 12px;"">Av João do Prado, 300 - Santo André, SP</p>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <body>
+                                    <div class=""container"">
+                                        <div class=""header"">
+                                            <img src=""https://media.licdn.com/dms/image/v2/D4D0BAQFCj_lQSEJtrw/company-logo_200_200/company-logo_200_200/0/1723201815949/proauto_kimium_logo?e=2147483647&v=beta&t=PwLlkYogzj6nuWivG_03yRCZQxnPyjZQ3BNYncTycOI"" alt=""Proauto Kimium"">
+                                            <h2><strong class=""blue"">Proauto</strong><strong class=""green"">Kimium</strong></h2>
+                                        </div>
+                                        <div class=""presentation"">
+                                            <h3>{0} - 2025</h3>
+                                            <p>Olá, <strong>{1}</strong>! Veja como foi seu desempenho neste mês com a <strong>Proauto Kimium</strong>.</p>
+                                        </div>
+                                        <div class=""presentation-body"">
+                                            <div class=""item""><h1 class=""item-title"">{5}</h1><p class=""item-info"">Produto mais comprado</p></div>
+                                            <div class=""item""><h1 class=""item-title"">{7}</h1><p class=""item-info"">Qtd. de produtos comprados</p></div>
+                                            <div class=""item""><h1 class=""item-title"">{2}</h1><p class=""item-info"">Litros comprados</p></div>
+                                            <div class=""divider""></div>
+                                            <div class=""item""><h1 class=""item-title"">2</h1><p class=""item-info"">Manutenções Realizadas</p></div>
+                                            <div class=""item""><h1 class=""item-title"">{8}</h1><p class=""item-info"">Valor das peças trocadas</p></div>
+                                            <div class=""item""><h1 class=""item-title"">{4}</h1><p class=""item-info"">Média de dias para atendimento</p></div>
+                                            <div class=""divider""></div>
+                                            <div class=""item""><h1 class=""item-title"">{6}</h1><p class=""item-info"">Faturamento Mensal</p></div>
+                                            <div class=""item""><h1 class=""item-title"">15</h1><p class=""item-info"">Produtos Diferentes</p></div>
+                                            <div class=""item""><h1 class=""item-title"">{3}</h1><p class=""item-info"">Notas Fiscais Emitidas</p></div>
+                                        </div>
+                                        <div class=""footer"">
+                                            <p><img src=""https://images.icon-icons.com/1294/PNG/512/2362137-chat-media-whatsapp_85529.png"" alt=""""><a href=""https://wa.me/5511957782766"" target=""_blank"">(11) 9 5778-2766</a> | 📧 <a href=""mailto:sac@proautokimium.com.br"">sac@proautokimium.com.br</a></p>
+                                            <p>Av. João do Prado, 300 - Santo André, SP</p>
+                                        </div>
+                                    </div>
                                 </body>
                                 </html>";
 
@@ -168,8 +224,8 @@ namespace FlexPro.Api.Services
                     informativo.MediaDiasAtendimento,
                     informativo.ProdutoEmDestaque,
                     informativo.FaturamentoTotal.ToString("F2",CultureInfo.InvariantCulture),
-                    informativo.QuantidadeDeProdutos
-
+                    informativo.QuantidadeDeProdutos,
+                    informativo.ValorDePeçasTrocadas
                     );
 
                 await SendEmailAsync(informativo.EmailCliente, $"Informativo Mês {informativo.Mes}", html );
