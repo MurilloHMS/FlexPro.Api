@@ -5,6 +5,7 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using System.Text;
 using System.Globalization;
+using RazorLight;
 
 namespace FlexPro.Api.Services
 {
@@ -76,11 +77,11 @@ namespace FlexPro.Api.Services
                                     <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
                                     <title>Informativo</title>
                                     <style>
-                                        :root{
+                                        :root{{
                                             --green-color: #60bda9;
                                             --blue-color: #252d61;
-                                        }
-                                        body {
+                                        }}
+                                        body {{
                                             font-family: Arial, sans-serif;
                                             margin: 0;
                                             padding: 0;
@@ -89,8 +90,8 @@ namespace FlexPro.Api.Services
                                             align-items: center;
                                             height: 100vh;
                                             background: #f4f4f4;
-                                        }
-                                        .container {
+                                        }}
+                                        .container {{
                                             width: 90%;
                                             max-width: 600px;
                                             background: white;
@@ -98,88 +99,88 @@ namespace FlexPro.Api.Services
                                             border: 3px solid var(--blue-color);
                                             text-align: center;
                                             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-                                        }
-                                        .header{
+                                        }}
+                                        .header{{
                                             display: flex;
                                             justify-content: center;
                                             padding: 8px 25px;
-                                        }
-                                        .header img {
+                                        }}
+                                        .header img {{
                                             width: 60px;
-                                        }
-                                        .header h2 {
+                                        }}
+                                        .header h2 {{
                                             margin: 10px 0;
                                             text-transform: uppercase;
                                             margin-left: 5px;
                                             font-size: 2.4rem;
-                                        }
-                                        .blue{
+                                        }}
+                                        .blue{{
                                             color: var(--blue-color);
                                             font-weight: 800;
                                             margin-right: 4px;
-                                        }
-                                        .green{
+                                        }}
+                                        .green{{
                                             color: var(--green-color);
                                             font-weight: 800;
-                                        }
-                                        .presentation h3 {
+                                        }}
+                                        .presentation h3 {{
                                             margin: 0;
                                             color: var(--blue-color);
                                             font-weight: 800;
-                                        }
-                                        .presentation p {
+                                        }}
+                                        .presentation p {{
                                             color: var(--blue-color);
                                             font-size: 16px;
                                             padding: 0 120px;
-                                        }
-                                        .presentation-body {
+                                        }}
+                                        .presentation-body {{
                                             display: flex;
                                             flex-wrap: wrap;
                                             justify-content: space-between;
                                             margin-top: 40px;
-                                        }
-                                        .item {
+                                        }}
+                                        .item {{
                                             width: 33%;
                                             margin-top: 20px;
-                                        }
-                                        .item-title {
+                                        }}
+                                        .item-title {{
                                             color: var(--green-color);
                                             font-size: 1.6rem;
                                             font-weight: 800;
                                             margin: 0;
                                             text-transform: uppercase;
                                             padding: 0 12px;
-                                        }
-                                        .item-info {
+                                        }}
+                                        .item-info {{
                                             color: var(--blue-color);
                                             font-size: 16px;
                                             padding: 0 25px;
                                             font-weight: bold;
-                                        }
-                                        .divider{
+                                        }}
+                                        .divider{{
                                             display: flex;
                                             margin-left: auto;
                                             margin-right: auto;
                                             width: 90%;
                                             height: 2px;
                                             background-color: #bdc0cf;
-                                        }
-                                        .footer {
+                                        }}
+                                        .footer {{
                                             background: var(--blue-color);
                                             color: white;
                                             padding: 10px;
                                             border-radius: 0 0 40px 40px;
                                             font-size: 14px;
                                             margin-top: 18px;
-                                        }
-                                        .footer a {
+                                        }}
+                                        .footer a {{
                                             color: #ddd;
                                             text-decoration: none;
-                                        }
-                                        .footer img {
+                                        }}
+                                        .footer img {{
                                             width: 15px;
                                             margin-right: 5px;
-                                        }
+                                        }}
                                     </style>
                                 </head>
                                 <body>
@@ -216,17 +217,24 @@ namespace FlexPro.Api.Services
             var sb = new StringBuilder();
             foreach( var informativo in informativos)
             {
-                var html = string.Format(htmlTemplate,
-                    informativo.Mes,
-                    informativo.NomeDoCliente,
-                    informativo.QuantidadeDeLitros,
-                    informativo.QuantidadeNotasEmitidas,
-                    informativo.MediaDiasAtendimento,
-                    informativo.ProdutoEmDestaque,
-                    informativo.FaturamentoTotal.ToString("F2",CultureInfo.InvariantCulture),
-                    informativo.QuantidadeDeProdutos,
-                    informativo.ValorDePeçasTrocadas
-                    );
+                //var html = string.Format(htmlTemplate,
+                //    informativo.Mes,
+                //    informativo.NomeDoCliente,
+                //    informativo.QuantidadeDeLitros,
+                //    informativo.QuantidadeNotasEmitidas,
+                //    informativo.MediaDiasAtendimento,
+                //    informativo.ProdutoEmDestaque,
+                //    informativo.FaturamentoTotal.ToString("F2",CultureInfo.InvariantCulture),
+                //    informativo.QuantidadeDeProdutos,
+                //    informativo.ValorDePeçasTrocadas
+                //    );
+
+                var engine = new RazorLightEngineBuilder()
+                    .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "templates"))
+                    .UseMemoryCachingProvider()
+                    .Build();
+
+                string html = await engine.CompileRenderAsync("Informativo.cshtml", informativo);
 
                 await SendEmailAsync(informativo.EmailCliente, $"Informativo Mês {informativo.Mes}", html );
             }

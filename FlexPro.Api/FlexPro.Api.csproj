@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>e329d901-2979-45e8-b2ff-10288d0e4fec</UserSecretsId>
@@ -26,6 +28,7 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
     <PackageReference Include="PdfPig" Version="0.1.10" />
     <PackageReference Include="PDFsharp" Version="6.1.1" />
+    <PackageReference Include="RazorLight" Version="2.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 </Project>
