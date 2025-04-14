@@ -1,5 +1,4 @@
 using System.Globalization;
-using FlexPro.Api.Data;
 using FlexPro.Api.Interfaces;
 using FlexPro.Api.Models;
 using FlexPro.Api.Services;
@@ -16,10 +15,21 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Localization;
+using FlexPro.Api.Infrastructure.Persistance;
+using Serilog;
+using FlexPro.Api.Application.DTOs;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using MediatR;
+using FlexPro.Api.Application.Validators;
 
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
+
+builder.Host.UseSerilog((ctx, lc) => 
+    lc.WriteTo.Console().WriteTo.Seq("http://localhost:5341")
+);
 
 var supportedCultures = new[] { "pt-BR" };
 var localizationOptions = new RequestLocalizationOptions
@@ -59,6 +69,11 @@ builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
 builder.Services.AddScoped<InformativoService>();
 
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -94,6 +109,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.UseRequestLocalization(localizationOptions);
 
