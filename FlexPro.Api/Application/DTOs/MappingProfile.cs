@@ -7,11 +7,7 @@ namespace FlexPro.Api.Application.DTOs
     {
         public MappingProfile()
         {
-            CreateMap<Veiculo, VeiculoDTO>()
-                .ForMember(dest => dest.ConsumoUrbanoAlcool, opt => opt.MapFrom(src => src.ConsumoUrbanoAlcool))
-                .ForMember(dest => dest.ConsumoUrbanoGasolina, opt => opt.MapFrom(src => src.ConsumoUrbanoGasolina))
-                .ForMember(dest => dest.ConsumoRodoviarioAlcool, opt => opt.MapFrom(src => src.ConsumoRodoviarioAlcool))
-                .ForMember(dest => dest.ConsumoRodoviarioGasolina, opt => opt.MapFrom(src => src.ConsumoRodoviarioGasolina));
+            CreateMap<Veiculo, VeiculoDTO>().ReverseMap();
         }
     }
 }

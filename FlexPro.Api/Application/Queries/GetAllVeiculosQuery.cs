@@ -4,5 +4,5 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Queries
 {
-    public class ObterTodosOsVeiculosQuery : IRequest<List<VeiculoDTO>>{ }
+    public class GetAllVeiculosQuery : IRequest<IEnumerable<VeiculoDTO>>{ }
 }
