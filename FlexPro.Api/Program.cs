@@ -22,6 +22,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using MediatR;
 using FlexPro.Api.Application.Validators;
+using FlexPro.Api.Repository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -68,11 +69,13 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
 builder.Services.AddScoped<InformativoService>();
+builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
 
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 
 var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

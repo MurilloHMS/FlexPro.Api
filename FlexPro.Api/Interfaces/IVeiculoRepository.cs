@@ -1,4 +1,4 @@
-﻿using FlexPro.Api.Models;
+﻿using FlexPro.Api.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Interfaces

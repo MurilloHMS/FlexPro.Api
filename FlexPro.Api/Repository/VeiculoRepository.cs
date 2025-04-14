@@ -1,6 +1,6 @@
-﻿using FlexPro.Api.Data;
+﻿using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Interfaces;
-using FlexPro.Api.Models;
+using FlexPro.Api.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Repository
