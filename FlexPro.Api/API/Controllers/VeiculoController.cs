@@ -2,6 +2,7 @@
 using FlexPro.Api.Application.DTOs;
 using FlexPro.Api.Application.Queries.Veiculo;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.API.Controllers
@@ -15,6 +16,20 @@ namespace FlexPro.Api.API.Controllers
         public VeiculoController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllVeiculosQuery());
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var result = await _mediator.Send(new GetVeiculoByIdQuery { Id = id });
+            return result == null ? NotFound() : Ok(result);
         }
 
         [HttpPost]
@@ -39,18 +54,5 @@ namespace FlexPro.Api.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id)
-        {
-            var result = await _mediator.Send(new GetVeiculoByIdQuery { Id = id });
-            return result == null ? NotFound() : Ok(result);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> GetAll()
-        {
-            var result = await _mediator.Send(new GetAllVeiculosQuery());
-            return Ok(result);
-        }
     }
 }
