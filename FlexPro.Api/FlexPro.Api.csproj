@@ -38,8 +38,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="API\Middlewares\" />
-    <Folder Include="Application\Commands\Auth\" />
     <Folder Include="Data\" />
   </ItemGroup>
 </Project>
