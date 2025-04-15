@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.IO.Compression;
 using System.Linq;
-using FlexPro.Api.Models;
+using FlexPro.Api.Domain.Entities;
 
 [Route("api/[controller]")]
 [ApiController]
