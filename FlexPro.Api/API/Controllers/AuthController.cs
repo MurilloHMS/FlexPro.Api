@@ -29,5 +29,12 @@ namespace FlexPro.Api.API.Controllers
             var token = await _mediator.Send(new RegisterCommand { Register = dto});
             return Ok(new {token});
         }
+
+        [HttpPost("AddRole")]
+        public async Task<IActionResult> AddRole([FromBody] UpdateUserRoleDTO dto)
+        {
+            var result = await _mediator.Send(new UpdateUserRoleCommand(dto));
+            return result ? Ok("Role adicionada com sucesso") : BadRequest("Falha ao adicionar role");
+        }
     }
 }
