@@ -1,5 +1,5 @@
-﻿using FlexPro.Api.Data;
-using FlexPro.Api.Models;
+﻿using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

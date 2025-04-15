@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FlexPro.Api.Application.Commands.Veiculo;
+using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
-using FlexPro.Api.Interfaces;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers

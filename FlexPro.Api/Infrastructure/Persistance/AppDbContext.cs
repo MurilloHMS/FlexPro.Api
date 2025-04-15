@@ -1,5 +1,4 @@
 ﻿using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Infrastructure.Persistance

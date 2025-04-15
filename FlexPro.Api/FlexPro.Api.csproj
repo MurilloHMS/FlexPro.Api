@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\Middlewares\" />
+    <Folder Include="Application\Commands\Auth\" />
     <Folder Include="Data\" />
   </ItemGroup>
 </Project>

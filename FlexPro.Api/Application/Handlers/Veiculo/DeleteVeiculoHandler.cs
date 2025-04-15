@@ -1,5 +1,5 @@
 ﻿using FlexPro.Api.Application.Commands.Veiculo;
-using FlexPro.Api.Interfaces;
+using FlexPro.Api.Application.Interfaces;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Veiculo

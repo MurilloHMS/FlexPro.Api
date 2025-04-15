@@ -1,8 +1,4 @@
 using System.Globalization;
-using FlexPro.Api.Interfaces;
-using FlexPro.Api.Models;
-using FlexPro.Api.Services;
-using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +17,11 @@ using FlexPro.Api.Application.DTOs;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using MediatR;
-using FlexPro.Api.Repository;
 using FlexPro.Api.Application.Validators;
+using FlexPro.Api.Application.Interfaces;
+using FlexPro.Api.Infrastructure.Repositories;
+using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Api.Domain.Entities;
 
 
 var builder = WebApplication.CreateBuilder(args);

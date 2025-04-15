@@ -1,6 +1,6 @@
-﻿using FlexPro.Api.Data;
-using FlexPro.Api.Interfaces;
-using FlexPro.Api.Models;
+﻿using FlexPro.Api.Application.Interfaces;
+using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

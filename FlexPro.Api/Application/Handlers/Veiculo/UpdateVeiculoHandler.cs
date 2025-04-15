@@ -1,9 +1,9 @@
 ﻿using NuGet.Protocol.Plugins;
-using FlexPro.Api.Interfaces;
 using AutoMapper;
 using MediatR;
 using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Application.Interfaces;
 
 namespace FlexPro.Api.Application.Handlers.Veiculo
 {
