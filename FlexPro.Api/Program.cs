@@ -1,21 +1,22 @@
 using System.Globalization;
-using FlexPro.Api.Data;
-using FlexPro.Api.Interfaces;
-using FlexPro.Api.Models;
-using FlexPro.Api.Services;
-using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Localization;
+using FlexPro.Api.Infrastructure.Persistance;
+using Serilog;
+using FlexPro.Api.Application.DTOs;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using MediatR;
+using FlexPro.Api.Application.Interfaces;
+using FlexPro.Api.Infrastructure.Repositories;
+using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.API.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +59,22 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
 builder.Services.AddScoped<InformativoService>();
+builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+
+//serilog 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Seq("http://localhost:5341")
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -94,6 +111,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.UseRequestLocalization(localizationOptions);
 
