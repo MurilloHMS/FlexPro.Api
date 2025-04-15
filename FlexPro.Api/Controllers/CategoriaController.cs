@@ -1,7 +1,7 @@
 using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
-using FlexPro.Api.Repository;
+using FlexPro.Api.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
