@@ -26,4 +26,9 @@
     <ProjectReference Include="..\FlexPro.Api\FlexPro.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Integration\" />
+  </ItemGroup>
+
 </Project>

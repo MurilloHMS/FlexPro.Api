@@ -10,7 +10,7 @@ using Xunit;
 using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.Queries.Veiculo;
 
-namespace FlexPro.Api.Tests.Controllers
+namespace FlexPro.Test.Controllers
 {
     public class VeiculoControllerTests
     {
