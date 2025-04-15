@@ -1,4 +1,4 @@
-﻿namespace FlexPro.Api.Application.DTOs
+﻿namespace FlexPro.Api.Application.DTOs.Auth
 {
     public class LoginRequest
     { 

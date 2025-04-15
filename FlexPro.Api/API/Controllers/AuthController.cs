@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using FlexPro.Api.Application.Commands.Auth;
-using FlexPro.Api.Application.DTOs;
+using FlexPro.Api.Application.DTOs.Auth;
 
 namespace FlexPro.Api.API.Controllers
 {

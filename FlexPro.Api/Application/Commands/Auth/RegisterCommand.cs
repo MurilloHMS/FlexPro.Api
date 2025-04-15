@@ -1,4 +1,4 @@
-﻿using FlexPro.Api.Application.DTOs;
+﻿using FlexPro.Api.Application.DTOs.Auth;
 using MediatR;
 
 namespace FlexPro.Api.Application.Commands.Auth

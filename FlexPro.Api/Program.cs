@@ -8,7 +8,6 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Localization;
 using FlexPro.Api.Infrastructure.Persistance;
 using Serilog;
-using FlexPro.Api.Application.DTOs;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using MediatR;
@@ -17,6 +16,7 @@ using FlexPro.Api.Infrastructure.Repositories;
 using FlexPro.Api.Infrastructure.Services;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.API.Middlewares;
+using FlexPro.Api.Application.DTOs;
 
 
 var builder = WebApplication.CreateBuilder(args);
