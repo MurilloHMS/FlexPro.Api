@@ -1,8 +1,8 @@
-﻿using FlexPro.Api.Application.Commands;
+﻿using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Interfaces;
 using MediatR;
 
-namespace FlexPro.Api.Application.Handlers
+namespace FlexPro.Api.Application.Handlers.Veiculo
 {
     public class DeleteVeiculoHandler : IRequestHandler<DeleteVeiculoCommand>
     {

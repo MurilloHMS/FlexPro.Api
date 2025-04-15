@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.Application.Queries;
+using FlexPro.Api.Application.Queries.Veiculo;
 using FlexPro.Api.Interfaces;
 using MediatR;
 using NuGet.Protocol.Plugins;
 
-namespace FlexPro.Api.Application.Handlers
+namespace FlexPro.Api.Application.Handlers.Veiculo
 {
     public class GetVeiculoByIdHandler : IRequestHandler<GetVeiculoByIdQuery, VeiculoDTO>
     {

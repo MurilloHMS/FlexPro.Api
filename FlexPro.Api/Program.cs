@@ -21,8 +21,8 @@ using FlexPro.Api.Application.DTOs;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using MediatR;
-using FlexPro.Api.Application.Validators;
 using FlexPro.Api.Repository;
+using FlexPro.Api.Application.Validators;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace FlexPro.Api.Application.Commands
+namespace FlexPro.Api.Application.Commands.Veiculo
 {
     public class DeleteVeiculoCommand : IRequest
     {

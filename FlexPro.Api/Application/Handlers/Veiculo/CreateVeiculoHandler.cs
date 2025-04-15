@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FlexPro.Api.Application.Commands;
+using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Interfaces;
@@ -20,7 +20,7 @@ namespace FlexPro.Api.Application.Handlers
 
         public async Task<int> Handle(CreateVeiculoCommand request, CancellationToken cancellationToken)
         {
-            var veiculo = _mapper.Map<Veiculo>(request);
+            var veiculo = _mapper.Map<Domain.Entities.Veiculo>(request);
             await _repository.UpdateOrInsert(veiculo);
             return veiculo.Id;
         }

@@ -1,11 +1,9 @@
-﻿using FlexPro.Api.Application.DTOs;
-using MediatR;
+﻿using MediatR;
 
-namespace FlexPro.Api.Application.Commands
+namespace FlexPro.Api.Application.Commands.Veiculo
 {
-    public class UpdateVeiculoCommand : IRequest
+    public class CreateVeiculoCommand : IRequest<int>
     {
-        public int Id { get; set; }
         public string Nome { get; set; }
         public string Placa { get; set; }
         public string Marca { get; set; }

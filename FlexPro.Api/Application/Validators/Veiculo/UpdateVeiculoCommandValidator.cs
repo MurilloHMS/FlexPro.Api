@@ -1,7 +1,7 @@
-﻿using FlexPro.Api.Application.Commands;
+﻿using FlexPro.Api.Application.Commands.Veiculo;
 using FluentValidation;
 
-namespace FlexPro.Api.Application.Validators
+namespace FlexPro.Api.Application.Validators.Veiculo
 {
     public class UpdateVeiculoCommandValidator : AbstractValidator<UpdateVeiculoCommand>
     {

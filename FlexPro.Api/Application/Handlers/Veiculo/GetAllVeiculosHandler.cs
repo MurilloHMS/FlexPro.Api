@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.Application.Queries;
+using FlexPro.Api.Application.Queries.Veiculo;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexPro.Api.Application.Handlers
+namespace FlexPro.Api.Application.Handlers.Veiculo
 {
     public class GetAllVeiculosHandler : IRequestHandler<GetAllVeiculosQuery, IEnumerable<VeiculoDTO>>
     {

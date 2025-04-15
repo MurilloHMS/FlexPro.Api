@@ -1,6 +1,6 @@
-﻿using FlexPro.Api.Application.Commands;
+﻿using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.Application.Queries;
+using FlexPro.Api.Application.Queries.Veiculo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
