@@ -14,7 +14,7 @@ COPY ["FlexPro.Api/FlexPro.Api.csproj", "FlexPro.Api/"]
 RUN dotnet restore "./FlexPro.Api/FlexPro.Api.csproj"
 
 # Copiar a pasta Templates separadamente
-COPY FlexPro.Api/Templates /src/Templates
+COPY FlexPro.Api/Infrastructure/Templates /src/Templates
 
 COPY . .
 WORKDIR "/src/FlexPro.Api"
