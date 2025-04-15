@@ -18,7 +18,7 @@ namespace FlexPro.Api.Application.Commands.Auth
 
         public async Task<bool> Handle(UpdateUserRoleCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByIdAsync(request.Dto.Username);
+            var user = await _userManager.FindByNameAsync(request.Dto.Username);
             if (user == null)
             {
                 throw new Exception("User not found");

@@ -42,7 +42,7 @@ namespace FlexPro.Api.Application.Commands.Auth
 
             await _userManager.AddToRoleAsync(user, dto.Role);
 
-            return _jwt.GenerateToken(user);
+            return await _jwt.GenerateToken(user);
         }
     }
 }
