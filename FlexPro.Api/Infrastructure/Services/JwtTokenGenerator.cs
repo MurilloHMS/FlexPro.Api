@@ -16,6 +16,7 @@ namespace FlexPro.Api.Infrastructure.Services
         public JwtTokenGenerator(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _config = config;
+
             _userManager = userManager;
         }
         public string GenerateToken(ApplicationUser user)

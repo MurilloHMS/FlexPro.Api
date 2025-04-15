@@ -1,9 +1,11 @@
 ﻿using FlexPro.Api.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Infrastructure.Persistance
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public DbSet<Domain.Entities.Veiculo> Veiculo => Set<Domain.Entities.Veiculo>();
         public DbSet<Abastecimento> Abastecimento { get; set; } = default!;
@@ -17,9 +19,7 @@ namespace FlexPro.Api.Infrastructure.Persistance
         public DbSet<ApplicationUser> AspNetUsers { get; set; } = default!;
 
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
