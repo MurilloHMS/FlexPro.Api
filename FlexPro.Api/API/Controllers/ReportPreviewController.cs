@@ -28,5 +28,13 @@ namespace FlexPro.Api.API.Controllers
             return Ok("Report preview generated successfully.");
         }
 
+        [HttpGet("consultoria")]
+        public async Task<IActionResult> Consultoria()
+        {
+            var report = new Consultoria_Report();
+            report.ShowInCompanion();
+            return Ok("Report preview generated successfully.");
+        }
+
     }
 }
