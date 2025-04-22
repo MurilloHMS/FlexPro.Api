@@ -1,21 +1,17 @@
 using System.Globalization;
-using FlexPro.Api.Data;
-using FlexPro.Api.Interfaces;
-using FlexPro.Api.Models;
-using FlexPro.Api.Services;
-using FlexPro.Api.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Localization;
+using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Api.Application.Interfaces;
+using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Infrastructure.Repositories;
+using QuestPDF.Infrastructure;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,16 +50,20 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
-// Registros dos servies 
+// Registros dos services 
 builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
-builder.Services.AddScoped<InformativoService>();
+
+
+//Registros das licenças
+QuestPDF.Settings.License = LicenseType.Community;
+
 
 var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.RequireHttpsMetadata = true;
+        options.RequireHttpsMetadata = false;
         options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -88,15 +88,19 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseRequestLocalization(localizationOptions);
-
-app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("AllowAll");
 
 app.Run();

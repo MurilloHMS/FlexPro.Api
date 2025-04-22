@@ -1,10 +1,10 @@
-﻿using FlexPro.Api.Data;
-using FlexPro.Api.Models;
-using FlexPro.Api.Interfaces;
-using FlexPro.Api.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Api.Application.Interfaces;
+using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Api.Domain.Entities;
 
 namespace FlexPro.Api.Controllers
 {

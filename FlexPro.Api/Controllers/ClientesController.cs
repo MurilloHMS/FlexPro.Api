@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FlexPro.Api.Data;
-using FlexPro.Api.Models;
+using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Api.Domain.Entities;
 
 namespace FlexPro.Api.Controllers
 {

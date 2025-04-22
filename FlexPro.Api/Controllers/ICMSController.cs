@@ -1,7 +1,7 @@
 using ClosedXML.Excel;
-using FlexPro.Api.Models;
 using Microsoft.AspNetCore.Mvc;
-using FlexPro.Api.Services;
+using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Api.Domain.Entities;
 
 namespace FlexPro.Api.Controllers;
 
