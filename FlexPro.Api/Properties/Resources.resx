@@ -128,4 +128,13 @@
     <value>..\Infrastructure\Assets\Logo-Proauto.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>Logo da empresa Proauto Kimium</comment>
   </data>
+  <data name="Posto01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Infrastructure\Assets\posto01.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Posto02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Infrastructure\Assets\posto02.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Posto03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Infrastructure\Assets\posto03.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

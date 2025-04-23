@@ -13,6 +13,7 @@ using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using MimeKit.Cryptography;
+using Color = QuestPDF.Infrastructure.Color;
 
 
 namespace FlexPro.Api.Infrastructure.Templates.Reports
@@ -39,38 +40,59 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
         {
             container.Page(page =>
             {
-                page.Margin(15);
+                page.Margin(0);
                 page.Header().Element(ComposeHeader);
-                page.Content().Element(ComposeContent);
+                page.Content().Element(ComposeContentHero);
                 page.Footer().Element(ComposeFooter);
             });
 
             container.Page(page =>
             {
-                page.Margin(15);
+                page.Margin(0);
                 page.Header().Element(ComposeHeader);
+                page.Content().Element(ComposeContentGeral);
                 page.Footer().Element(ComposeFooter);
             });
         }
 
         private void ComposeHeader(IContainer container)
         {
-            var logo = Properties.Resources.Logo_Proauto;
             container.Row(row =>
             {
-                row.RelativeItem().Column(column =>
+                row.ConstantItem(300).Column(col =>
                 {
-                    column.Item().Text("Relatório de Abastecimento").FontSize(20).SemiBold().FontColor(Colors.Blue.Medium);
-                    column.Item().Text($"Data de Emissão: {DateTime.Now:dd/MM/yyyy}")
-                    .FontSize(10)
-                    .FontColor(Colors.Grey.Darken2);
+                    col.Item().Height(15).Background(Color.FromHex("#1f305b"));
+                    col.Item().Height(15).Background(Color.FromHex("#01a396"));
+                });
+                row.RelativeItem().AlignRight().PaddingTop(2).Row(row =>
+                {
+                    row.ConstantItem(290).PaddingRight(10).Height(30).Image(Properties.Resources.Logo_Proauto).FitWidth();
+                });
+            });
+        }
+        
+        private void ComposeContentHero(IContainer container)
+        {
+            container.PaddingHorizontal(40).PaddingTop(120).Column(col =>
+            {
+                col.Item().Row(row =>
+                {
+                    row.RelativeItem().Column(col =>
+                    {
+                        col.Item().Text("Relatório de Abastecimento").FontSize(16);
+                        col.Item().Width(212).LineHorizontal(5).LineColor(Color.FromHex("#01a396"));
+                        col.Item().Text("Abastecimento de veiculos - Janeiro.");
+                        col.Item().Text("");
+                        col.Item().Text("2025");
+                    });
                 });
 
-                row.ConstantItem(200).Height(50).Image(logo).FitWidth();
+                col.Item().PaddingTop(20).Image(Properties.Resources.Posto03).FitWidth();
+
             });
         }
 
-        private void ComposeContent(IContainer container)
+        private void ComposeContentGeral(IContainer container)
         {
             
             container.Padding(20)
@@ -176,20 +198,14 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
 
         private void ComposeFooter(IContainer container)
         {
-            container.Row(row =>
-            {
-                row.RelativeItem().Column(col =>
-                {
-                    col.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                    col.Item().Text("FlexPro • Sistema de Automação").FontSize(9).FontColor(Colors.Grey.Darken1);
-                });
 
-                row.ConstantItem(100).AlignRight().Text(x =>
-                {
-                    x.CurrentPageNumber();
-                    x.Span(" / ");
-                    x.TotalPages();
-                });
+            container.Background(Color.FromHex("#1f305b")).Height(20).PaddingHorizontal(10).Row(row =>
+            {
+                row.ConstantItem(400).AlignLeft().AlignMiddle()
+                    .Text("FlexPro • Sistema de Automação").FontSize(10)
+                    .FontColor(Colors.White);
+                row.RelativeItem().AlignRight().AlignMiddle().Text($"Relatório emitido em {DateTime.Today:dd/MM/yyyy}")
+                    .FontSize(10).FontColor(Colors.White);
             });
         }
     }
