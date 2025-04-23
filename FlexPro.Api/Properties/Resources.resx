@@ -118,6 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Capa-Consultoria" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Infrastructure\Assets\Capa-Consultoria.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="consultoria-imagem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Infrastructure\Assets\consultoria-imagem.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Logo-Proauto" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Infrastructure\Assets\Logo-Proauto.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     <comment>Logo da empresa Proauto Kimium</comment>

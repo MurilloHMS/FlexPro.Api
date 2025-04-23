@@ -63,6 +63,26 @@ namespace FlexPro.Api.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Capa_Consultoria {
+            get {
+                object obj = ResourceManager.GetObject("Capa-Consultoria", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] consultoria_imagem {
+            get {
+                object obj = ResourceManager.GetObject("consultoria-imagem", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Logo_Proauto {
             get {
                 object obj = ResourceManager.GetObject("Logo-Proauto", resourceCulture);
