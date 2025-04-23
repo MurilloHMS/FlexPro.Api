@@ -3,6 +3,7 @@ using FlexPro.Api.Infrastructure.Services;
 using FlexPro.Api.Infrastructure.Templates.Reports;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Companion;
+using QuestPDF.Fluent;
 
 namespace FlexPro.Api.API.Controllers
 {
@@ -35,6 +36,19 @@ namespace FlexPro.Api.API.Controllers
             report.ShowInCompanion();
             return Ok("Report preview generated successfully.");
         }
+
+        [HttpGet("download")]
+        public async Task<IActionResult> Download()
+        {
+            var report = new Consultoria_Report();
+
+            var stream = new MemoryStream();
+            report.GeneratePdf(stream);
+            stream.Position = 0;
+            return File(stream, "application/pdf", "Relatorio-consultoria.pdf");
+        }
+
+
 
     }
 }
