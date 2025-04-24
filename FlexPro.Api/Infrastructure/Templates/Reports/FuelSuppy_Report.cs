@@ -14,6 +14,7 @@ using FlexPro.Api.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using MimeKit.Cryptography;
 using Color = QuestPDF.Infrastructure.Color;
+using ScottPlot.TickGenerators;
 
 
 namespace FlexPro.Api.Infrastructure.Templates.Reports
@@ -51,6 +52,14 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                 page.Margin(0);
                 page.Header().Element(ComposeHeader);
                 page.Content().Element(ComposeContentGeral);
+                page.Footer().Element(ComposeFooter);
+            });
+
+            container.Page(page =>
+            {
+                page.Margin(0);
+                page.Header().Element(ComposeHeader);
+                page.Content().Element(ComposeContentSetor);
                 page.Footer().Element(ComposeFooter);
             });
         }
@@ -95,24 +104,27 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
         private void ComposeContentGeral(IContainer container)
         {
             
-            container.Padding(20)
-                .Column(col =>
+            container.Padding(20).Column(col =>
+            {
+                var dados = _abastecimentosLista.GroupBy(a => a.Departamento).Select(g => new
                 {
-                    col.Item().PaddingBottom(20).Text("Controle Geral").FontSize(24).Bold().AlignCenter();
+                    Departamento = g.Key,
+                    Litros = g.Sum(a => a.Litros),
+                    KmPercorridos = g.Sum(a => a.DiferencaHodometro),
+                    TotalGasto = g.Sum(a => (double)a.ValorTotalTransacao),
+                    MediaKmL = g.Average(a => a.MediaKm)
+                }).ToList();
 
-                    col.Item().AspectRatio(2)
-                        .Svg(size =>
+
+                col.Item().PaddingBottom(20).Text("Abastecimento Geral").FontSize(24).Bold().AlignCenter();
+                col.Item().Row(row =>
+                {
+                    row.ConstantColumn(270).Column(col =>
+                    {
+                        col.Item().Text("Litros Abastecidos").AlignCenter();
+                        col.Item().AspectRatio(2).Svg(size =>
                         {
                             Plot plot = new();
-
-                            var dados = _abastecimentosLista.GroupBy(a => a.Departamento).Select(g => new
-                            {
-                                Departamento = g.Key,
-                                Litros = g.Sum(a => a.Litros),
-                                KmPercorridos = g.Sum(a => a.DiferencaHodometro),
-                                TotalGasto = g.Sum(a => (double)a.ValorTotalTransacao),
-                                MediaKmL = g.Average(a => a.MediaKm)
-                            }).ToList();
 
                             int departamentosCount = dados.Count;
                             double barSpacing = 1.0;
@@ -124,21 +136,11 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                             barsLitros.Color = ScottPlot.Colors.Blue;
                             barsLitros.LegendText = "Litros";
 
-                            var barsKm = plot.Add.Bars(xBase, dados.Select(d => d.KmPercorridos).ToArray());
-                            barsKm.Color = ScottPlot.Colors.Green;
-                            barsKm.LegendText = "KM";
-
-                            var barsGasto = plot.Add.Bars(xBase.Select(x => x + barWidth).ToArray(), dados.Select(d => d.TotalGasto).ToArray());
-                            barsGasto.Color = ScottPlot.Colors.Orange;
-                            barsGasto.LegendText = "R$ Gasto";
-
-                            
-
                             var ticks = xBase.Select((x, i) => new Tick(x, dados[i].Departamento)).ToArray();
                             plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
 
                             // Estilo
-                            plot.Legend.IsVisible = true;
+                            plot.Legend.IsVisible = false;
                             plot.Legend.Alignment = Alignment.UpperRight;
                             plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
                             plot.Grid.XAxisStyle.IsVisible = false;
@@ -146,44 +148,370 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
 
                             return plot.GetSvgXml((int)size.Width, (int)size.Height);
                         });
-
-                    col.Item().Table(table =>
+                    });
+                    row.ConstantColumn(270).Column(col =>
                     {
-                        table.ColumnsDefinition(col =>
+                        col.Item().Text("Total Gasto").AlignCenter();
+                        col.Item().AspectRatio(2).Svg(size =>
                         {
-                            col.ConstantColumn(120);
-                            col.ConstantColumn(100);
-                            col.ConstantColumn(100);
-                            col.ConstantColumn(100);
-                            col.ConstantColumn(100);
+                            Plot plot = new();
+
+                            int departamentosCount = dados.Count;
+                            double barSpacing = 1.0;
+                            double barWidth = 0.3;
+
+                            double[] xBase = Enumerable.Range(0, departamentosCount).Select(i => (double)i).ToArray();
+
+                            var barsKm = plot.Add.Bars(xBase, dados.Select(d => d.TotalGasto).ToArray());
+                            barsKm.Color = ScottPlot.Colors.Green;
+                            barsKm.LegendText = "Total Gasto";
+
+                            var ticks = xBase.Select((x, i) => new Tick(x, dados[i].Departamento)).ToArray();
+                            plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
+
+                            // Estilo
+                            plot.Legend.IsVisible = false;
+                            plot.Legend.Alignment = Alignment.UpperRight;
+                            plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+                            plot.Grid.XAxisStyle.IsVisible = false;
+                            plot.Axes.Margins(bottom: 0.2f, top: 0.2f);
+
+                            return plot.GetSvgXml((int)size.Width, (int)size.Height);
                         });
+                    });
+                });
 
-                        table.Header(h =>
+                col.Item().Row(row =>
+                {
+                    row.ConstantColumn(270).Column(col =>
+                    {
+                        col.Item().Text("Distancia Percorrida").AlignCenter();
+                        col.Item().AspectRatio(2).Svg(size =>
                         {
-                            h.Cell().BorderBottom(2).Padding(8).Text("Departamentos").AlignCenter();
-                            h.Cell().BorderBottom(2).Padding(8).Text("Litros").AlignCenter();
-                            h.Cell().BorderBottom(2).Padding(8).Text("Km Percorrido").AlignCenter();
-                            h.Cell().BorderBottom(2).Padding(8).Text("Total Gasto").AlignCenter();
-                            h.Cell().BorderBottom(2).Padding(8).Text("Média KM").AlignCenter();
+                            Plot plot = new();
+
+                            int departamentosCount = dados.Count;
+                            double barSpacing = 1.0;
+                            double barWidth = 0.3;
+
+                            double[] xBase = Enumerable.Range(0, departamentosCount).Select(i => (double)i).ToArray();
+
+                            var barsLitros = plot.Add.Bars(xBase.Select(x => x - barWidth).ToArray(), dados.Select(d => d.KmPercorridos).ToArray());
+                            barsLitros.Color = ScottPlot.Colors.Purple;
+                            barsLitros.LegendText = "Distancia Percorrida";
+
+
+
+                            var ticks = xBase.Select((x, i) => new Tick(x, dados[i].Departamento)).ToArray();
+                            plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
+
+                            // Estilo
+                            plot.Legend.IsVisible = false;
+                            plot.Legend.Alignment = Alignment.UpperRight;
+                            plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+                            plot.Grid.XAxisStyle.IsVisible = false;
+                            plot.Axes.Margins(bottom: 0.2f, top: 0.2f);
+
+                            return plot.GetSvgXml((int)size.Width, (int)size.Height);
                         });
-
-                        var dados = _abastecimentosLista.GroupBy(a => a.Departamento).Select(g => new
+                    });
+                    row.ConstantColumn(270).Column(col =>
+                    {
+                        col.Item().Text("Média KM/L").AlignCenter();
+                        col.Item().AspectRatio(2).Svg(size =>
                         {
-                            Departamento = g.Key,
-                            Litros = g.Sum(a => a.Litros),
-                            KmPercorridos = g.Sum(a => a.DiferencaHodometro),
-                            TotalGasto = g.Sum(a => (double)a.ValorTotalTransacao),
-                            MediaKmL = g.Average(a => a.MediaKm)
-                        }).ToList();
+                            Plot plot = new();
 
-                        foreach (var i in dados)
+                            int departamentosCount = dados.Count;
+                            double barSpacing = 1.0;
+                            double barWidth = 0.3;
+
+                            double[] xBase = Enumerable.Range(0, departamentosCount).Select(i => (double)i).ToArray();
+
+                            var barsKm = plot.Add.Bars(xBase, dados.Select(d => d.MediaKmL).ToArray());
+                            barsKm.Color = ScottPlot.Colors.Orange;
+                            barsKm.LegendText = "Media KM/L";
+
+                            var ticks = xBase.Select((x, i) => new Tick(x, dados[i].Departamento)).ToArray();
+                            plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
+
+                            // Estilo
+                            plot.Legend.IsVisible = false;
+                            plot.Legend.Alignment = Alignment.UpperRight;
+                            plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+                            plot.Grid.XAxisStyle.IsVisible = false;
+                            plot.Axes.Margins(bottom: 0.2f, top: 0.2f);
+
+                            return plot.GetSvgXml((int)size.Width, (int)size.Height);
+                        });
+                    });
+                });
+
+                col.Item().Table(table =>
+                {
+                    table.ColumnsDefinition(col =>
+                    {
+                        col.ConstantColumn(120);
+                        col.ConstantColumn(100);
+                        col.ConstantColumn(100);
+                        col.ConstantColumn(100);
+                        col.ConstantColumn(100);
+                    });
+
+                    table.Header(h =>
+                    {
+                        h.Cell().BorderBottom(2).Padding(8).Text("Departamentos").AlignCenter();
+                        h.Cell().BorderBottom(2).Padding(8).Text("Litros").AlignCenter();
+                        h.Cell().BorderBottom(2).Padding(8).Text("Km Percorrido").AlignCenter();
+                        h.Cell().BorderBottom(2).Padding(8).Text("Total Gasto").AlignCenter();
+                        h.Cell().BorderBottom(2).Padding(8).Text("Média KM").AlignCenter();
+                    });
+
+                    var dados = _abastecimentosLista.GroupBy(a => a.Departamento).Select(g => new
+                    {
+                        Departamento = g.Key,
+                        Litros = g.Sum(a => a.Litros),
+                        KmPercorridos = g.Sum(a => a.DiferencaHodometro),
+                        TotalGasto = g.Sum(a => (double)a.ValorTotalTransacao),
+                        MediaKmL = g.Average(a => a.MediaKm)
+                    }).ToList();
+
+                    foreach (var i in dados)
+                    {
+                        table.Cell().Padding(8).Text(i.Departamento).AlignCenter().FontSize(10);
+                        table.Cell().Padding(8).Text(i.Litros.ToString("N0")).AlignCenter();
+                        table.Cell().Padding(8).AlignCenter().Text(i.KmPercorridos);
+                        table.Cell().Padding(8).Text($"R$ {i.TotalGasto.ToString("N")}").AlignCenter();
+                        table.Cell().Padding(8).Text(i.MediaKmL.ToString("N0")).AlignCenter();
+                    }
+                });
+
+                col.Item().Background(Colors.Grey.Lighten3).Padding(10).Column(col =>
+                {
+                    col.Spacing(5);
+                    col.Item().Text("Metricas").FontSize(14);
+                    col.Item().Text(MetricasGeral).FontSize(11);
+                });
+            });
+        }
+
+        private void ComposeContentSetor(IContainer container)
+        {
+            var dados = _abastecimentosLista.GroupBy(a => a.Departamento).Select(g => new
+            {
+                Departamento = g.Key,
+                Litros = g.Sum(a => a.Litros),
+                KmPercorridos = g.Sum(a => a.DiferencaHodometro),
+                TotalGasto = g.Sum(a => (double)a.ValorTotalTransacao),
+                MediaKmL = g.Average(a => a.MediaKm)
+            }).ToList();
+            container.Padding(20).Column(col =>
+            {
+                foreach(var departamento in dados)
+                {
+                    
+                    col.Item().PaddingBottom(10).Text($"Abastecimento Setor - {departamento.Departamento}").FontSize(24).Bold().AlignCenter();
+
+                    var funcionarios = _abastecimentosLista.Where(x => x.Departamento == departamento.Departamento).GroupBy(y => y.NomeDoMotorista).Select(x => new
+                    {
+                        Funcionario = x.Key,
+                        Litros = x.Sum(x => x.Litros),
+                        Total = x.Sum(x => x.ValorTotalTransacao),
+                        DistanciaPercorrida = x.Sum(x => x.DiferencaHodometro),
+                        MediaKmL = x.Average(x => x.MediaKm)
+                    }).ToList();
+
+                    col.Item().Row(row =>
+                    {
+                        row.ConstantColumn(500).Column(col =>
                         {
-                            table.Cell().Padding(8).Text(i.Departamento).AlignCenter().FontSize(10);
-                            table.Cell().Padding(8).Text(i.Litros.ToString("N0")).AlignCenter();
-                            table.Cell().Padding(8).AlignCenter().Text(i.KmPercorridos);
-                            table.Cell().Padding(8).Text($"R$ {i.TotalGasto.ToString("N")}").AlignCenter();
-                            table.Cell().Padding(8).Text(i.MediaKmL.ToString("N0")).AlignCenter();
-                        }
+                            col.Item().Text("Litros Abastecidos").AlignCenter();
+                            col.Item().AspectRatio(4).Svg(size =>
+                            {
+                                Plot plot = new();
+
+                                int funcionariosCount = funcionarios.Count;
+                                double barSpacing = 1.0;
+                                double barWidth = 0.3;
+
+                                double[] xBase = Enumerable.Range(0, funcionariosCount).Select(i => (double)i).ToArray();
+
+                                var barsLitro = plot.Add.Bars(xBase, funcionarios.Select(d => d.Litros).ToArray());
+                                barsLitro.Color = ScottPlot.Colors.Blue;
+                                barsLitro.LegendText = "Litros";
+
+
+                                foreach (var bar in barsLitro.Bars)
+                                {
+                                    bar.Label = bar.Value.ToString("N0");
+                                }
+
+                                var ticks = xBase.Select((x, i) =>
+                                {
+                                    var nome = funcionarios[i].Funcionario;
+                                    var partes = nome.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    var nomeFormatado = partes.Length > 1
+                                        ? $"{partes[0]} {partes[1][0]}."
+                                        : partes[0];
+
+                                    return new Tick(x, nomeFormatado);
+                                }).ToArray();
+
+                                plot.Axes.Bottom.TickGenerator = new NumericManual(ticks);
+
+                                plot.Legend.IsVisible = false;
+                                plot.Legend.Alignment = Alignment.UpperRight;
+                                plot.Axes.Bottom.TickLabelStyle.FontSize = 8;
+                                plot.Grid.XAxisStyle.IsVisible = false;
+                                plot.Axes.Margins(bottom: 0.2f, top: 0.5f);
+
+                                return plot.GetSvgXml((int)size.Width, (int)size.Height);
+                            });
+                        });
+                    });
+                    col.Item().Row(row =>
+                    {
+                        row.ConstantColumn(500).Column(col =>
+                        {
+                            col.Item().Text("Total Gasto").AlignCenter();
+                            col.Item().AspectRatio(4).Svg(size =>
+                            {
+                                Plot plot = new();
+
+                                int funcionariosCount = funcionarios.Count;
+                                double barSpacing = 1.0;
+                                double barWidth = 0.3;
+
+                                double[] xBase = Enumerable.Range(0, funcionariosCount).Select(i => (double)i).ToArray();
+
+                                var barsLitro = plot.Add.Bars(xBase, funcionarios.Select(d => d.Total).ToArray());
+                                barsLitro.Color = ScottPlot.Colors.Green;
+                                barsLitro.LegendText = "Total Gasto";
+
+
+                                foreach (var bar in barsLitro.Bars)
+                                {
+                                    bar.Label = bar.Value.ToString("F2");
+                                }
+
+                                var ticks = xBase.Select((x, i) =>
+                                {
+                                    var nome = funcionarios[i].Funcionario;
+                                    var partes = nome.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    var nomeFormatado = partes.Length > 1
+                                        ? $"{partes[0]} {partes[1][0]}."
+                                        : partes[0];
+
+                                    return new Tick(x, nomeFormatado);
+                                }).ToArray();
+
+                                plot.Axes.Bottom.TickGenerator = new NumericManual(ticks);
+
+                                plot.Legend.IsVisible = false;
+                                plot.Legend.Alignment = Alignment.UpperRight;
+                                plot.Axes.Bottom.TickLabelStyle.FontSize = 8;
+                                plot.Grid.XAxisStyle.IsVisible = false;
+                                plot.Axes.Margins(bottom: 0.2f, top: 0.5f);
+
+                                return plot.GetSvgXml((int)size.Width, (int)size.Height);
+                            });
+                        });
+                    });
+                    col.Item().Row(row =>
+                    {
+                        row.ConstantColumn(500).Column(col =>
+                        {
+                            col.Item().Text("Distancia Percorrida").AlignCenter();
+                            col.Item().AspectRatio(4).Svg(size =>
+                            {
+                                Plot plot = new();
+
+                                int funcionariosCount = funcionarios.Count;
+                                double barSpacing = 1.0;
+                                double barWidth = 0.3;
+
+                                double[] xBase = Enumerable.Range(0, funcionariosCount).Select(i => (double)i).ToArray();
+
+                                var barsLitro = plot.Add.Bars(xBase, funcionarios.Select(d => d.DistanciaPercorrida).ToArray());
+                                barsLitro.Color = ScottPlot.Colors.Purple;
+                                barsLitro.LegendText = "Distancia Percorrida";
+
+
+                                foreach (var bar in barsLitro.Bars)
+                                {
+                                    bar.Label = bar.Value.ToString("N0");
+                                }
+
+                                var ticks = xBase.Select((x, i) =>
+                                {
+                                    var nome = funcionarios[i].Funcionario;
+                                    var partes = nome.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    var nomeFormatado = partes.Length > 1
+                                        ? $"{partes[0]} {partes[1][0]}."
+                                        : partes[0];
+
+                                    return new Tick(x, nomeFormatado);
+                                }).ToArray();
+
+                                plot.Axes.Bottom.TickGenerator = new NumericManual(ticks);
+
+                                plot.Legend.IsVisible = false;
+                                plot.Legend.Alignment = Alignment.UpperRight;
+                                plot.Axes.Bottom.TickLabelStyle.FontSize = 8;
+                                plot.Grid.XAxisStyle.IsVisible = false;
+                                plot.Axes.Margins(bottom: 0.2f, top: 0.5f);
+
+                                return plot.GetSvgXml((int)size.Width, (int)size.Height);
+                            });
+                        });
+                    });
+                    col.Item().Row(row =>
+                    {
+                        row.ConstantColumn(500).Column(col =>
+                        {
+                            col.Item().Text("Media KM/L").AlignCenter();
+                            col.Item().AspectRatio(4).Svg(size =>
+                            {
+                                Plot plot = new();
+
+                                int funcionariosCount = funcionarios.Count;
+                                double barSpacing = 1.0;
+                                double barWidth = 0.3;
+
+                                double[] xBase = Enumerable.Range(0, funcionariosCount).Select(i => (double)i).ToArray();
+
+                                var barsLitro = plot.Add.Bars(xBase, funcionarios.Select(d => d.MediaKmL).ToArray());
+                                barsLitro.Color = ScottPlot.Colors.Green;
+                                barsLitro.LegendText = "Total Gasto";
+
+
+                                foreach (var bar in barsLitro.Bars)
+                                {
+                                    bar.Label = bar.Value.ToString("N0");
+                                }
+
+                                var ticks = xBase.Select((x, i) =>
+                                {
+                                    var nome = funcionarios[i].Funcionario;
+                                    var partes = nome.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    var nomeFormatado = partes.Length > 1
+                                        ? $"{partes[0]} {partes[1][0]}."
+                                        : partes[0];
+
+                                    return new Tick(x, nomeFormatado);
+                                }).ToArray();
+
+                                plot.Axes.Bottom.TickGenerator = new NumericManual(ticks);
+
+                                plot.Legend.IsVisible = false;
+                                plot.Legend.Alignment = Alignment.UpperRight;
+                                plot.Axes.Bottom.TickLabelStyle.FontSize = 8;
+                                plot.Grid.XAxisStyle.IsVisible = false;
+                                plot.Axes.Margins(bottom: 0.2f, top: 0.5f);
+
+                                return plot.GetSvgXml((int)size.Width, (int)size.Height);
+                            });
+                        });
                     });
 
                     col.Item().Background(Colors.Grey.Lighten3).Padding(10).Column(col =>
@@ -192,8 +520,8 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                         col.Item().Text("Metricas").FontSize(14);
                         col.Item().Text(MetricasGeral).FontSize(11);
                     });
-                });
-            
+                }
+            });
         }
 
         private void ComposeFooter(IContainer container)
