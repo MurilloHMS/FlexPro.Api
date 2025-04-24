@@ -53,6 +53,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 // Registros dos services 
 builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 
 //Registros das licenças

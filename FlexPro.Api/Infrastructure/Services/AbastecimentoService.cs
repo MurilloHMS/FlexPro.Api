@@ -18,6 +18,43 @@ namespace FlexPro.Api.Infrastructure.Services
             _repository = repository;
         }
 
+        public async Task<AbastecimentoMetricsResult> CalcularMetricasAbastecimento(DateTime data)
+        {
+            try
+            {
+                var dataAtual = data.ToUniversalTime().Date;
+                var inicioMesAtual = new DateTime(dataAtual.Year, dataAtual.Month, 1).ToUniversalTime().Date;
+                var fimMesAtual = inicioMesAtual.AddMonths(1).AddDays(-1);
+                var inicioMesAnterior = inicioMesAtual.AddMonths(-1);
+                var fimMesAnterior = inicioMesAtual.AddDays(-1);
+
+                var abastecimentoMesAtual = await _repository.GetFuelSupplyByDate(inicioMesAtual, fimMesAtual);
+                var abastecimentoMesAnterior = await _repository.GetFuelSupplyByDate(inicioMesAnterior, fimMesAnterior);
+                var departamentos = await _context.Abastecimento.Select(a => a.Departamento).Distinct().ToListAsync();
+
+                var result = new AbastecimentoMetricsResult();
+
+                result.MetricasGeral = await CalculaAbastecimento(abastecimentoMesAtual, abastecimentoMesAnterior, "Geral");
+
+                foreach (var departamento in departamentos)
+                {
+                    var abastecimentoAtualDepto = abastecimentoMesAtual.Where(a => a.Departamento == departamento).ToList();
+                    var abastecimentoAnteriorDepto = abastecimentoMesAnterior.Where(a => a.Departamento == departamento).ToList();
+                    result.MetricasPorDepartamento[departamento] = await CalculaAbastecimento(
+                        abastecimentoAtualDepto,
+                        abastecimentoAnteriorDepto,
+                        departamento);
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public async Task<string> CalcularAbastecimentoGeral(DateTime data)
         {
             try
@@ -65,6 +102,23 @@ namespace FlexPro.Api.Infrastructure.Services
                 sb.AppendLine(await CalculaAbastecimento(abastecimentoAtualDepto, abastecimentoAnteriorDepto, $"{departamento}"));
             }
             return sb.ToString();
+        }
+
+        public async Task<string> CalcularAbastecimentoPorSetorIndividual(DateTime data, string departamento)
+        {
+            var dataAtual = data.ToUniversalTime();
+            var inicioMesAtual = new DateTime(dataAtual.Year, dataAtual.Month, 1).ToUniversalTime();
+            var fimMesAtual = inicioMesAtual.AddMonths(1).AddDays(-1);
+            var inicioMesAnterior = inicioMesAtual.AddMonths(-1);
+            var fimMesAnterior = inicioMesAtual.AddDays(-1);
+
+            var abastecimentoMesAtual = await _repository.GetFuelSupplyByDate(inicioMesAtual, fimMesAtual);
+            var abastecimentoMesAnterior = await _repository.GetFuelSupplyByDate(inicioMesAnterior, fimMesAnterior);
+
+            var abastecimentoAtualDepto = abastecimentoMesAtual.Where(a => a.Departamento == departamento).ToList();
+            var abastecimentoAnteriorDepto = abastecimentoMesAnterior.Where(a => a.Departamento == departamento).ToList();
+
+            return await CalculaAbastecimento(abastecimentoAtualDepto, abastecimentoAnteriorDepto, $"{departamento}");
         }
 
         public async Task<string> CalcularAbastecimentoIndividual(DateTime data)
@@ -120,7 +174,7 @@ namespace FlexPro.Api.Infrastructure.Services
                 var mediaPrecoLitroMesAnterior = abastecimentoMesAnterior.Average(a => a.Preco);
 
                 sb.AppendLine($"Abastecimento {tipo}");
-                sb.AppendLine($"Quantidade de litros abastecidos: {CalcularDesempenho(totalLitrosMesAtual, totalLitrosMesAnterior, "N")}");
+                sb.AppendLine($"Quantidade de litros abastecidos: {CalcularDesempenho(totalLitrosMesAtual, totalLitrosMesAnterior, "N0")}");
                 sb.AppendLine($"Média de KM/L: {CalcularDesempenho(mediaKmMesAtual, mediaKmMesAnterior, "N")}");
                 sb.AppendLine($"Média de Preço/L: {CalcularDesempenho(mediaPrecoLitroMesAtual, mediaPrecoLitroMesAnterior, "C")}");
                 sb.AppendLine($"Valor Total Gasto: {CalcularDesempenho(valorTotalGastoMesAtual, valorTotalGastoMesAnterior, "C")}");

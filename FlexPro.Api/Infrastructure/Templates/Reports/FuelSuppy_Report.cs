@@ -15,6 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 using MimeKit.Cryptography;
 using Color = QuestPDF.Infrastructure.Color;
 using ScottPlot.TickGenerators;
+using FlexPro.Api.Infrastructure.Templates.Reports.Models;
+using FlexPro.Api.Infrastructure.Templates.Reports.Components;
+using FlexPro.Api.Infrastructure.Templates.Reports.Constants;
 
 
 namespace FlexPro.Api.Infrastructure.Templates.Reports
@@ -24,17 +27,25 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
         private readonly AbastecimentoService _abastecimentoService;
         private readonly IAbastecimentoRepository _abastecimentoRepository;
         private List<Abastecimento> _abastecimentosLista;
+        private readonly byte[] _logoImage;
+        private readonly byte[] _postoImage;
+        private readonly List<AbastecimentoMetrics> _departmentMetrics;
 
         public string MetricasGeral { get; set; }
         
         public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
         public DocumentSettings GetSettings() => DocumentSettings.Default;
 
-        public FuelSuppy_Report(AbastecimentoService service, IAbastecimentoRepository repository, List<Abastecimento> abastecimentos)
+        public FuelSuppy_Report(AbastecimentoService service, IAbastecimentoRepository repository, List<Abastecimento> abastecimentos, byte[] logoImage, byte[] postoImage)
         {
             _abastecimentoService = service;
             _abastecimentoRepository = repository;
-            _abastecimentosLista = abastecimentos;
+            _abastecimentosLista = abastecimentos ?? throw new ArgumentNullException(nameof(abastecimentos));
+            if (!abastecimentos.Any())
+                throw new ArgumentException("A lista de abastecimentos não pode estar vazia.", nameof(abastecimentos));
+            _logoImage = logoImage ?? throw new ArgumentNullException(nameof(logoImage));
+            _postoImage = postoImage ?? throw new ArgumentNullException(nameof(postoImage));
+            _departmentMetrics = AbastecimentoMetrics.CalculateMetrics(abastecimentos).ToList();
         }
 
         public void Compose(IDocumentContainer container)
@@ -42,41 +53,25 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
             container.Page(page =>
             {
                 page.Margin(0);
-                page.Header().Element(ComposeHeader);
+                page.Header().Element(c => PdfComponents.Header(c, _logoImage));
                 page.Content().Element(ComposeContentHero);
-                page.Footer().Element(ComposeFooter);
+                page.Footer().Element(PdfComponents.Footer);
             });
 
             container.Page(page =>
             {
                 page.Margin(0);
-                page.Header().Element(ComposeHeader);
+                page.Header().Element(c => PdfComponents.Header(c, _logoImage));
                 page.Content().Element(ComposeContentGeral);
-                page.Footer().Element(ComposeFooter);
+                page.Footer().Element(PdfComponents.Footer);
             });
 
             container.Page(page =>
             {
                 page.Margin(0);
-                page.Header().Element(ComposeHeader);
+                page.Header().Element(c => PdfComponents.Header(c, _logoImage));
                 page.Content().Element(ComposeContentSetor);
-                page.Footer().Element(ComposeFooter);
-            });
-        }
-
-        private void ComposeHeader(IContainer container)
-        {
-            container.Row(row =>
-            {
-                row.ConstantItem(300).Column(col =>
-                {
-                    col.Item().Height(15).Background(Color.FromHex("#1f305b"));
-                    col.Item().Height(15).Background(Color.FromHex("#01a396"));
-                });
-                row.RelativeItem().AlignRight().PaddingTop(2).Row(row =>
-                {
-                    row.ConstantItem(290).PaddingRight(10).Height(30).Image(Properties.Resources.Logo_Proauto).FitWidth();
-                });
+                page.Footer().Element(PdfComponents.Footer);
             });
         }
         
@@ -96,7 +91,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                     });
                 });
 
-                col.Item().PaddingTop(20).Image(Properties.Resources.Posto03).FitWidth();
+                col.Item().PaddingTop(20).Image(_postoImage).FitWidth();
 
             });
         }
@@ -116,68 +111,28 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                 }).ToList();
 
 
-                col.Item().PaddingBottom(20).Text("Abastecimento Geral").FontSize(24).Bold().AlignCenter();
+                col.Item().PaddingBottom(20).Text("Abastecimento Geral").FontSize(ReportStyles.TitleFontSize).Bold().AlignCenter();
                 col.Item().Row(row =>
                 {
-                    row.ConstantColumn(270).Column(col =>
+                    row.ConstantColumn(ReportConstants.ChartColumnWidth).Column(col =>
                     {
                         col.Item().Text("Litros Abastecidos").AlignCenter();
                         col.Item().AspectRatio(2).Svg(size =>
-                        {
-                            Plot plot = new();
-
-                            int departamentosCount = dados.Count;
-                            double barSpacing = 1.0;
-                            double barWidth = 0.3;
-
-                            double[] xBase = Enumerable.Range(0, departamentosCount).Select(i => (double)i).ToArray();
-
-                            var barsLitros = plot.Add.Bars(xBase.Select(x => x - barWidth).ToArray(), dados.Select(d => d.Litros).ToArray());
-                            barsLitros.Color = ScottPlot.Colors.Blue;
-                            barsLitros.LegendText = "Litros";
-
-                            var ticks = xBase.Select((x, i) => new Tick(x, dados[i].Departamento)).ToArray();
-                            plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
-
-                            // Estilo
-                            plot.Legend.IsVisible = false;
-                            plot.Legend.Alignment = Alignment.UpperRight;
-                            plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
-                            plot.Grid.XAxisStyle.IsVisible = false;
-                            plot.Axes.Margins(bottom: 0.2f, top: 0.2f);
-
-                            return plot.GetSvgXml((int)size.Width, (int)size.Height);
-                        });
+                            ChartGenerator.GenerateBarChartSvg(_departmentMetrics, d => d.Litros, d => d.Departamento, ScottPlot.Colors.Blue,
+                                "Litros", (int)size.Width,(int)size.Height));
                     });
-                    row.ConstantColumn(270).Column(col =>
+                    row.ConstantColumn(ReportConstants.ChartColumnWidth).Column(c =>
                     {
-                        col.Item().Text("Total Gasto").AlignCenter();
-                        col.Item().AspectRatio(2).Svg(size =>
-                        {
-                            Plot plot = new();
-
-                            int departamentosCount = dados.Count;
-                            double barSpacing = 1.0;
-                            double barWidth = 0.3;
-
-                            double[] xBase = Enumerable.Range(0, departamentosCount).Select(i => (double)i).ToArray();
-
-                            var barsKm = plot.Add.Bars(xBase, dados.Select(d => d.TotalGasto).ToArray());
-                            barsKm.Color = ScottPlot.Colors.Green;
-                            barsKm.LegendText = "Total Gasto";
-
-                            var ticks = xBase.Select((x, i) => new Tick(x, dados[i].Departamento)).ToArray();
-                            plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
-
-                            // Estilo
-                            plot.Legend.IsVisible = false;
-                            plot.Legend.Alignment = Alignment.UpperRight;
-                            plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
-                            plot.Grid.XAxisStyle.IsVisible = false;
-                            plot.Axes.Margins(bottom: 0.2f, top: 0.2f);
-
-                            return plot.GetSvgXml((int)size.Width, (int)size.Height);
-                        });
+                        c.Item().Text("Total Gasto").AlignCenter();
+                        c.Item().AspectRatio(2).Svg(size =>
+                            ChartGenerator.GenerateBarChartSvg(
+                                _departmentMetrics,
+                                d => d.TotalGasto,
+                                d => d.Departamento,
+                                ScottPlot.Colors.Green,
+                                "Total Gasto",
+                                (int)size.Width,
+                                (int)size.Height));
                     });
                 });
 
@@ -185,35 +140,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                 {
                     row.ConstantColumn(270).Column(col =>
                     {
-                        col.Item().Text("Distancia Percorrida").AlignCenter();
-                        col.Item().AspectRatio(2).Svg(size =>
-                        {
-                            Plot plot = new();
-
-                            int departamentosCount = dados.Count;
-                            double barSpacing = 1.0;
-                            double barWidth = 0.3;
-
-                            double[] xBase = Enumerable.Range(0, departamentosCount).Select(i => (double)i).ToArray();
-
-                            var barsLitros = plot.Add.Bars(xBase.Select(x => x - barWidth).ToArray(), dados.Select(d => d.KmPercorridos).ToArray());
-                            barsLitros.Color = ScottPlot.Colors.Purple;
-                            barsLitros.LegendText = "Distancia Percorrida";
-
-
-
-                            var ticks = xBase.Select((x, i) => new Tick(x, dados[i].Departamento)).ToArray();
-                            plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(ticks);
-
-                            // Estilo
-                            plot.Legend.IsVisible = false;
-                            plot.Legend.Alignment = Alignment.UpperRight;
-                            plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
-                            plot.Grid.XAxisStyle.IsVisible = false;
-                            plot.Axes.Margins(bottom: 0.2f, top: 0.2f);
-
-                            return plot.GetSvgXml((int)size.Width, (int)size.Height);
-                        });
+                        
                     });
                     row.ConstantColumn(270).Column(col =>
                     {
