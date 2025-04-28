@@ -183,7 +183,7 @@ namespace FlexPro.Api.Infrastructure.Services
             }
             catch (Exception)
             {
-
+                sb.AppendLine("Sem Dados Para Comparação");sb.AppendLine();sb.AppendLine();sb.AppendLine();sb.AppendLine();sb.AppendLine();sb.AppendLine();
             }
 
             return sb.ToString();
