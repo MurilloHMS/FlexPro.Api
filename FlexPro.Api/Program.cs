@@ -7,6 +7,20 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Localization;
 using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Api.Application.Interfaces;
+using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Infrastructure.Repositories;
+using QuestPDF.Infrastructure;
+using System.Globalization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Localization;
+using FlexPro.Api.Infrastructure.Persistance;
 using Serilog;
 using FluentValidation.AspNetCore;
 using FluentValidation;
@@ -20,6 +34,7 @@ using FlexPro.Api.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,13 +73,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
-
-// Registros dos services de autenticação
+//Registros dos services de autenticaÃ§Ã£o
 builder.Services.AddHttpContextAccessor();
 
-// Registros dos servies 
+// Registros dos services 
 builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<InformativoService>();
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
@@ -75,6 +90,8 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
+//Registros das licenÃ§as
+QuestPDF.Settings.License = LicenseType.Community;
 
 //serilog 
 Log.Logger = new LoggerConfiguration()
@@ -92,7 +109,6 @@ builder.Services.AddAuthorization(options =>
         .RequireAuthenticatedUser()
         .Build();
 });
-
 
 var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
 builder.Services.AddAuthentication(options =>
@@ -121,7 +137,7 @@ builder.Services.AddAuthentication(options =>
     {
         OnTokenValidated = context =>
         {
-            Log.Information("Token validado para usuário: {User}, Roles: {Roles}, Claims: {Claims}",
+            Log.Information("Token validado para usuï¿½rio: {User}, Roles: {Roles}, Claims: {Claims}",
                 context.Principal?.Identity?.Name,
                 string.Join(", ", context.Principal?.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value) ?? Array.Empty<string>()),
                 string.Join(", ", context.Principal?.Claims.Select(c => $"{c.Type}: {c.Value}") ?? Array.Empty<string>()));
@@ -129,7 +145,7 @@ builder.Services.AddAuthentication(options =>
         },
         OnAuthenticationFailed = context =>
         {
-            Log.Error("Falha na autenticação: {Error} | Detalhes: {InnerException} | StackTrace: {StackTrace}",
+            Log.Error("Falha na autenticaï¿½ï¿½o: {Error} | Detalhes: {InnerException} | StackTrace: {StackTrace}",
                 context.Exception.Message,
                 context.Exception.InnerException?.Message ?? "Nenhum detalhe adicional",
                 context.Exception.StackTrace);
@@ -137,16 +153,16 @@ builder.Services.AddAuthentication(options =>
         },
         OnChallenge = context =>
         {
-            Log.Warning("Autenticação falhou: {Error} | Descrição: {ErrorDescription} | Token presente: {TokenPresent} | Token: {Token} | User: {User}",
-                context.Error ?? "Nenhum erro específico",
-                context.ErrorDescription ?? "Sem descrição",
+            Log.Warning("Autenticaï¿½ï¿½o falhou: {Error} | Descriï¿½ï¿½o: {ErrorDescription} | Token presente: {TokenPresent} | Token: {Token} | User: {User}",
+                context.Error ?? "Nenhum erro especï¿½fico",
+                context.ErrorDescription ?? "Sem descriï¿½ï¿½o",
                 context.Request.Headers.ContainsKey("Authorization"),
                 context.Request.Headers["Authorization"].ToString(),
-                context.HttpContext.User?.Identity?.Name ?? "Nenhum usuário");
+                context.HttpContext.User?.Identity?.Name ?? "Nenhum usuï¿½rio");
             context.HandleResponse();
             context.Response.StatusCode = 401;
             context.Response.ContentType = "application/json";
-            return context.Response.WriteAsync("{\"error\": \"Não autorizado\"}");
+            return context.Response.WriteAsync("{\"error\": \"Nï¿½o autorizado\"}");
         },
         OnForbidden = context =>
         {
@@ -156,8 +172,6 @@ builder.Services.AddAuthentication(options =>
         }
     };
 });
-
-
 
 
 builder.Services.AddCors(options =>
@@ -173,7 +187,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+/// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
