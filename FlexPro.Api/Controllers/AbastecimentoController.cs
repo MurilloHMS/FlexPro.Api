@@ -48,13 +48,6 @@ namespace FlexPro.Api.Controllers
             return Ok(dadosAbastecimento);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetAbastecimento()
-        {
-            var abastecimento = await _repository.GetFuelSupply();
-            return abastecimento != null ? Ok(abastecimento) : NotFound();
-        }
-
         [HttpGet("Calcular/Individual/{data}")]
         public async Task<ActionResult> GetIndividualMetrics(DateTime data)
         {

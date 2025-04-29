@@ -7,7 +7,7 @@ namespace FlexPro.Api.Infrastructure.Persistance
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
-        public DbSet<Domain.Entities.Veiculo> Veiculo => Set<Domain.Entities.Veiculo>();
+        public DbSet<Veiculo> Veiculo => Set<Veiculo>();
         public DbSet<Abastecimento> Abastecimento { get; set; } = default!;
         public DbSet<Funcionario> Funcionarios { get; set; } = default!;
         public DbSet<Categoria> Categoria { get; set; } = default!;
