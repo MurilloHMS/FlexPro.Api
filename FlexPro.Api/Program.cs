@@ -155,7 +155,7 @@ builder.Services.AddAuthentication(options =>
         {
             Log.Warning("Autenticacao falhou: {Error} | Descricao: {ErrorDescription} | Token presente: {TokenPresent} | Token: {Token} | User: {User}",
                 context.Error ?? "Nenhum erro especifico",
-                context.ErrorDescription ?? "Sem descri��o",
+                context.ErrorDescription ?? "Sem descriçao",
                 context.Request.Headers.ContainsKey("Authorization"),
                 context.Request.Headers["Authorization"].ToString(),
                 context.HttpContext.User?.Identity?.Name ?? "Nenhum usuario");
