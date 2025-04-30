@@ -137,7 +137,7 @@ builder.Services.AddAuthentication(options =>
     {
         OnTokenValidated = context =>
         {
-            Log.Information("Token validado para usu�rio: {User}, Roles: {Roles}, Claims: {Claims}",
+            Log.Information("Token validado para usuario: {User}, Roles: {Roles}, Claims: {Claims}",
                 context.Principal?.Identity?.Name,
                 string.Join(", ", context.Principal?.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value) ?? Array.Empty<string>()),
                 string.Join(", ", context.Principal?.Claims.Select(c => $"{c.Type}: {c.Value}") ?? Array.Empty<string>()));
@@ -145,7 +145,7 @@ builder.Services.AddAuthentication(options =>
         },
         OnAuthenticationFailed = context =>
         {
-            Log.Error("Falha na autentica��o: {Error} | Detalhes: {InnerException} | StackTrace: {StackTrace}",
+            Log.Error("Falha na autenticacao: {Error} | Detalhes: {InnerException} | StackTrace: {StackTrace}",
                 context.Exception.Message,
                 context.Exception.InnerException?.Message ?? "Nenhum detalhe adicional",
                 context.Exception.StackTrace);
@@ -153,16 +153,16 @@ builder.Services.AddAuthentication(options =>
         },
         OnChallenge = context =>
         {
-            Log.Warning("Autentica��o falhou: {Error} | Descri��o: {ErrorDescription} | Token presente: {TokenPresent} | Token: {Token} | User: {User}",
-                context.Error ?? "Nenhum erro espec�fico",
+            Log.Warning("Autenticacao falhou: {Error} | Descricao: {ErrorDescription} | Token presente: {TokenPresent} | Token: {Token} | User: {User}",
+                context.Error ?? "Nenhum erro especifico",
                 context.ErrorDescription ?? "Sem descri��o",
                 context.Request.Headers.ContainsKey("Authorization"),
                 context.Request.Headers["Authorization"].ToString(),
-                context.HttpContext.User?.Identity?.Name ?? "Nenhum usu�rio");
+                context.HttpContext.User?.Identity?.Name ?? "Nenhum usuario");
             context.HandleResponse();
             context.Response.StatusCode = 401;
             context.Response.ContentType = "application/json";
-            return context.Response.WriteAsync("{\"error\": \"N�o autorizado\"}");
+            return context.Response.WriteAsync("{\"error\": \"Nao autorizado\"}");
         },
         OnForbidden = context =>
         {
