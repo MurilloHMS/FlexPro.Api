@@ -35,7 +35,7 @@ namespace FlexPro.Api.Controllers
         [HttpPost("send/informativos")]
         public async Task<ActionResult> SendInformativosAsync(List<Informativo> informativos)
         {
-            if (!informativos.Any()) return BadRequest();
+            if (!informativos.Any()) return BadRequest("Lista com Dados está vazia");
 
             await _emailService.EnviarInformativos(informativos);
             return Ok();

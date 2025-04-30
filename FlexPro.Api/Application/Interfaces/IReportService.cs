@@ -2,6 +2,6 @@
 {
     public interface IReportService
     {
-        Task<byte[]> GenerateFuelSupplyReportAsync(DateTime startDate, DateTime endDate);
+        Task<byte[]> GenerateFuelSupplyReportAsync(DateTime date);
     }
 }

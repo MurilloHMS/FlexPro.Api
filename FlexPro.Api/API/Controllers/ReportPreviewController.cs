@@ -44,7 +44,7 @@ namespace FlexPro.Api.API.Controllers
         [HttpGet("fuel-supply")]
         public async Task<IActionResult> GetFuelSupplyReport([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
-            var pdf = await _reportService.GenerateFuelSupplyReportAsync(startDate.ToUniversalTime(), endDate.ToUniversalTime());
+            var pdf = await _reportService.GenerateFuelSupplyReportAsync(startDate.ToUniversalTime());
             return File(pdf, "application/pdf", "FuelSupplyReport.pdf");
         }
 
