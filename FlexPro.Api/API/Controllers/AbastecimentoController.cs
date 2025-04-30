@@ -21,4 +21,11 @@ public class AbastecimentoController : ControllerBase
         var result = await _mediator.Send(new GetAllAbastecimentoQuery());
         return Ok(result);
     }
+
+    [HttpGet("report")]
+    public async Task<IActionResult> DownloadReport([FromQuery] DateTime date)
+    {
+        var pdf = await _mediator.Send(new FuelSuppyReportGeneratorQuery(date));
+        return File(pdf, "application/pdf", "Relatório de Abastecimento.pdf");
+    }
 }
