@@ -83,6 +83,8 @@ builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<InformativoService>();
 builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IIcmsService, IcmsService>();
+builder.Services.AddScoped<ICalculoTransportadoraService, CalculoTransportadoraService>();
 
 builder.Services.AddMediatR(typeof(Program));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
