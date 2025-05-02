@@ -12,30 +12,14 @@ using FlexPro.Api.Infrastructure.Services;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Repositories;
 using QuestPDF.Infrastructure;
-using System.Globalization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Localization;
-using FlexPro.Api.Infrastructure.Persistance;
 using Serilog;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using MediatR;
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Infrastructure.Repositories;
-using FlexPro.Api.Infrastructure.Services;
-using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.API.Middlewares;
 using FlexPro.Api.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
