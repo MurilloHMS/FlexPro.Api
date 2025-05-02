@@ -8,7 +8,9 @@ using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Infrastructure.Services;
 using FlexPro.Api.Application.DTOs;
 using FlexPro.Api.Application.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
@@ -29,13 +31,14 @@ namespace FlexPro.Test.Application.Handlers
             // Arrange
             var userManagerMock = CreateUserManagerMock();
             var jwtMock = new Mock<IJwtTokenGenerator>();
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
             var user = new ApplicationUser { UserName = "testuser" };
             userManagerMock.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
             userManagerMock.Setup(x => x.CheckPasswordAsync(user, "123456")).ReturnsAsync(true);
-            jwtMock.Setup(x => x.GenerateToken(user)).Returns("fake-jwt-token");
+            jwtMock.Setup(x => x.GenerateToken(user)).ReturnsAsync("fake-jwt-token");
 
-            var handler = new LoginCommandHandler(userManagerMock.Object, jwtMock.Object);
+            var handler = new LoginCommandHandler(userManagerMock.Object, jwtMock.Object, httpContextAccessorMock.Object);
             var command = new LoginCommand("testuser", "123456");
 
             // Act
@@ -50,10 +53,11 @@ namespace FlexPro.Test.Application.Handlers
         {
             var userManagerMock = CreateUserManagerMock();
             var jwtMock = new Mock<IJwtTokenGenerator>();
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
             userManagerMock.Setup(x => x.FindByNameAsync("unknown")).ReturnsAsync((ApplicationUser)null);
 
-            var handler = new LoginCommandHandler(userManagerMock.Object, jwtMock.Object);
+            var handler = new LoginCommandHandler(userManagerMock.Object, jwtMock.Object, httpContextAccessorMock.Object);
             var command = new LoginCommand("unknown", "any");
 
             await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
@@ -66,11 +70,12 @@ namespace FlexPro.Test.Application.Handlers
             var userManagerMock = CreateUserManagerMock();
             var jwtMock = new Mock<IJwtTokenGenerator>();
             var user = new ApplicationUser { UserName = "testuser" };
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
 
             userManagerMock.Setup(x => x.FindByNameAsync("testuser")).ReturnsAsync(user);
             userManagerMock.Setup(x => x.CheckPasswordAsync(user, "wrongpass")).ReturnsAsync(false);
 
-            var handler = new LoginCommandHandler(userManagerMock.Object, jwtMock.Object);
+            var handler = new LoginCommandHandler(userManagerMock.Object, jwtMock.Object, httpContextAccessorMock.Object);
             var command = new LoginCommand("testuser", "wrongpass");
 
             await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
