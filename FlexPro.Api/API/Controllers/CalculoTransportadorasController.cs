@@ -8,9 +8,9 @@ namespace FlexPro.Api.API.Controllers;
 [Route("api/[controller]")]
 public class CalculoTransportadorasController : ControllerBase
 {
-    private readonly Mediator _mediator;
+    private readonly IMediator _mediator;
 
-    public CalculoTransportadorasController(Mediator mediator)
+    public CalculoTransportadorasController(IMediator mediator)
     {
         _mediator = mediator;
     }

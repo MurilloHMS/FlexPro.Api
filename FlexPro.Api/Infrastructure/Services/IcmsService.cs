@@ -1,12 +1,82 @@
 ﻿using System.Globalization;
 using System.Xml.Linq;
+using ClosedXML.Excel;
+using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
+using LoadOptions = System.Xml.Linq.LoadOptions;
 
 namespace FlexPro.Api.Infrastructure.Services
 {
-    public class IcmsService
+    public class IcmsService : IIcmsService
     {
-        public static async Task<ICMS> ProcessarXML(Stream stream)
+
+        public async Task<Stream> CalcularAsync(List<IFormFile> files)
+        {
+            if (files == null || files.Count == 0)
+            {
+                return new MemoryStream();
+            }
+
+            var dadosICMS = new List<ICMS>();
+
+            foreach (var file in files)
+            {
+                if (Path.GetExtension(file.FileName).ToLower() != ".xml")
+                {
+                    continue;
+                }
+
+                using (var stream = file.OpenReadStream())
+                {
+                    var dados = await ProcessarXML(stream);
+                    if (dados != null)
+                    {
+                        dadosICMS.Add(dados);
+                    }
+                }
+            }
+            
+            var arquivo = await CriarPlanilha(dadosICMS);
+            return arquivo;
+        } 
+
+        public async Task<Stream> CriarPlanilha(List<ICMS> dadosICMS)
+        {
+            if (!dadosICMS.Any())
+            {
+                return new MemoryStream();
+            }
+            
+            var memoryStream = new MemoryStream();
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("ICMS");
+            
+                worksheet.Cell(1, 1).Value = "Número da NFe";
+                worksheet.Cell(1, 2).Value = "Valor do ICMS";
+                worksheet.Cell(1, 3).Value = "Valor do Pis";
+                worksheet.Cell(1, 4).Value = "Valor do Cofins";
+
+                int novaLinha = 2;
+
+                foreach (var linha in dadosICMS)
+                {
+                    worksheet.Cell(novaLinha, 1).Value = int.TryParse(linha.nNF, out var valor) ? valor : 0;
+                    worksheet.Cell(novaLinha, 2).Value = linha.vICMS;
+                    worksheet.Cell(novaLinha, 3).Value = linha.vPis;
+                    worksheet.Cell(novaLinha, 4).Value = linha.vCofins;
+                    novaLinha++;
+                }
+
+                workbook.SaveAs(memoryStream);
+            }
+        
+            memoryStream.Seek(0, SeekOrigin.Begin);
+        
+            return memoryStream;
+        }
+        public async Task<ICMS> ProcessarXML(Stream stream)
         {
             try
             {
