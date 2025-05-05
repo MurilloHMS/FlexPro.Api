@@ -230,7 +230,7 @@ namespace FlexPro.Api.Infrastructure.Services
                 //    );
 
                 var engine = new RazorLightEngineBuilder()
-                    .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "templates"))
+                    .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "Infraestructure", "Templates", "Email"))
                     .UseMemoryCachingProvider()
                     .Build();
 

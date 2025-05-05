@@ -6,9 +6,9 @@ namespace FlexPro.Api.Application.Commands.Email;
 
 public class SendInformativoCommand : IRequest<IActionResult>
 {
-    public List<Informativo> Informativos { get; set; }
+    public IEnumerable<Informativo> Informativos { get; set; }
 
-    public SendInformativoCommand(List<Informativo> informativos)
+    public SendInformativoCommand(IEnumerable<Informativo> informativos)
     {
         Informativos = informativos;
     }

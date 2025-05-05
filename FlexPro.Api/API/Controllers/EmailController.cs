@@ -24,7 +24,7 @@ public class EmailController : ControllerBase
     }
     
     [HttpPost("send/informativos")]
-    public async Task<IActionResult> SendInformativosAsync(List<Informativo> informativos)
+    public async Task<IActionResult> SendInformativosAsync(IEnumerable<Informativo> informativos)
     {
         var result = await _mediator.Send(new SendInformativoCommand(informativos));
         return result;

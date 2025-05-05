@@ -40,8 +40,8 @@ namespace FlexPro.Api.Infrastructure.Services
                                 CodigoProduto = row.Cell(6).TryGetValue<string>(out var CodigoProduto) ? CodigoProduto : default,
                                 TipoDeUnidade = row.Cell(7).TryGetValue<char>(out var tipoDeUnidade) ? tipoDeUnidade : default,
                                 NomeDoProduto = row.Cell(8).TryGetValue<string>(out var nomeProduto) ? nomeProduto : default,
-                                Quantidade = row.Cell(10).TryGetValue<double>(out var quantidade) ? quantidade : default,
-                                ValorTotalComImpostos = row.Cell(11).TryGetValue<decimal>(out var valorTotal) ? valorTotal : default
+                                Quantidade = row.Cell(9).TryGetValue<double>(out var quantidade) ? quantidade : default,
+                                ValorTotalComImpostos = row.Cell(10).TryGetValue<decimal>(out var valorTotal) ? valorTotal : default
                             }).ToList();
 
                         dados.AddRange(fileData);
@@ -154,7 +154,7 @@ namespace FlexPro.Api.Infrastructure.Services
                             QuantidadeDeProdutos = clienteNfeInfo.Count(),
                             QuantidadeDeLitros = clienteNfeInfo.Sum(x => x.Quantidade),
                             QuantidadeNotasEmitidas = clienteNfeInfo.Select(x => x.NumeroNFe).Distinct().Count(),
-                            MediaDiasAtendimento = (int)(clienteOsInfo.Any() ? clienteOsInfo.Average(os => (os.DataDeFechamento - os.DataDeAbertura).Days) : 0),
+                            MediaDiasAtendimento = (int)(clienteOsInfo.Any() ? clienteOsInfo.Sum(x => x.DiasDaSemana) : 0),
                             ProdutoEmDestaque = clienteNfeInfo.GroupBy(nfe => nfe.NomeDoProduto).OrderByDescending(group => group.Count()).FirstOrDefault()?.Key,
                             FaturamentoTotal = clienteNfeInfo.Sum(nfe => nfe.ValorTotalComImpostos),
                             ValorDePeçasTrocadas = clientePecas.Sum(pecas => pecas.CustoTotal),
