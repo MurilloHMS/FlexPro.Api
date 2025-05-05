@@ -230,13 +230,13 @@ namespace FlexPro.Api.Infrastructure.Services
                 //    );
 
                 var engine = new RazorLightEngineBuilder()
-                    .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "templates"))
+                    .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "Infrastructure", "Templates", "Email"))
                     .UseMemoryCachingProvider()
                     .Build();
 
                 string html = await engine.CompileRenderAsync("Informativo.cshtml", informativo);
 
-                await SendEmailAsync(informativo.EmailCliente, $"Informativo Mês {informativo.Mes}", html );
+                await SendEmailAsync(informativo.EmailCliente, $"Resumo Proauto Kimium - {informativo.Mes}", html );
             }
         }
     }

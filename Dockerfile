@@ -14,7 +14,7 @@ COPY ["FlexPro.Api/FlexPro.Api.csproj", "FlexPro.Api/"]
 RUN dotnet restore "./FlexPro.Api/FlexPro.Api.csproj"
 
 # Copiar a pasta Templates separadamente
-COPY FlexPro.Api/Infrastructure/Templates /src/Templates
+COPY FlexPro.Api/Infrastructure/Templates /src/Infrastructure/Templates
 
 COPY . .
 WORKDIR "/src/FlexPro.Api"
@@ -27,5 +27,5 @@ RUN dotnet publish "./FlexPro.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY --from=build /src/Templates /app/templates
+COPY --from=build /src/Infrastructure/Templates /app/Infrastructure/Templates
 ENTRYPOINT ["dotnet", "FlexPro.Api.dll"]

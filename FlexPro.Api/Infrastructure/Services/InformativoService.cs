@@ -1,4 +1,5 @@
-﻿using ClosedXML.Excel;
+﻿using System.Globalization;
+using ClosedXML.Excel;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
@@ -34,14 +35,16 @@ namespace FlexPro.Api.Infrastructure.Services
                             .Select(row => new InformativoNFe
                             {
                                 NumeroNFe = row.Cell(1).TryGetValue<int>(out var numeroNfe) ? numeroNfe : default,
-                                Data = row.Cell(2).TryGetValue<DateTime>(out var data) ? data : default,
+                                Data = row.Cell(2).TryGetValue<string>(out var dataString) && 
+                                       DateTime.TryParseExact(dataString, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dataFormatada)
+                                    ? dataFormatada : default,
                                 CodigoCliente = row.Cell(3).TryGetValue<string>(out var codigoCliente) ? codigoCliente : default,
                                 NomeDoCliente = row.Cell(4).TryGetValue<string>(out var nomeCliente) ? nomeCliente : default,
                                 CodigoProduto = row.Cell(6).TryGetValue<string>(out var CodigoProduto) ? CodigoProduto : default,
                                 TipoDeUnidade = row.Cell(7).TryGetValue<char>(out var tipoDeUnidade) ? tipoDeUnidade : default,
                                 NomeDoProduto = row.Cell(8).TryGetValue<string>(out var nomeProduto) ? nomeProduto : default,
-                                Quantidade = row.Cell(10).TryGetValue<double>(out var quantidade) ? quantidade : default,
-                                ValorTotalComImpostos = row.Cell(11).TryGetValue<decimal>(out var valorTotal) ? valorTotal : default
+                                Quantidade = row.Cell(9).TryGetValue<double>(out var quantidade) ? quantidade : default,
+                                ValorTotalComImpostos = row.Cell(10).TryGetValue<decimal>(out var valorTotal) ? valorTotal : default
                             }).ToList();
 
                         dados.AddRange(fileData);
@@ -150,11 +153,11 @@ namespace FlexPro.Api.Infrastructure.Services
                             CodigoCliente = cliente.CodigoSistema,
                             NomeDoCliente = cliente.Nome,
                             Data = clienteNfeInfo.Select(d => d.Data.Date).FirstOrDefault(),
-                            Mes = clienteNfeInfo.Select(d => d.Data.Date.ToString("MMMM")).FirstOrDefault(),
+                            Mes = clienteNfeInfo.Select(d => d.Data.Date).FirstOrDefault().ToString("MMMM"),
                             QuantidadeDeProdutos = clienteNfeInfo.Count(),
                             QuantidadeDeLitros = clienteNfeInfo.Sum(x => x.Quantidade),
                             QuantidadeNotasEmitidas = clienteNfeInfo.Select(x => x.NumeroNFe).Distinct().Count(),
-                            MediaDiasAtendimento = (int)(clienteOsInfo.Any() ? clienteOsInfo.Average(os => (os.DataDeFechamento - os.DataDeAbertura).Days) : 0),
+                            MediaDiasAtendimento = (int)(clienteOsInfo.Any() ? clienteOsInfo.Sum(x => x.DiasDaSemana) : 0),
                             ProdutoEmDestaque = clienteNfeInfo.GroupBy(nfe => nfe.NomeDoProduto).OrderByDescending(group => group.Count()).FirstOrDefault()?.Key,
                             FaturamentoTotal = clienteNfeInfo.Sum(nfe => nfe.ValorTotalComImpostos),
                             ValorDePeçasTrocadas = clientePecas.Sum(pecas => pecas.CustoTotal),
