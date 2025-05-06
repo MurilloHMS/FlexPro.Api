@@ -61,4 +61,10 @@ public class ClienteRepository : IClienteRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task IncludeClienteByRange(List<Cliente> clientes)
+    {
+        await _context.Cliente.AddRangeAsync(clientes);
+        await _context.SaveChangesAsync();
+    }
 }
