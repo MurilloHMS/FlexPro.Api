@@ -38,7 +38,7 @@ public class ClienteController : ControllerBase
         return NoContent();
     }
 
-    [HttpGet("{id}}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var cliente = await _mediator.Send(new GetClienteByIdQuery(id));
