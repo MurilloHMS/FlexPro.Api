@@ -13,11 +13,10 @@ namespace FlexPro.Api.Application.Handlers.Veiculo
             _repo = repo;
         }
 
-        public async Task<Unit> Handle(DeleteVeiculoCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteVeiculoCommand request, CancellationToken cancellationToken)
         {
             var entity = await _repo.GetById(request.Id);
             await _repo.Delete(entity);
-            return Unit.Value;
         }
     }
 }

@@ -13,9 +13,8 @@ public class DeleteClienteHandler : IRequestHandler<DeleteClienteCommand>
         _repository = repository;
     }
 
-    public async Task<Unit> Handle(DeleteClienteCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteClienteCommand request, CancellationToken cancellationToken)
     {
         await _repository.Delete(request.id);
-        return Unit.Value;
     }
 }

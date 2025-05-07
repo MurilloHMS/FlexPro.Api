@@ -17,10 +17,9 @@ public class UpdateClienteHandler : IRequestHandler<UpdateClienteCommand>
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateClienteCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateClienteCommand request, CancellationToken cancellationToken)
     {
         var cliente = _mapper.Map<Domain.Entities.Cliente>(request);
         await _repository.UpdateOrInsert(cliente);
-        return Unit.Value;
     }
 }

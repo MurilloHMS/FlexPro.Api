@@ -17,10 +17,9 @@ public class UpdateAbastecimentoHandler : IRequestHandler<UpdateAbastecimentoCom
         _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateAbastecimentoCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateAbastecimentoCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Domain.Entities.Abastecimento>(request);
-        // await _repo.UpdateOrInsert(entity);
-        return Unit.Value;
+        var entity  = _mapper.Map<Domain.Entities.Abastecimento>(request);
+        //await _repo.UpdateOrInsert(entity);
     }
 }
