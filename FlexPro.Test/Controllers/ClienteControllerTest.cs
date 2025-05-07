@@ -15,25 +15,9 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
     public ClienteControllerTests(CustomWebApplicationFactory factory)
     {
         _client = factory.CreateClient();
-        AuthenticateAsync().GetAwaiter().GetResult();
+        TestAuthenticate.AuthenticateAsync(_client).GetAwaiter().GetResult();
     }
     
-    private async Task AuthenticateAsync()
-    {
-        var loginPayload = new LoginRequest
-        {
-            Username = "murillo.henrique@proautokimium.com.br",
-            Password = "Xj7hpmtmma@"
-        };
-
-        var response = await _client.PostAsJsonAsync("/api/auth/login", loginPayload);
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.Content.ReadFromJsonAsync<LoginResponse>();
-        _client.DefaultRequestHeaders.Authorization = 
-            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", json.Token);
-    }
-
     [Fact]
     public async Task Post_Cliente_Should_Return_Created()
     {
@@ -57,4 +41,26 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
         response.EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
     }
+    
+    [Fact]
+    public async Task Post_Cliente_Should_Return_BadRequest_With_Email_Invalid()
+    {
+        var dto = new ClienteRequestDTO
+        {
+            Nome = "Cliente teste",
+            Email = "Emailinvalido.com",
+            CodigoSistema = "SYS123",
+            Status = "on"
+        };
+        
+        //act
+        var response = await _client.PostAsJsonAsync("/api/cliente", dto);
+        
+        //assert
+        var errorContent = await response.Content.ReadAsStringAsync();
+        Console.WriteLine(errorContent);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+    
+    
 }
