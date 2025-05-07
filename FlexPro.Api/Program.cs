@@ -23,6 +23,7 @@ using System.Security.Claims;
 using Serilog;
 using Serilog.Events;
 using System.Net.Http.Headers;
+using System.Reflection;
 using Serilog.Formatting.Json;
 
 Log.Logger = new LoggerConfiguration()
@@ -86,7 +87,7 @@ builder.Services.AddScoped<IIcmsService, IcmsService>();
 builder.Services.AddScoped<ICalculoTransportadoraService, CalculoTransportadoraService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
-builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
@@ -214,3 +215,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
