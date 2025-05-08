@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,6 @@ using FlexPro.Api.Infrastructure.Services;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Repositories;
 using QuestPDF.Infrastructure;
-using Serilog;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using MediatR;
@@ -20,6 +20,20 @@ using FlexPro.Api.API.Middlewares;
 using FlexPro.Api.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Serilog;
+using Serilog.Events;
+using System.Net.Http.Headers;
+using System.Reflection;
+using Serilog.Formatting.Json;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .WriteTo.Http(
+        "https://s1300161.eu-nbg-2.betterstackdata.com",
+        queueLimitBytes: null,
+        textFormatter: new JsonFormatter())
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -71,8 +85,9 @@ builder.Services.AddScoped<IVeiculoRepository, VeiculoRepository>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IIcmsService, IcmsService>();
 builder.Services.AddScoped<ICalculoTransportadoraService, CalculoTransportadoraService>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
-builder.Services.AddMediatR(typeof(Program));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
@@ -82,13 +97,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 QuestPDF.Settings.License = LicenseType.Community;
 
 //serilog 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Seq("http://localhost:5341")
-    .WriteTo.Console()
-    .CreateLogger();
-
 builder.Host.UseSerilog();
-
 
 //authorization
 builder.Services.AddAuthorization(options =>
@@ -173,9 +182,11 @@ builder.Services.AddCors(options =>
         });
 });
 
+Log.Information("Iniciando FlexPro API...");
+
 var app = builder.Build();
 
-/// Configure the HTTP request pipeline.
+// Configure pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -204,3 +215,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

@@ -27,7 +27,7 @@ namespace FlexPro.Api.Application.Commands.Auth
         {
             var user = await _userManager.FindByNameAsync(request.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
-                throw new UnauthorizedAccessException("Invalid username or password");
+                return null;
 
             
             var token = await _jwt.GenerateToken(user);

@@ -18,11 +18,10 @@ namespace FlexPro.Api.Application.Handlers.Veiculo
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateVeiculoCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateVeiculoCommand request, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<Domain.Entities.Veiculo>(request);
             await _repo.UpdateOrInsert(entity);
-            return Unit.Value;
         }
     }
 

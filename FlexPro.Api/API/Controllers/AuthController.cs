@@ -24,7 +24,7 @@ namespace FlexPro.Api.API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
             var token = await _mediator.Send(command);
-            return Ok(new {token});
+            return token != null ? Ok(new {token}) : NotFound("Usuário ou senha incorretos");
         }
 
         [HttpPost("register")]
