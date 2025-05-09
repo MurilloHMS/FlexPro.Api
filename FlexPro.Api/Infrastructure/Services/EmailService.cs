@@ -1,11 +1,17 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Net;
+using System.Net.Mail;
+using Microsoft.Extensions.Options;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System.Text;
-using System.Globalization;
 using RazorLight;
 using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Domain.Entities;
+using Npgsql.Replication.TestDecoding;
+using NuGet.Packaging;
+using SmtpLw;
+using SmtpLw.Models;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace FlexPro.Api.Infrastructure.Services
 {
@@ -18,6 +24,30 @@ namespace FlexPro.Api.Infrastructure.Services
         {
             _settings = emailSettings.Value;
             _logger = logger;
+        }
+        
+        public async Task SendEmailLocalWebSmtpAsync(string to, string subject, string body, List<string> cc = null, List<string> bcc = null)
+        {
+            var client = new SmtpLwClient("465be8f65256ab11670023b66bee82a2");
+            var message = new MessageModel();
+            message.Subject = subject;
+            message.Body = body;
+            message.To = to;
+            message.From = _settings.FromEmail;
+            message.Headers = new Dictionary<string, string>{{"Content-Type", "text/html"}};
+
+            if (cc != null && cc.Any())
+            {
+                message.CarbonCopy.AddRange(cc);
+            }
+
+            if (bcc != null && bcc.Any())
+            {
+                message.BlindCarbonCopy.AddRange(bcc);
+            }
+            
+            var messageId = await client.SendMessageAsync(message, CancellationToken.None).ConfigureAwait(false);
+            Console.WriteLine($"Message Id: {messageId}");
         }
 
         public async Task SendEmailAsync(string to, string subject, string body, List<string> cc = null, List<string> bcc = null)
@@ -66,7 +96,6 @@ namespace FlexPro.Api.Infrastructure.Services
                 }
             }
         }
-
         public async Task EnviarInformativos(IEnumerable<Informativo> informativos)
         {
             var sb = new StringBuilder();

@@ -168,8 +168,8 @@ namespace FlexPro.Api.Infrastructure.Services
                         informativos.Add(informativo);
                     }
                 }
-
-                return informativos ?? new List<Informativo>();
+                informativos.RemoveAll(x => string.IsNullOrEmpty(x.ProdutoEmDestaque));
+                return informativos;
             }
             catch (Exception)
             {
