@@ -108,7 +108,7 @@ namespace FlexPro.Api.Infrastructure.Services
 
                 string html = await engine.CompileRenderAsync("Informativo.cshtml", informativo);
 
-                await SendEmailAsync(informativo.EmailCliente, $"Resumo Proauto Kimium - {informativo.Mes}", html );
+                await SendEmailLocalWebSmtpAsync(informativo.EmailCliente, $"Resumo Proauto Kimium - {informativo.Mes}", html );
             }
         }
     }
