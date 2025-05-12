@@ -2,6 +2,7 @@ using FlexPro.Api.Application.Commands.Cliente;
 using FlexPro.Api.Application.DTOs.Cliente;
 using FlexPro.Api.Application.Queries.Cliente;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.API.Controllers;
@@ -51,9 +52,9 @@ public class ClienteController : ControllerBase
         IEnumerable<ClienteResponseDTO> response = await _mediator.Send(new GetAllClienteQuery());
         return response != null ? Ok(response) : NotFound();
     }
-
+    
     [HttpPost("upload")]
-    public async Task<IActionResult> Upload([FromBody] IFormFile file)
+    public async Task<IActionResult> Upload(IFormFile file)
     {
         var request = await _mediator.Send(new CreateClienteListBySheetsCommand(file));
         return request != null ? Ok("Clientes criados com sucesso") : BadRequest("Ocorreu um erro ao criar a lista de clientes");

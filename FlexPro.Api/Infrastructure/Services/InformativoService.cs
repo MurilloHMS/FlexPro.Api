@@ -157,6 +157,7 @@ namespace FlexPro.Api.Infrastructure.Services
                             QuantidadeDeProdutos = clienteNfeInfo.Count(),
                             QuantidadeDeLitros = clienteNfeInfo.Sum(x => x.Quantidade),
                             QuantidadeNotasEmitidas = clienteNfeInfo.Select(x => x.NumeroNFe).Distinct().Count(),
+                            QuantidadeDeVisitas = clienteOsInfo.Count(),
                             MediaDiasAtendimento = (int)(clienteOsInfo.Any() ? clienteOsInfo.Sum(x => x.DiasDaSemana) : 0),
                             ProdutoEmDestaque = clienteNfeInfo.GroupBy(nfe => nfe.NomeDoProduto).OrderByDescending(group => group.Count()).FirstOrDefault()?.Key,
                             FaturamentoTotal = clienteNfeInfo.Sum(nfe => nfe.ValorTotalComImpostos),
