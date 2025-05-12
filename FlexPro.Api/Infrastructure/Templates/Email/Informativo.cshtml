@@ -124,7 +124,7 @@
     }
 
     .content-value, .content-metricas {
-      flex: 1 1 300px;
+      flex: 1 1;
     }
 
     .content-value{
@@ -277,21 +277,24 @@
         <p>Parabéns pela excelente escolha ao adquirir nossos produtos! A quantidade de litros/kg comprados reflete sua confiança em nossa qualidade e no compromisso com a eficiência.</p>
       </div>
     </div>
-
-    <div class="manutencoes-container">
-      <div class="valor-container">
-        <h3>Manutenções realizadas</h3>
-        <h1>@Model.QuantidadeDeVisitas</h1>
+    
+    @if (Model.QuantidadeDeVisitas != null && Model.QuantidadeDeVisitas > 0)
+    {
+      <div class="manutencoes-container">
+        <div class="valor-container">
+          <h3>Manutenções realizadas</h3>
+          <h1>@Model.QuantidadeDeVisitas</h1>
+        </div>
+        <div class="valor-container">
+          <h3>valor das peças trocadas</h3>
+          <h1>@Model.ValorDePeçasTrocadas.ToString("C")</h1>
+        </div>
+        <div class="valor-container">
+          <h3>média de dias para atendimento</h3>
+          <h1>@Model.MediaDiasAtendimento</h1>
+        </div>
       </div>
-      <div class="valor-container">
-        <h3>valor das peças trocadas</h3>
-        <h1>@Model.ValorDePeçasTrocadas.ToString("C")</h1>
-      </div>
-      <div class="valor-container">
-        <h3>média de dias para atendimento</h3>
-        <h1>@Model.MediaDiasAtendimento</h1>
-      </div>
-    </div>
+    }
 
     <div class="metricas-container">
       <div class="content-metricas">
