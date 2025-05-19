@@ -86,6 +86,7 @@ builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IIcmsService, IcmsService>();
 builder.Services.AddScoped<ICalculoTransportadoraService, CalculoTransportadoraService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -200,6 +201,12 @@ else
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlexPro API V1");
         c.RoutePrefix = string.Empty;
     });
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbcontext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbcontext.Database.EnsureCreated();
 }
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
