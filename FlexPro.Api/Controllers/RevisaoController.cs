@@ -24,14 +24,14 @@ namespace FlexPro.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Revisao>>> GetRevisao()
         {
-            var revisao = await _repository.GetAll();
+            var revisao = await _repository.GetAllAsync();
             return revisao == null ? NotFound() : Ok(revisao);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Revisao>> GetRevisao(int id)
         {
-            var revisao = await _repository.GetById(id);
+            var revisao = await _repository.GetByIdAsync(id);
             return revisao == null ? NotFound() : Ok(revisao);
         }
 
@@ -60,7 +60,7 @@ namespace FlexPro.Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (await _repository.GetById(id) == null)
+                if (await _repository.GetByIdAsync(id) == null)
                 {
                     return NotFound();
                 }
@@ -75,13 +75,13 @@ namespace FlexPro.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRevisao(int id)
         {
-            var revisao = await _repository.GetById(id);
+            var revisao = await _repository.GetByIdAsync(id);
             if (revisao == null)
             {
                 return NotFound();
             }
 
-            await _repository.Delete(revisao);
+            await _repository.DeleteAsync(revisao);
             return NoContent();
         }
     }
