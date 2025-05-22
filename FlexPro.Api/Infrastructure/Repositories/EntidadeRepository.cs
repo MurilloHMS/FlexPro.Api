@@ -21,7 +21,7 @@ namespace FlexPro.Api.Infrastructure.Repositories
 
         public async Task DeleteById(int id)
         {
-            var entidade = await _context.Entidade.FirstOrDefaultAsync(x => x.ID == id);
+            var entidade = await _context.Entidade.FirstOrDefaultAsync(x => x.Id == id);
             if (entidade == null)
             {
                 _context.Entidade.Remove(entidade);
@@ -37,13 +37,13 @@ namespace FlexPro.Api.Infrastructure.Repositories
 
         public async Task<Entidade> GetById(int id)
         {
-            var entidade = await _context.Entidade.FirstOrDefaultAsync(x => x.ID == id);
+            var entidade = await _context.Entidade.FirstOrDefaultAsync(x => x.Id == id);
             return entidade ?? null;
         }
 
         public async Task SaveOrUpdate(Entidade entidade)
         {
-            var entityFounded = _context.Entidade.FirstOrDefault(e => e.ID == entidade.ID);
+            var entityFounded = _context.Entidade.FirstOrDefault(e => e.Id == entidade.Id);
             if (entityFounded != null)
             {
                 _context.Entry(entityFounded).CurrentValues.SetValues(entidade);

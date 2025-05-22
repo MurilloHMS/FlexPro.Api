@@ -12,6 +12,8 @@ namespace FlexPro.Api.Infrastructure.Persistance
         public DbSet<Funcionario> Funcionarios { get; set; } = default!;
         public DbSet<Categoria> Categoria { get; set; } = default!;
         public DbSet<Entidade> Entidade { get; set; } = default!;
+        public DbSet<Vendedor> Vendedor { get; set; } = default!;
+        public DbSet<Parceiro> Parceiro { get; set; } = default!;
         public DbSet<Receita> Receita { get; set; } = default!;
         public DbSet<Revisao> Revisao { get; set; } = default!;
         public DbSet<Produto> Produto { get; set; } = default!;
@@ -40,6 +42,12 @@ namespace FlexPro.Api.Infrastructure.Persistance
                 .HasOne(p => p.Receita)
                 .WithMany()
                 .HasForeignKey(p => p.IdReceita);
+
+            modelBuilder.Entity<Entidade>()
+                .HasDiscriminator<string>("Tipo")
+                .HasValue<Vendedor>("Vendedor")
+                .HasValue<Parceiro>("Parceiro")
+                .HasValue<Cliente>("Cliente");
         }
     }
 }

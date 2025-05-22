@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace FlexPro.Api.Domain.Entities
 {
-    public class Entidade
+    public abstract class Entidade
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 		public string Nome { get; set; }
+        public string? CodigoSistema { get; set; }
+        public string? Email { get; set; }
     }
 }

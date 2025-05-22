@@ -39,13 +39,13 @@ namespace FlexPro.Api.Controllers
         public async Task<ActionResult<Entidade>> PostEntidades(Entidade entities)
         {
             await _repository.SaveOrUpdate(entities);
-            return CreatedAtAction(nameof(GetEntidades), new { id = entities.ID }, entities);
+            return CreatedAtAction(nameof(GetEntidades), new { id = entities.Id }, entities);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> PutEntidades(int id, Entidade entidade)
         {
-            if (id != entidade.ID)
+            if (id != entidade.Id)
             {
                 return BadRequest();
             }
