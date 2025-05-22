@@ -23,14 +23,14 @@ namespace FlexPro.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Funcionario>>> GetFuncionario()
         {
-            var employee = await _repository.GetAll();
+            var employee = await _repository.GetAllAsync();
             return employee == null ? NotFound() : Ok(employee);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Funcionario>> GetFuncionario(int id)
         {
-            var employee = await _repository.GetById(id);
+            var employee = await _repository.GetByIdAsync(id);
             return employee == null ? BadRequest() : Ok(employee);
         }
 
@@ -55,7 +55,7 @@ namespace FlexPro.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (await _repository.GetById(id) == null)
+                if (await _repository.GetByIdAsync(id) == null)
                 {
                     return NotFound();
                 }
@@ -70,12 +70,12 @@ namespace FlexPro.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteEmployee(int id)
         {
-            var employee = await _repository.GetById(id);
+            var employee = await _repository.GetByIdAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
-            await _repository.Delete(employee);
+            await _repository.DeleteAsync(employee);
             return NoContent();
         }
     }
