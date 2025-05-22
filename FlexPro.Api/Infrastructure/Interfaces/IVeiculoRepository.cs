@@ -3,12 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Interfaces
 {
-    public interface IVeiculoRepository
+    public interface IVeiculoRepository : IRepository<Veiculo>
     {
-        Task<IEnumerable<Veiculo>> GetAll();
-        Task<Veiculo> GetById(int id);
-        Task<Veiculo> GetByName(string name);
+       Task<Veiculo> GetByNameAsync(string name);
         Task UpdateOrInsert(Veiculo vehicle);
-        Task Delete(Veiculo vehicle);
     }
 }

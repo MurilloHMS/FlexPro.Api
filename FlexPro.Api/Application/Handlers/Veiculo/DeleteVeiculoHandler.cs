@@ -15,8 +15,8 @@ namespace FlexPro.Api.Application.Handlers.Veiculo
 
         public async Task Handle(DeleteVeiculoCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _repo.GetById(request.Id);
-            await _repo.Delete(entity);
+            var entity = await _repo.GetByIdAsync(request.Id);
+            _repo.Delete(entity);
         }
     }
 }

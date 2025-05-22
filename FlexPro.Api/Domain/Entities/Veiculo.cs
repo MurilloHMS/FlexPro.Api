@@ -10,5 +10,10 @@
         public double? ConsumoUrbanoGasolina { get; set; }
         public double? ConsumoRodoviarioAlcool { get; set; }
         public double? ConsumoRodoviarioGasolina { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Nome}, {Marca} - {Placa}";
+        }
     }
 }
