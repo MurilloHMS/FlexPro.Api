@@ -6,42 +6,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Infrastructure.Repositories;
 
-public class ContatoRepository : IContatoRepository
+public class ContatoRepository : Repository<Contato>, IContatoRepository
 {
-    private readonly AppDbContext _context;
-    public ContatoRepository(AppDbContext context)
-    {
-        _context = context;
-    }
-    public async Task<List<Contato>> GetContatosAsync()
-    {
-        var contatosLista = await _context.Contato.ToListAsync();
-        return contatosLista;
-    }
-
-    public async Task<Contato> GetContatoAsync(int id)
-    {
-        var contato = await _context.Contato.FirstOrDefaultAsync(x => x.Id == id);
-        return contato!;
-    }
+    public ContatoRepository(AppDbContext context) : base(context) { }
 
     public async Task InsertOrUpdateContatoAsync(Contato contato)
     {
-        var ContatoFounded = await _context.Contato.FirstOrDefaultAsync(x => x.Id == contato.Id);
+        var ContatoFounded = await _dbSet.FirstOrDefaultAsync(x => x.Id == contato.Id);
         if (ContatoFounded != null)
         {
             _context.Entry(contato).CurrentValues.SetValues(contato);
         }
         else
         {
-            _context.Contato.Add(contato);
+            _dbSet.Add(contato);
         }
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task DeleteContatoAsync(Contato contato)
-    {
-        _context.Contato.Remove(contato);
         await _context.SaveChangesAsync();
     }
 
