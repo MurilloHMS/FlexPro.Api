@@ -33,9 +33,9 @@ public class ClienteController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(ClienteRequestDTO cliente)
     {
-        await _mediator.Send(new DeleteClienteCommand(id));
+        await _mediator.Send(new DeleteClienteCommand(cliente));
         return NoContent();
     }
 

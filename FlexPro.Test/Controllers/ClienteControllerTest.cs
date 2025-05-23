@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text;
 using FlexPro.Api.Application.DTOs.Auth;
 using FlexPro.Api.Application.DTOs.Cliente;
+using FlexPro.Api.Domain.Entities;
 using FlexPro.Test.Setup;
 using Newtonsoft.Json;
 
@@ -29,6 +30,7 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             CodigoSistema = "SYS123",
             Status = "on"
         };
+        
         // Act
         var response = await _client.PostAsJsonAsync("/api/cliente", dto);
 
