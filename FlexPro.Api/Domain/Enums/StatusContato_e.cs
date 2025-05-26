@@ -2,7 +2,7 @@ namespace FlexPro.Api.Domain;
 
 public enum StatusContato_e
 {
-    NaoContatato,
+    NaoContatado,
     TentativaDeContato,
     ContatoRealizado,
     AguardandoRetorno,

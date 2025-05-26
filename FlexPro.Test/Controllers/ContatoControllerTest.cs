@@ -18,7 +18,7 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
         {
             Nome = "Contato Teste",
             Email = "Teste@gmail.com",
-            StatusContato = StatusContato_e.AguardandoContato,
+            StatusContato = StatusContato_e.NaoContatado,
             TipoContato = TipoContato_e.DuvidaProduto,
             Mensagem = "Mensagem de teste",
             NomeEmpresa = "Empresa de teste"
