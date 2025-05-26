@@ -2,12 +2,8 @@
 
 namespace FlexPro.Api.Application.Interfaces
 {
-    public interface IEntidadeRepository
+    public interface IEntidadeRepository : IRepository<Entidade>
     {
-        Task<IEnumerable<Entidade>> GetAll();
-        Task<Entidade> GetById(int id);
-        Task SaveOrUpdate(Entidade entidade);
         Task DeleteById(int id);
-        Task Delete(Entidade entidade);
     }
 }

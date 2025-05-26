@@ -5,15 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Infrastructure.Repositories
 {
-    public class EntidadeRepository : IEntidadeRepository
+    public class EntidadeRepository : Repository<Entidade>, IEntidadeRepository
     {
-        private readonly AppDbContext _context;
+        public EntidadeRepository(AppDbContext context) : base(context) { }
 
-        public EntidadeRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-        public async Task Delete(Entidade entidade)
+        public async Task DeleteAsync(Entidade entidade)
         {
             _context.Entidade.Remove(entidade);
             await _context.SaveChangesAsync();
@@ -29,31 +25,16 @@ namespace FlexPro.Api.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Entidade>> GetAll()
+        public async Task<IEnumerable<Entidade>> GetAllAsync()
         {
             var entities = await _context.Entidade.ToListAsync();
             return entities ?? Enumerable.Empty<Entidade>();
         }
 
-        public async Task<Entidade> GetById(int id)
+        public async Task<Entidade> GetByIdAsync(int id)
         {
             var entidade = await _context.Entidade.FirstOrDefaultAsync(x => x.Id == id);
             return entidade ?? null;
-        }
-
-        public async Task SaveOrUpdate(Entidade entidade)
-        {
-            var entityFounded = _context.Entidade.FirstOrDefault(e => e.Id == entidade.Id);
-            if (entityFounded != null)
-            {
-                _context.Entry(entityFounded).CurrentValues.SetValues(entidade);
-            }
-            else
-            {
-                _context.Entidade.Add(entidade);
-            }
-
-            await _context.SaveChangesAsync();
         }
     }
 }

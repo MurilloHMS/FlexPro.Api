@@ -2,7 +2,6 @@
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,21 +23,21 @@ namespace FlexPro.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entidade>>> GetEntidades()
         {
-            var entities = await _repository.GetAll();
+            var entities = await _repository.GetAllAsync();
             return entities == null ? NotFound() : Ok(entities);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Entidade>> GetEntidades(int id)
         {
-            var entities = await _repository.GetById(id);
+            var entities = await _repository.GetByIdAsync(id);
             return entities == null ? NotFound() : Ok(entities);
         }
 
         [HttpPost]
         public async Task<ActionResult<Entidade>> PostEntidades(Entidade entities)
         {
-            await _repository.SaveOrUpdate(entities);
+            await _repository.InsertOrUpdateAsync(entities, x => x.Id == entities.Id);
             return CreatedAtAction(nameof(GetEntidades), new { id = entities.Id }, entities);
         }
 
@@ -52,11 +51,11 @@ namespace FlexPro.Api.Controllers
 
             try
             {
-                await _repository.SaveOrUpdate(entidade);
+                await _repository.InsertOrUpdateAsync(entidade);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (await _repository.GetById(id) == null)
+                if (await _repository.GetByIdAsync(id) == null)
                 {
                     return NotFound();
                 }
