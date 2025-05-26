@@ -14,20 +14,6 @@ namespace FlexPro.Api.Infrastructure.Repositories
             var vehicle = await _dbSet.FirstOrDefaultAsync(x => x.Nome == name);
             return vehicle ?? null;
         }
-
-        public async Task UpdateOrInsert(Veiculo vehicle)
-        {
-            var vehicleFounded = await _dbSet.FirstOrDefaultAsync(x => x.Id == vehicle.Id);
-            if (vehicleFounded != null)
-            {
-                _context.Entry(vehicleFounded).CurrentValues.SetValues(vehicle);
-            }
-            else
-            {
-                _dbSet.Add(vehicle);
-            }
-            await _context.SaveChangesAsync();
-        }
         
     }
 }

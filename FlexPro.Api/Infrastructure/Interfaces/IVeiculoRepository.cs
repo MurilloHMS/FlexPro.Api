@@ -6,6 +6,5 @@ namespace FlexPro.Api.Application.Interfaces
     public interface IVeiculoRepository : IRepository<Veiculo>
     {
        Task<Veiculo> GetByNameAsync(string name);
-        Task UpdateOrInsert(Veiculo vehicle);
     }
 }
