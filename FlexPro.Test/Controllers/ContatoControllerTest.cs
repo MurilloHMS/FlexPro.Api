@@ -8,13 +8,17 @@ namespace FlexPro.Test.Controllers;
 public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
 {
     private readonly HttpClient _client;
-    private ContatoRequestDTO dto;
 
     public ContatoControllerTest(CustomWebApplicationFactory factory)
     {
         _client = factory.CreateClient();
         TestAuthenticate.AuthenticateAsync(_client).GetAwaiter().GetResult();
-        dto = new ContatoRequestDTO()
+    }
+
+    [Fact]
+    public async Task Post_Contato_Should_Return_Created()
+    {
+        var dto = new ContatoRequestDTO()
         {
             Nome = "Contato Teste",
             Email = "Teste@gmail.com",
@@ -23,11 +27,6 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
             Mensagem = "Mensagem de teste",
             NomeEmpresa = "Empresa de teste"
         };
-    }
-
-    [Fact]
-    public async Task Post_Contato_Should_Return_Created()
-    {
         var response = await _client.PostAsJsonAsync("api/contato", dto);
 
         if (!response.IsSuccessStatusCode)
@@ -43,7 +42,16 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Post_Contato_Should_Return_BadRequest_With_Email_Invalid()
     {
-        dto.Email = "email invalido";
+        var dto = new ContatoRequestDTO()
+        {
+            Nome = "Contato Teste",
+            Email = "email invalido",
+            StatusContato = StatusContato_e.NaoContatado,
+            TipoContato = TipoContato_e.DuvidaProduto,
+            Mensagem = "Mensagem de teste",
+            NomeEmpresa = "Empresa de teste"
+        };
+        
         var response = await _client.PostAsJsonAsync("/api/contato", dto);
         
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
