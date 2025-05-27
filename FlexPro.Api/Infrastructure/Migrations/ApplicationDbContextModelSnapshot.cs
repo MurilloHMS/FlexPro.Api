@@ -37,7 +37,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasIndex("ProdutosLojaId");
 
-                    b.ToTable("DepartamentoProdutoLoja");
+                    b.ToTable("DepartamentoProdutoLoja", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Abastecimento", b =>
@@ -94,7 +94,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Abastecimento");
+                    b.ToTable("Abastecimento", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Categoria", b =>
@@ -111,7 +111,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categoria", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Contato", b =>
@@ -149,7 +149,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contato");
+                    b.ToTable("Contato", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Departamento", b =>
@@ -166,7 +166,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departamento");
+                    b.ToTable("Departamento", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Embalagem", b =>
@@ -193,7 +193,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasIndex("ProdutoLojaId");
 
-                    b.ToTable("Embalagem");
+                    b.ToTable("Embalagem", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Entidade", b =>
@@ -224,7 +224,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Entidade");
+                    b.ToTable("Entidade", (string)null);
 
                     b.HasDiscriminator<string>("Tipo").HasValue("Entidade");
 
@@ -260,7 +260,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Funcionarios");
+                    b.ToTable("Funcionarios", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Produto", b =>
@@ -286,7 +286,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Produto");
+                    b.ToTable("Produto", (string)null);
 
                     b.HasDiscriminator<string>("Tipo").HasValue("Produto");
 
@@ -316,7 +316,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Receita");
+                    b.ToTable("Receita", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.ReceitaMateriaPrima", b =>
@@ -334,7 +334,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasIndex("MateriaPrimaId");
 
-                    b.ToTable("ReceitaMateriaPrima");
+                    b.ToTable("ReceitaMateriaPrima", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Revisao", b =>
@@ -378,7 +378,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasIndex("VeiculoId");
 
-                    b.ToTable("Revisao");
+                    b.ToTable("Revisao", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Veiculo", b =>
@@ -415,7 +415,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Veiculo");
+                    b.ToTable("Veiculo", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Infrastructure.Persistance.ApplicationUser", b =>

@@ -22,6 +22,7 @@ namespace FlexPro.Api.Infrastructure.Persistance
         public DbSet<Cliente> Cliente { get; set; } = default!;
         public DbSet<ApplicationUser> AspNetUsers { get; set; } = default!;
         public DbSet<Contato> Contato { get; set; } = default!;
+        public DbSet<Embalagem> Embalagem { get; set; } = default!;
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
