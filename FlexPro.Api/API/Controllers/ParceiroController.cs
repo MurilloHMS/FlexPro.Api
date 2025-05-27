@@ -30,4 +30,11 @@ public class ParceiroController : ControllerBase
         var request = await _mediator.Send(new CreateParceiroCommand(dto));
         return request;
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAsync(int id, ParceiroRequestDTO dto)
+    {
+        var request = await _mediator.Send(new UpdateParceiroCommand(dto, id));
+        return request;
+    }
 }
