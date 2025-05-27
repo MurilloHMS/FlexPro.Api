@@ -1,5 +1,6 @@
 using AutoMapper;
 using FlexPro.Api.Application.Commands.Parceiro;
+using FlexPro.Api.Application.DTOs.Parceiro;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,5 +22,12 @@ public class ParceiroController : ControllerBase
     {
         var request = await _mediator.Send(new CreateParceiroListBySheetCommand(file));
         return request != null ? Ok("Parceiros criados com sucesso") : BadRequest("Ocorreu um erro ao criar a lista de parceiros");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync(ParceiroRequestDTO dto)
+    {
+        var request = await _mediator.Send(new CreateParceiroCommand(dto));
+        return request;
     }
 }
