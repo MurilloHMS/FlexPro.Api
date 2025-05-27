@@ -9,6 +9,5 @@ public class CreateClienteDtoValidator : AbstractValidator<ClienteRequestDTO>
     {
         RuleFor(x => x.Nome).NotNull().NotEmpty().WithMessage("O Nome do cliente é Obrigatório");
         RuleFor(x => x.Email).EmailAddress().NotEmpty().WithMessage("O email do cliente precisa ser válido");
-        RuleFor(x => x.CodigoSistema).NotNull().NotEmpty().WithMessage("O código do sistema é obrigatório");
     }
 }

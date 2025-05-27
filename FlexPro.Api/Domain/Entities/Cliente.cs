@@ -2,7 +2,9 @@
 {
     public class Cliente : Entidade
     {
-        public string Status { get; set; }
-        public string EmailTeste { get; set; } = "murillo.henrique@proautokimium.com.br";
+        // Cliente Vindo do site
+        public StatusContato_e Status { get; set; }
+        public string Contato { get; set; }
+        public FormasDeContato_e MeioDeContato { get; set; }
     }
 }

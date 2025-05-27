@@ -9,7 +9,7 @@ public class CreateContatoDtoValidator : AbstractValidator<ContatoRequestDTO>
     {
         RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email invalido");
         RuleFor(x => x.Nome).NotEmpty().WithMessage("Nome invalido");
-        RuleFor(x => x.StatusContato).NotEmpty().IsInEnum().WithMessage("StatusContato invalido");
+        RuleFor(x => x.StatusContato).NotNull().IsInEnum().WithMessage("StatusContato invalido");
         RuleFor(x => x.TipoContato).NotNull().IsInEnum().WithMessage("TipoContato invalido");
     }
 }
