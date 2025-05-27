@@ -63,7 +63,7 @@ var environment = builder.Environment;
 var connectionStringName = environment.IsDevelopment() ? "TestDatabase" : "DefaultConnection";
 var connectionString = builder.Configuration.GetConnectionString(connectionStringName) ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
 builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseNpgsql(connectionString));
+    options.UseLazyLoadingProxies().UseNpgsql(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
