@@ -11,5 +11,6 @@ namespace FlexPro.Api.Domain.Entities
 		public string Nome { get; set; }
         public string? CodigoSistema { get; set; }
         public string? Email { get; set; }
+        public bool Ativo { get; set; } =  true;
     }
 }

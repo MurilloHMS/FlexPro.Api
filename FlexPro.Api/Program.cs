@@ -88,6 +88,7 @@ builder.Services.AddScoped<IIcmsService, IcmsService>();
 builder.Services.AddScoped<ICalculoTransportadoraService, CalculoTransportadoraService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
+builder.Services.AddScoped<IParceiroRepository, ParceiroRepository>();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
