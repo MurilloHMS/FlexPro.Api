@@ -1,12 +1,13 @@
 using FlexPro.Api.Application.Commands.ProdutoLoja;
 using FlexPro.Api.Application.DTOs.ProdutoLoja;
+using FlexPro.Api.Application.Queries.Produtos;
+using FlexPro.Api.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.API.Controllers;
 
-[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class ProdutoController : ControllerBase
@@ -30,5 +31,12 @@ public class ProdutoController : ControllerBase
     {
         var response = await _mediator.Send(new AddEmbalagemCommand(id, dto));
         return response;
+    }
+
+    [HttpGet("ProdutoLoja")]
+    public async Task<IActionResult> GetAll()
+    {
+        var response = await _mediator.Send(new GetAllProductsQuery());
+        return response.Any() ?  Ok(response) : NotFound();
     }
 }
