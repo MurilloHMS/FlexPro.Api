@@ -21,7 +21,7 @@ namespace FlexPro.Api.Application.Handlers.Veiculo
         public async Task Handle(UpdateVeiculoCommand request, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<Domain.Entities.Veiculo>(request);
-            await _repo.UpdateOrInsert(entity);
+            await _repo.InsertOrUpdateAsync(entity, x => x.Id.Equals(request.Id));
         }
     }
 

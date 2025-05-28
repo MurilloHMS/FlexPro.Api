@@ -20,7 +20,7 @@ namespace FlexPro.Api.Application.Handlers.Veiculo
 
         public async Task<VeiculoDTO> Handle(GetVeiculoByIdQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _repo.GetById(request.Id);
+            var entity = await _repo.GetByIdAsync(request.Id);
             return _mapper.Map<VeiculoDTO>(entity);
         }
     }

@@ -18,9 +18,27 @@ namespace FlexPro.Api.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("DepartamentoProdutoLoja", b =>
+                {
+                    b.Property<int>("DepartamentosId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProdutosLojaId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DepartamentosId", "ProdutosLojaId");
+
+                    b.HasIndex("ProdutosLojaId");
+
+                    b.ToTable("DepartamentoProdutoLoja", (string)null);
+                });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Abastecimento", b =>
                 {
@@ -76,7 +94,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Abastecimento");
+                    b.ToTable("Abastecimento", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Categoria", b =>
@@ -93,40 +111,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categoria");
-                });
-
-            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Cliente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CodigoSistema")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("EmailTeste")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cliente");
+                    b.ToTable("Categoria", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Contato", b =>
@@ -164,24 +149,86 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contato");
+                    b.ToTable("Contato", (string)null);
                 });
 
-            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Entidade", b =>
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Departamento", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.ToTable("Entidade");
+                    b.ToTable("Departamento", (string)null);
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Embalagem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProdutoLojaId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Tamanho")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TipoEmbalagem")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProdutoLojaId");
+
+                    b.ToTable("Embalagem", (string)null);
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Entidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("CodigoSistema")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Entidade", (string)null);
+
+                    b.HasDiscriminator<string>("Tipo").HasValue("Entidade");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Funcionario", b =>
@@ -213,7 +260,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Funcionarios");
+                    b.ToTable("Funcionarios", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Produto", b =>
@@ -228,32 +275,22 @@ namespace FlexPro.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Descricao")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("IdReceita")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("MateriaPrima")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("QuantidadeFormula")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("QuantidadeProducao")
-                        .HasColumnType("numeric");
 
                     b.Property<string>("Tipo")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdReceita");
+                    b.ToTable("Produto", (string)null);
 
-                    b.ToTable("Produto");
+                    b.HasDiscriminator<string>("Tipo").HasValue("Produto");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Receita", b =>
@@ -279,7 +316,25 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Receita");
+                    b.ToTable("Receita", (string)null);
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.ReceitaMateriaPrima", b =>
+                {
+                    b.Property<int>("ReceitaId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MateriaPrimaId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("QuantidadeFormula")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("ReceitaId", "MateriaPrimaId");
+
+                    b.HasIndex("MateriaPrimaId");
+
+                    b.ToTable("ReceitaMateriaPrima", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Revisao", b =>
@@ -323,7 +378,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasIndex("VeiculoId");
 
-                    b.ToTable("Revisao");
+                    b.ToTable("Revisao", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Veiculo", b =>
@@ -360,7 +415,7 @@ namespace FlexPro.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Veiculo");
+                    b.ToTable("Veiculo", (string)null);
                 });
 
             modelBuilder.Entity("FlexPro.Api.Infrastructure.Persistance.ApplicationUser", b =>
@@ -562,13 +617,142 @@ namespace FlexPro.Api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Produto", b =>
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Cliente", b =>
                 {
-                    b.HasOne("FlexPro.Api.Domain.Entities.Receita", "Receita")
+                    b.HasBaseType("FlexPro.Api.Domain.Entities.Entidade");
+
+                    b.Property<string>("Contato")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("MeioDeContato")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasDiscriminator().HasValue("Cliente");
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Parceiro", b =>
+                {
+                    b.HasBaseType("FlexPro.Api.Domain.Entities.Entidade");
+
+                    b.Property<string>("EmailTeste")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RazaoSocial")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("RecebeEmail")
+                        .HasColumnType("boolean");
+
+                    b.HasDiscriminator().HasValue("Parceiro");
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Vendedor", b =>
+                {
+                    b.HasBaseType("FlexPro.Api.Domain.Entities.Entidade");
+
+                    b.Property<string>("Departamento")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Gerente")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Hierarquia")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TipoVendedor")
+                        .HasColumnType("integer");
+
+                    b.HasDiscriminator().HasValue("Vendedor");
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.MateriaPrima", b =>
+                {
+                    b.HasBaseType("FlexPro.Api.Domain.Entities.Produto");
+
+                    b.Property<decimal?>("QuantidadeProducao")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("TipoEstoque")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TipoMateriaPrima")
+                        .HasColumnType("integer");
+
+                    b.HasDiscriminator().HasValue("materiaPrima");
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.ProdutoLoja", b =>
+                {
+                    b.HasBaseType("FlexPro.Api.Domain.Entities.Produto");
+
+                    b.Property<string>("Cor")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Diluicao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Imagem")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.HasDiscriminator().HasValue("ProdutoLoja");
+                });
+
+            modelBuilder.Entity("DepartamentoProdutoLoja", b =>
+                {
+                    b.HasOne("FlexPro.Api.Domain.Entities.Departamento", null)
                         .WithMany()
-                        .HasForeignKey("IdReceita")
+                        .HasForeignKey("DepartamentosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("FlexPro.Api.Domain.Entities.ProdutoLoja", null)
+                        .WithMany()
+                        .HasForeignKey("ProdutosLojaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Embalagem", b =>
+                {
+                    b.HasOne("FlexPro.Api.Domain.Entities.ProdutoLoja", "ProdutoLoja")
+                        .WithMany("Embalagems")
+                        .HasForeignKey("ProdutoLojaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProdutoLoja");
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.ReceitaMateriaPrima", b =>
+                {
+                    b.HasOne("FlexPro.Api.Domain.Entities.MateriaPrima", "MateriaPrima")
+                        .WithMany("ReceitaMateriaPrima")
+                        .HasForeignKey("MateriaPrimaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlexPro.Api.Domain.Entities.Receita", "Receita")
+                        .WithMany("ReceitaMateriaPrima")
+                        .HasForeignKey("ReceitaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MateriaPrima");
 
                     b.Navigation("Receita");
                 });
@@ -641,6 +825,21 @@ namespace FlexPro.Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.Receita", b =>
+                {
+                    b.Navigation("ReceitaMateriaPrima");
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.MateriaPrima", b =>
+                {
+                    b.Navigation("ReceitaMateriaPrima");
+                });
+
+            modelBuilder.Entity("FlexPro.Api.Domain.Entities.ProdutoLoja", b =>
+                {
+                    b.Navigation("Embalagems");
                 });
 #pragma warning restore 612, 618
         }

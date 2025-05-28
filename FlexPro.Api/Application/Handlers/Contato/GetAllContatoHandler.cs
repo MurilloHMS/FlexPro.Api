@@ -20,7 +20,7 @@ public class GetAllContatoHandler : IRequestHandler<GetAllContatoQuery, IEnumera
     public async Task<IEnumerable<ContatoResponseDTO>> Handle(GetAllContatoQuery request,
         CancellationToken cancellationToken)
     {
-        var contatos = await _repository.GetContatosAsync();
+        var contatos = await _repository.GetAllAsync();
         return _mapper.Map<IEnumerable<ContatoResponseDTO>>(contatos);
     }
 }

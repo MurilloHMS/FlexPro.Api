@@ -63,7 +63,7 @@ var environment = builder.Environment;
 var connectionStringName = environment.IsDevelopment() ? "TestDatabase" : "DefaultConnection";
 var connectionString = builder.Configuration.GetConnectionString(connectionStringName) ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
 builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseNpgsql(connectionString));
+    options.UseLazyLoadingProxies().UseNpgsql(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -77,6 +77,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddHttpContextAccessor();
 
 // Registros dos services 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
 builder.Services.AddScoped<AbastecimentoService>();
 builder.Services.AddScoped<IReportService, ReportService>();
@@ -87,6 +88,8 @@ builder.Services.AddScoped<IIcmsService, IcmsService>();
 builder.Services.AddScoped<ICalculoTransportadoraService, CalculoTransportadoraService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
+builder.Services.AddScoped<IParceiroRepository, ParceiroRepository>();
+builder.Services.AddScoped<IProdutoLojaRepository, ProdutoLojaRepository>();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));

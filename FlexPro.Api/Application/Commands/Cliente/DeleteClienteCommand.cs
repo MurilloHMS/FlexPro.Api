@@ -3,4 +3,4 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Commands.Cliente;
 
-public record DeleteClienteCommand(int id) : IRequest;
+public record DeleteClienteCommand(ClienteRequestDTO cliente) : IRequest;

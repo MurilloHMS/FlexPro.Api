@@ -20,7 +20,7 @@ public class GetAllClienteHandler : IRequestHandler<GetAllClienteQuery, IEnumera
     public async Task<IEnumerable<ClienteResponseDTO>> Handle(GetAllClienteQuery request,
         CancellationToken cancellationToken)
     {
-        var clientes = await  _clienteRepository.GetAll();
+        var clientes = await  _clienteRepository.GetAllAsync();
         return _mapper.Map<IEnumerable<ClienteResponseDTO>>(clientes);
     }
 }

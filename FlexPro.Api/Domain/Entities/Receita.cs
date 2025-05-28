@@ -12,5 +12,7 @@ namespace FlexPro.Api.Domain.Entities
         public double Embalagem { get; set; }
         public decimal ValorMaoDeObra { get; set; }
         public double Caixas { get; set; }
+        
+        public virtual ICollection<ReceitaMateriaPrima>  ReceitaMateriaPrima { get; set; }
     }
 }

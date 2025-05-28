@@ -3,6 +3,8 @@ using System.Net.Http.Json;
 using System.Text;
 using FlexPro.Api.Application.DTOs.Auth;
 using FlexPro.Api.Application.DTOs.Cliente;
+using FlexPro.Api.Domain;
+using FlexPro.Api.Domain.Entities;
 using FlexPro.Test.Setup;
 using Newtonsoft.Json;
 
@@ -27,8 +29,11 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             Nome = "Cliente Teste",
             Email = "teste@cliente.com",
             CodigoSistema = "SYS123",
-            Status = "on"
+            Status = StatusContato_e.NaoContatado,
+            Contato = "emaildecontato@cliente.com",
+            MeioDeContato = FormasDeContato_e.Email
         };
+        
         // Act
         var response = await _client.PostAsJsonAsync("/api/cliente", dto);
 
@@ -50,7 +55,9 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             Nome = "Cliente teste",
             Email = "Emailinvalido.com",
             CodigoSistema = "SYS123",
-            Status = "on"
+            Status = StatusContato_e.NaoContatado,
+            Contato = "emaildecontato@cliente.com",
+            MeioDeContato = FormasDeContato_e.Email
         };
         
         //act

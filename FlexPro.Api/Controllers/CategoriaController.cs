@@ -23,13 +23,13 @@ public class CategoriaController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Categoria>>> GetCategorias()
     {
-        var category = await _categoriaRepository.GetAll();
+        var category = await _categoriaRepository.GetAllAsync();
         return category == null ? NotFound() : Ok(category);
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<Categoria>> GetCategoria(int id)
     {
-        var category = await _categoriaRepository.GetById(id);
+        var category = await _categoriaRepository.GetByIdAsync(id);
         return category == null ? NotFound() : Ok(category);
     }
     
@@ -54,7 +54,7 @@ public class CategoriaController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (await _categoriaRepository.GetById(id) == null)
+            if (await _categoriaRepository.GetByIdAsync(id) == null)
             {
                 return NotFound();
             }
@@ -67,9 +67,9 @@ public class CategoriaController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategory(int id)
+    public async Task<IActionResult> DeleteCategory(Categoria categoria)
     {
-        await _categoriaRepository.Delete(id);
+        await _categoriaRepository.DeleteAsync(categoria);
         return NoContent();
     }
     

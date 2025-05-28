@@ -2,12 +2,9 @@
 
 namespace FlexPro.Api.Application.Interfaces
 {
-    public interface ICategoriaRepository
+    public interface ICategoriaRepository : IRepository<Categoria>
     {
-        Task<IEnumerable<Categoria>> GetAll();
-        Task<Categoria> GetById(int id);
-        Task<Categoria> GetByName(string name);
+        Task<Categoria> GetByNameAsync(string name);
         Task SaveOrUpdate(Categoria categoria);
-        Task Delete(int id);
     }
 }

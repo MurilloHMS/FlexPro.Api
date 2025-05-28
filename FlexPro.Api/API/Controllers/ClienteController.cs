@@ -33,9 +33,9 @@ public class ClienteController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(ClienteRequestDTO cliente)
     {
-        await _mediator.Send(new DeleteClienteCommand(id));
+        await _mediator.Send(new DeleteClienteCommand(cliente));
         return NoContent();
     }
 
@@ -51,12 +51,5 @@ public class ClienteController : ControllerBase
     {
         IEnumerable<ClienteResponseDTO> response = await _mediator.Send(new GetAllClienteQuery());
         return response != null ? Ok(response) : NotFound();
-    }
-    
-    [HttpPost("upload")]
-    public async Task<IActionResult> Upload(IFormFile file)
-    {
-        var request = await _mediator.Send(new CreateClienteListBySheetsCommand(file));
-        return request != null ? Ok("Clientes criados com sucesso") : BadRequest("Ocorreu um erro ao criar a lista de clientes");
     }
 }

@@ -19,7 +19,7 @@ public class GetClienteByIdHandler : IRequestHandler<GetClienteByIdQuery, Client
 
     public async Task<ClienteResponseDTO> Handle(GetClienteByIdQuery request, CancellationToken cancellationToken)
     {
-        var cliente = await _repository.GetById(request.Id);
+        var cliente = await _repository.GetByIdAsync(request.Id);
         return _mapper.Map<ClienteResponseDTO>(cliente);
     }
 }

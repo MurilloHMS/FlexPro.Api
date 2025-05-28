@@ -5,42 +5,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Infrastructure.Repositories;
 
-public class ClienteRepository : IClienteRepository
+public class ClienteRepository : Repository<Cliente>, IClienteRepository
 {
-    private readonly AppDbContext _context;
-
-    public ClienteRepository(AppDbContext context)
-    {
-        _context = context;
-    }
+    public ClienteRepository(AppDbContext context) : base(context) { }
     
-    public async Task<IEnumerable<Cliente>> GetAll()
-    {
-        List<Cliente> clientes = await _context.Cliente.ToListAsync();
-        return clientes ?? new List<Cliente>();
-    }
-
-    public async Task<Cliente> GetById(int id)
-    {
-        Cliente cliente = _context.Cliente.FirstOrDefault(x => x.Id == id);
-        return cliente!;
-    }
 
     public async Task<Cliente> GetByEmail(string email)
     {
-        Cliente cliente = _context.Cliente.FirstOrDefault(x => x.Email == email);
+        Cliente cliente = _dbSet.FirstOrDefault(x => x.Email == email);
         return cliente!;
     }
 
     public async Task<Cliente> GetByName(string nome)
     {
-        Cliente cliente = _context.Cliente.FirstOrDefault(x => x.Nome == nome);
+        Cliente cliente = _dbSet.FirstOrDefault(x => x.Nome == nome);
         return cliente!;
     }
 
     public async Task UpdateOrInsert(Cliente cliente)
     {
-        Cliente clienteEncontrado = await _context.Cliente.FirstOrDefaultAsync(x => x.Id == cliente.Id);
+        Cliente clienteEncontrado = await _dbSet.FirstOrDefaultAsync(x => x.Id == cliente.Id);
         if (clienteEncontrado != null)
         {
             _context.Entry(clienteEncontrado).CurrentValues.SetValues(cliente);
@@ -52,19 +36,9 @@ public class ClienteRepository : IClienteRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete(int id)
-    {
-        Cliente cliente = await _context.Cliente.FirstOrDefaultAsync(x => x.Id == id);
-        if (cliente != null)
-        {
-            _context.Cliente.Remove(cliente);
-            await _context.SaveChangesAsync();
-        }
-    }
-
     public async Task IncludeClienteByRange(List<Cliente> clientes)
     {
-        await _context.Cliente.AddRangeAsync(clientes);
+        await _dbSet.AddRangeAsync(clientes);
         await _context.SaveChangesAsync();
     }
 }
