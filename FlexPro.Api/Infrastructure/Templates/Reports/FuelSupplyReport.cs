@@ -106,7 +106,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                 (int)size.Width,
                                 (int)size.Height,
                                 showBarLabels: true,
-                                fontSize: 8,
+                                fontSize: 7,
                                 marginTop: 0.5f));
                     });
                     
@@ -127,7 +127,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                 (int)size.Width,
                                 (int)size.Height,
                                 showBarLabels: true,
-                                fontSize: 8,
+                                fontSize: 7,
                                 marginTop: 0.5f));
                      });
 
@@ -148,7 +148,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                 (int)size.Width,
                                 (int)size.Height,
                                 showBarLabels: true,
-                                fontSize: 8,
+                                fontSize: 7,
                                 marginTop: 0.5f));
                     });
                     
@@ -169,7 +169,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                 (int)size.Width,
                                 (int)size.Height,
                                 showBarLabels: true,
-                                fontSize: 8,
+                                fontSize: 7,
                                 marginTop: 0.5f));
                     });
                 });
@@ -249,7 +249,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                     (int)size.Width,
                                     (int)size.Height,
                                     showBarLabels: true,
-                                    fontSize: 8,
+                                    fontSize: 6,
                                     marginTop: 0.5f));
                         });
                     });
@@ -269,7 +269,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                     (int)size.Width,
                                     (int)size.Height,
                                     showBarLabels: true,
-                                    fontSize: 8,
+                                    fontSize: 6,
                                     marginTop: 0.5f));
                         });
                     });
@@ -289,7 +289,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                     (int)size.Width,
                                     (int)size.Height,
                                     showBarLabels: true,
-                                    fontSize: 8,
+                                    fontSize: 6,
                                     marginTop: 0.5f));
                         });
                     });
@@ -309,7 +309,7 @@ namespace FlexPro.Api.Infrastructure.Templates.Reports
                                     (int)size.Width,
                                     (int)size.Height,
                                     showBarLabels: true,
-                                    fontSize: 8,
+                                    fontSize: 6,
                                     marginTop: 0.5f));
                         });
                     });
