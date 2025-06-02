@@ -11,6 +11,6 @@ public class ProdutoLojaResponseDTO
     public string Cor {get; set; }
     public string Diluicao { get; set; }
     public byte[] Imagem { get; set; }
-    public List<Embalagem> Embalagems { get; set; }
-    public List<Departamento> Departamentos { get; set; }
+    public List<EmbalagemResponseDTO> Embalagems { get; set; }
+    public List<DepartamentoResponseDTO> Departamentos { get; set; }
 }
