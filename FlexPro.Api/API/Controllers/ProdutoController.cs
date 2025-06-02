@@ -32,7 +32,8 @@ public class ProdutoController : ControllerBase
         var response = await _mediator.Send(new AddEmbalagemCommand(id, dto));
         return response;
     }
-
+    
+    [AllowAnonymous]
     [HttpGet("ProdutoLoja")]
     public async Task<IActionResult> GetAll()
     {
