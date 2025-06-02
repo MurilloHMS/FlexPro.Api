@@ -32,6 +32,13 @@ public class ProdutoController : ControllerBase
         var response = await _mediator.Send(new AddEmbalagemCommand(id, dto));
         return response;
     }
+    [AllowAnonymous]
+    [HttpPost("ProdutoLoja/{id}/Departamentos")]
+    public async Task<IActionResult> PostDepartamentos(int id, List<DepartamentoRequestDTO> dto)
+    {
+        var response = await _mediator.Send(new AddDepartamentoCommand(id, dto));
+        return response;
+    }
     
     [AllowAnonymous]
     [HttpGet("ProdutoLoja")]
