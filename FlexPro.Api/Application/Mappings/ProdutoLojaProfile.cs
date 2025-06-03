@@ -14,5 +14,9 @@ public class ProdutoLojaProfile :  Profile
 
         // Entity → Response DTO
         CreateMap<ProdutoLoja, ProdutoLojaResponseDTO>();
+        CreateMap<Embalagem, EmbalagemResponseDTO>();
+
+        CreateMap<DepartamentoRequestDTO, Departamento>();
+        CreateMap<Departamento, DepartamentoResponseDTO>();
     }
 }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using FlexPro.Api.Application.Commands.Parceiro;
 using FlexPro.Api.Application.DTOs.Parceiro;
+using FlexPro.Api.Application.Queries.Parceiro;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,5 +37,12 @@ public class ParceiroController : ControllerBase
     {
         var request = await _mediator.Send(new UpdateParceiroCommand(dto, id));
         return request;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        var request = await _mediator.Send(new GetAllParceiroQuery());
+        return request.Any() ? Ok(request) : NotFound();
     }
 }

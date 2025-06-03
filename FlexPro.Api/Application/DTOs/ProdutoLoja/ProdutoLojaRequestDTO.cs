@@ -11,5 +11,6 @@ public class ProdutoLojaRequestDTO
     public string Diluicao { get; set; }
     public byte[] Imagem { get; set; }
     public List<EmbalagemRequestDTO> Embalagems { get; set; }
+    public List<Departamento> Departamentos { get; set; }
     
 }
