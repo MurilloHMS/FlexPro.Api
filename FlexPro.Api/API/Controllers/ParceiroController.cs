@@ -3,6 +3,7 @@ using FlexPro.Api.Application.Commands.Parceiro;
 using FlexPro.Api.Application.DTOs.Parceiro;
 using FlexPro.Api.Application.Queries.Parceiro;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.API.Controllers;
@@ -43,6 +44,6 @@ public class ParceiroController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         var request = await _mediator.Send(new GetAllParceiroQuery());
-        return request.Any() ? Ok(request) : NotFound();
+        return request.Any() ? Ok(request) : NoContent();
     }
 }
