@@ -64,7 +64,7 @@ namespace FlexPro.Api.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "Status",
                 table: "Entidade",
-                type: "text",
+                type: "integer",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
