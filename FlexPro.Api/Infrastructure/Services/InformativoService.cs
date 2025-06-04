@@ -136,13 +136,13 @@ namespace FlexPro.Api.Infrastructure.Services
             {
                 List<Informativo> informativos = new List<Informativo>();
 
-                List<Cliente> clientes = new List<Cliente>();
+                List<Parceiro> parceiros = new List<Parceiro>();
 
-                clientes = await _context.Cliente.ToListAsync();
+                parceiros = await _context.Parceiro.ToListAsync();
 
-                if (clientes.Any() && nfeInfo.Any() && osInfo.Any() && pecasInfo.Any())
+                if (parceiros.Any() && nfeInfo.Any() && osInfo.Any() && pecasInfo.Any())
                 {
-                    foreach (var cliente in clientes)
+                    foreach (var cliente in parceiros)
                     {
                         var clienteNfeInfo = nfeInfo.Where(nfe => nfe.CodigoCliente == cliente.CodigoSistema);
                         var clienteOsInfo = osInfo.Where(os => os.CodigoCliente == cliente.CodigoSistema);
