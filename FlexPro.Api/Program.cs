@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +14,11 @@ using FlexPro.Api.Infrastructure.Repositories;
 using QuestPDF.Infrastructure;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using MediatR;
 using FlexPro.Api.API.Middlewares;
 using FlexPro.Api.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Serilog;
-using Serilog.Events;
-using System.Net.Http.Headers;
-using System.Reflection;
 using Serilog.Formatting.Json;
 
 Log.Logger = new LoggerConfiguration()
