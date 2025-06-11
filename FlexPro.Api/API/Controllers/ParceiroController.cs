@@ -44,6 +44,6 @@ public class ParceiroController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         var request = await _mediator.Send(new GetAllParceiroQuery());
-        return request.Any() ? Ok(request) : NoContent();
+        return Ok(request);
     }
 }
