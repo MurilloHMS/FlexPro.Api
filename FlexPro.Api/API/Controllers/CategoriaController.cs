@@ -1,7 +1,10 @@
+using FlexPro.Api.Application.Commands.Categoria;
+using FlexPro.Api.Application.DTOs.Categoria;
 using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +16,9 @@ public class CategoriaController : ControllerBase
 {
     private readonly ICategoriaRepository _categoriaRepository;
     private readonly AppDbContext _context;
+    private readonly IMediator _mediator;
 
-    public CategoriaController(AppDbContext context)
+    public CategoriaController(AppDbContext context,  IMediator mediator)
     {
         _context = context;
         _categoriaRepository = new CategoriaRepository(_context);
@@ -34,10 +38,10 @@ public class CategoriaController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<Categoria>> PostCategoria(Categoria category)
+    public async Task<IActionResult> PostCategoria(CategoriaRequestDTO category)
     {
-        await _categoriaRepository.SaveOrUpdate(category);
-        return CreatedAtAction(nameof(GetCategoria), new { id = category.Id }, category);
+        var response = await _mediator.Send(new CreateCategoriaCommand(category));
+        return response;
     }
     
     [HttpPut("{id}")]
