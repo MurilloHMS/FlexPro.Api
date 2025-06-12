@@ -18,10 +18,10 @@ public class CategoriaController : ControllerBase
     private readonly AppDbContext _context;
     private readonly IMediator _mediator;
 
-    public CategoriaController(AppDbContext context,  IMediator mediator)
+    public CategoriaController(AppDbContext context, ICategoriaRepository repository,  IMediator mediator)
     {
         _context = context;
-        _categoriaRepository = new CategoriaRepository(_context);
+        _categoriaRepository = repository;
     }
 
     [HttpGet]
