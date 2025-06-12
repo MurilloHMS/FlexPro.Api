@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using LoadOptions = System.Xml.Linq.LoadOptions;
 
 namespace FlexPro.Api.Controllers;
-
+// TODO: Migrate this to Mediator Pattern
 [Route("api/[controller]")]
 [ApiController]
 public class ColetarDadosNFeController : ControllerBase

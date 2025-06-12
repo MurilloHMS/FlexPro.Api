@@ -30,6 +30,7 @@ public class CategoriaController : ControllerBase
         var category = await _categoriaRepository.GetAllAsync();
         return category == null ? NotFound() : Ok(category);
     }
+    // TODO: Migrate getById to Mediator
     [HttpGet("{id}")]
     public async Task<ActionResult<Categoria>> GetCategoria(int id)
     {
@@ -43,7 +44,7 @@ public class CategoriaController : ControllerBase
         var response = await _mediator.Send(new CreateCategoriaCommand(category));
         return response;
     }
-    
+    // TODO: Migrate Put category to Mediator
     [HttpPut("{id}")]
     public async Task<IActionResult> PutCategory(int id, Categoria category)
     {
@@ -68,7 +69,7 @@ public class CategoriaController : ControllerBase
             }
         }
         return NoContent();
-    }
+    } 
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCategory(Categoria categoria)
