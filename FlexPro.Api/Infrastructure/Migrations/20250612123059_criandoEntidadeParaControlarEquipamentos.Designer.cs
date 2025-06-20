@@ -3,6 +3,7 @@ using System;
 using FlexPro.Api.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FlexPro.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250612123059_criandoEntidadeParaControlarEquipamentos")]
+    partial class criandoEntidadeParaControlarEquipamentos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -746,13 +749,6 @@ namespace FlexPro.Api.Migrations
                     b.HasDiscriminator().HasValue("Parceiro");
                 });
 
-            modelBuilder.Entity("FlexPro.Api.Domain.Entities.PrestadorDeServico", b =>
-                {
-                    b.HasBaseType("FlexPro.Api.Domain.Entities.Entidade");
-
-                    b.HasDiscriminator().HasValue("PrestSer");
-                });
-
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Vendedor", b =>
                 {
                     b.HasBaseType("FlexPro.Api.Domain.Entities.Entidade");
@@ -896,7 +892,7 @@ namespace FlexPro.Api.Migrations
 
             modelBuilder.Entity("FlexPro.Api.Domain.Entities.Revisao", b =>
                 {
-                    b.HasOne("FlexPro.Api.Domain.Entities.PrestadorDeServico", "Local")
+                    b.HasOne("FlexPro.Api.Domain.Entities.Entidade", "Local")
                         .WithMany()
                         .HasForeignKey("LocalId")
                         .OnDelete(DeleteBehavior.Cascade)

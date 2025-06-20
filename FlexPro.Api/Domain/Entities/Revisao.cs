@@ -19,7 +19,7 @@ namespace FlexPro.Api.Domain.Entities
         public int VeiculoId { get; set; } // Propriedade para a chave estrangeira
 
         // Propriedades de navegação
-        public virtual Entidade? Local { get; set; }
+        public virtual PrestadorDeServico? Local { get; set; }
         public virtual Veiculo? Veiculo { get; set; }
     }
 }

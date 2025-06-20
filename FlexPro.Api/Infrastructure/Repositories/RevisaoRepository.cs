@@ -17,7 +17,7 @@ namespace FlexPro.Api.Infrastructure.Repositories
 
         public async Task<IEnumerable<Revisao>> GetByVehicleId(int vehicleId)
         {
-            var revisao = _dbSet.Where(x => x.VeiculoId == vehicleId);
+            var revisao = await _dbSet.Where(x => x.VeiculoId == vehicleId).ToListAsync();
             return revisao.Any() ? revisao : Enumerable.Empty<Revisao>();
         }
 

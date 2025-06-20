@@ -4,6 +4,7 @@ using FlexPro.Api.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+// TODO: Migrate this to Mediator Pattern
 namespace FlexPro.Api.Controllers
 {
     [Route("api/[controller]")]

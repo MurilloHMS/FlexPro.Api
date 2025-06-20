@@ -4,6 +4,7 @@ using System.IO.Compression;
 using System.Linq;
 using FlexPro.Api.Domain.Entities;
 
+// TODO: Migrate this to Mediator Pattern
 [Route("api/[controller]")]
 [ApiController]
 public class RenomearNotasController : ControllerBase

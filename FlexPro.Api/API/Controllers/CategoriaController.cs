@@ -1,7 +1,10 @@
+using FlexPro.Api.Application.Commands.Categoria;
+using FlexPro.Api.Application.DTOs.Categoria;
 using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Domain.Entities;
 using FlexPro.Api.Infrastructure.Persistance;
 using FlexPro.Api.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +16,12 @@ public class CategoriaController : ControllerBase
 {
     private readonly ICategoriaRepository _categoriaRepository;
     private readonly AppDbContext _context;
+    private readonly IMediator _mediator;
 
-    public CategoriaController(AppDbContext context)
+    public CategoriaController(AppDbContext context, ICategoriaRepository repository,  IMediator mediator)
     {
         _context = context;
-        _categoriaRepository = new CategoriaRepository(_context);
+        _categoriaRepository = repository;
     }
 
     [HttpGet]
@@ -26,6 +30,7 @@ public class CategoriaController : ControllerBase
         var category = await _categoriaRepository.GetAllAsync();
         return category == null ? NotFound() : Ok(category);
     }
+    // TODO: Migrate getById to Mediator
     [HttpGet("{id}")]
     public async Task<ActionResult<Categoria>> GetCategoria(int id)
     {
@@ -34,12 +39,12 @@ public class CategoriaController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<ActionResult<Categoria>> PostCategoria(Categoria category)
+    public async Task<IActionResult> PostCategoria(CategoriaRequestDTO category)
     {
-        await _categoriaRepository.SaveOrUpdate(category);
-        return CreatedAtAction(nameof(GetCategoria), new { id = category.Id }, category);
+        var response = await _mediator.Send(new CreateCategoriaCommand(category));
+        return response;
     }
-    
+    // TODO: Migrate Put category to Mediator
     [HttpPut("{id}")]
     public async Task<IActionResult> PutCategory(int id, Categoria category)
     {
@@ -64,7 +69,7 @@ public class CategoriaController : ControllerBase
             }
         }
         return NoContent();
-    }
+    } 
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCategory(Categoria categoria)
