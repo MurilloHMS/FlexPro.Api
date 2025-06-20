@@ -13,6 +13,7 @@ namespace FlexPro.Api.Infrastructure.Persistance
         public DbSet<Categoria> Categoria { get; set; } = default!;
         public DbSet<Entidade> Entidade { get; set; } = default!;
         public DbSet<Vendedor> Vendedor { get; set; } = default!;
+        public DbSet<PrestadorDeServico> PrestadorDeServico { get; set; } = default!;
         public DbSet<Parceiro> Parceiro { get; set; } = default!;
         public DbSet<Receita> Receita { get; set; } = default!;
         public DbSet<Revisao> Revisao { get; set; } = default!;
@@ -54,7 +55,8 @@ namespace FlexPro.Api.Infrastructure.Persistance
                 .HasDiscriminator<string>("Tipo")
                 .HasValue<Vendedor>("Vendedor")
                 .HasValue<Parceiro>("Parceiro")
-                .HasValue<Cliente>("Cliente");
+                .HasValue<Cliente>("Cliente")
+                .HasValue<PrestadorDeServico>("PrestSer");
 
             modelBuilder.Entity<Produto>()
                 .HasDiscriminator<string>("Tipo")
