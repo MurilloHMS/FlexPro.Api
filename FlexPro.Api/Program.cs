@@ -112,7 +112,7 @@ builder.Services.AddAuthorization(options =>
         .Build();
 });
 
-var key = Encoding.UTF8.GetBytes(config["Security:JWT-Token"]);
+var key = Encoding.UTF8.GetBytes(config["JWT_SECRET"]);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -127,9 +127,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = true,
-        ValidIssuer = config["JwtSettings:Issuer"],
+        ValidIssuer = config["JWT_ISSUER"],
         ValidateAudience = true,
-        ValidAudience = config["JwtSettings:Audience"],
+        ValidAudience = config["JWT_AUDIENCE"],
         ClockSkew = TimeSpan.FromMinutes(5),
         NameClaimType = ClaimTypes.Name,
         RoleClaimType = ClaimTypes.Role 
@@ -220,7 +220,9 @@ app.UseRequestLocalization(localizationOptions);
 app.UseCors("AllowAll");
 
 app.UseAuthentication();
-app.UseMiddleware<DebugAuthMiddleware>();
+if (app.Environment.IsDevelopment()){
+    app.UseMiddleware<DebugAuthMiddleware>();
+}
 app.UseAuthorization();
 
 app.MapControllers();
