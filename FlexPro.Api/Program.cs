@@ -178,10 +178,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
+    options.AddPolicy("AllowOnlyPK",
         policy =>
         {
-            policy.AllowAnyOrigin()
+            policy.WithOrigins("https://proautokimium.com.br")
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
@@ -190,6 +190,7 @@ builder.Services.AddCors(options =>
 Log.Information("Iniciando FlexPro API...");
 
 var app = builder.Build();
+app.UseCors("AllowOnlyPK");
 
 // Configure pipeline HTTP
 if (app.Environment.IsDevelopment())
@@ -216,8 +217,6 @@ using (var scope = app.Services.CreateScope())
 app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.UseRequestLocalization(localizationOptions);
-
-app.UseCors("AllowAll");
 
 app.UseAuthentication();
 if (app.Environment.IsDevelopment()){
