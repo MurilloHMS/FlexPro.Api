@@ -190,8 +190,6 @@ builder.Services.AddCors(options =>
 Log.Information("Iniciando FlexPro API...");
 
 var app = builder.Build();
-app.UseCors("AllowOnlyPK");
-
 // Configure pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
@@ -215,17 +213,14 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
-
 app.UseRequestLocalization(localizationOptions);
-
+app.UseCors("AllowOnlyPK");
 app.UseAuthentication();
 if (app.Environment.IsDevelopment()){
     app.UseMiddleware<DebugAuthMiddleware>();
 }
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 public partial class Program { }
