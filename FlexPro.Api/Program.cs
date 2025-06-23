@@ -33,6 +33,9 @@ Log.Logger = new LoggerConfiguration()
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+DotNetEnv.Env.Load();
+builder.Configuration.AddEnvironmentVariables();
+
 var supportedCultures = new[] { "pt-BR" };
 var localizationOptions = new RequestLocalizationOptions
 {
@@ -57,8 +60,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var environment = builder.Environment;
-var connectionStringName = environment.IsDevelopment() ? "TestDatabase" : "DefaultConnection";
-var connectionString = builder.Configuration.GetConnectionString(connectionStringName) ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
+var connectionStringName = environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
+var connectionString = builder.Configuration[connectionStringName] ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseLazyLoadingProxies().UseNpgsql(connectionString));
 
@@ -68,7 +71,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 // Registros dos services email
 builder.Services.AddTransient<IEmailService, EmailService>();
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+      builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("SMTP"));
 
 //Registros dos services de autenticação
 builder.Services.AddHttpContextAccessor();
@@ -109,7 +112,7 @@ builder.Services.AddAuthorization(options =>
         .Build();
 });
 
-var key = Encoding.UTF8.GetBytes(config["JwtSettings:Secret"]);
+var key = Encoding.UTF8.GetBytes(config["Security:JWT-Token"]);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
