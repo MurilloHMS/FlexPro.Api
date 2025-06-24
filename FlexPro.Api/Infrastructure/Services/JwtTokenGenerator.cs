@@ -22,7 +22,7 @@ namespace FlexPro.Api.Infrastructure.Services
         }
         public async Task<string> GenerateToken(ApplicationUser user)
         {
-            var key = Encoding.UTF8.GetBytes(_config["JwtSettings:Secret"]);
+            var key = Encoding.UTF8.GetBytes(_config["JWT:Secret"]);
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, user.UserName),
@@ -39,8 +39,8 @@ namespace FlexPro.Api.Infrastructure.Services
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(1),
-                Issuer = _config["JwtSettings:Issuer"],
-                Audience = _config["JwtSettings:Audience"],
+                Issuer = _config["JWT:Issuer"],
+                Audience = _config["JWT:Audience"],
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
