@@ -14,15 +14,13 @@ namespace FlexPro.Api.Infrastructure.Services
     {
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
-        public JwtTokenGenerator(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public JwtTokenGenerator( UserManager<ApplicationUser> userManager)
         {
-            _config = config;
-
             _userManager = userManager;
         }
         public async Task<string> GenerateToken(ApplicationUser user)
         {
-            var key = Encoding.UTF8.GetBytes(_config["JWT:Secret"]);
+            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT__SECRET"));
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, user.UserName),
@@ -38,9 +36,9 @@ namespace FlexPro.Api.Infrastructure.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(1),
-                Issuer = _config["JWT:Issuer"],
-                Audience = _config["JWT:Audience"],
+                Expires = DateTime.UtcNow.AddHours(3),
+                Issuer = Environment.GetEnvironmentVariable("JWT__ISSUER"),
+                Audience = Environment.GetEnvironmentVariable("JWT__AUDIENCE"),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
@@ -49,7 +47,6 @@ namespace FlexPro.Api.Infrastructure.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-            Log.Information("Token gerado: {Token}", tokenString);
             return tokenString;
         }
     }
