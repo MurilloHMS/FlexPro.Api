@@ -126,7 +126,8 @@ builder.Services.AddAuthorization(options =>
         .Build();
 });
 
-var key = Encoding.UTF8.GetBytes(config["JWT_SECRET"]);
+var token = builder.Configuration["JWT:Secret"];
+var key = Encoding.UTF8.GetBytes(token);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
