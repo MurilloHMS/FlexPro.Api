@@ -178,10 +178,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowOnlyPK",
+    options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("https://proautokimium.com.br")
+            policy.WithOrigins("https://proautokimium.com.br", "https://www.proautokimium.com.br")
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
@@ -214,7 +214,7 @@ using (var scope = app.Services.CreateScope())
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseRequestLocalization(localizationOptions);
-app.UseCors("AllowOnlyPK");
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 if (app.Environment.IsDevelopment()){
     app.UseMiddleware<DebugAuthMiddleware>();
