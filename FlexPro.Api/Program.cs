@@ -18,6 +18,7 @@ using FlexPro.Api.API.Middlewares;
 using FlexPro.Api.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Formatting.Json;
 
@@ -57,7 +58,20 @@ builder.Services.AddControllers()
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "FlexPro API",
+        Description = "Api para controlar ferramentas internas da Proauto Kimium.",
+        Contact = new  OpenApiContact
+        {
+            Name = "MurilloHMS",
+            Url = new Uri("https://murillohms.vercel.app")
+        }
+    });
+});
 
 var environment = builder.Environment;
 var connectionStringName = environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
@@ -178,10 +192,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowOnlyPK",
+    options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("https://proautokimium.com.br")
+            policy.WithOrigins("https://proautokimium.com.br", "https://www.proautokimium.com.br")
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
@@ -190,8 +204,6 @@ builder.Services.AddCors(options =>
 Log.Information("Iniciando FlexPro API...");
 
 var app = builder.Build();
-app.UseCors("AllowOnlyPK");
-
 // Configure pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
@@ -215,17 +227,14 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
-
 app.UseRequestLocalization(localizationOptions);
-
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 if (app.Environment.IsDevelopment()){
     app.UseMiddleware<DebugAuthMiddleware>();
 }
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 public partial class Program { }
