@@ -74,7 +74,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var environment = builder.Environment;
-var connectionStringName = environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
+var connectionStringName = !environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
 var connectionString = builder.Configuration[connectionStringName] ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseLazyLoadingProxies().UseNpgsql(connectionString));
@@ -195,7 +195,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("https://proautokimium.com.br", "https://www.proautokimium.com.br")
+            policy.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
@@ -230,9 +230,7 @@ app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseRequestLocalization(localizationOptions);
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
-if (app.Environment.IsDevelopment()){
-    app.UseMiddleware<DebugAuthMiddleware>();
-}
+app.UseMiddleware<DebugAuthMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
