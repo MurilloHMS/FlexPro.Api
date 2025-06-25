@@ -10,4 +10,5 @@ public class Contato
     public string Mensagem { get; set; }
     public string NomeEmpresa { get; set; }
     public StatusContato_e StatusContato { get; set; }
+    public DateTime DataSolicitadoContato { get; set; }
 }
