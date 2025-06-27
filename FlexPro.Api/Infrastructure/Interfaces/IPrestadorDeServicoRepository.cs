@@ -2,7 +2,7 @@
 
 namespace FlexPro.Api.Application.Interfaces
 {
-    public interface IEntidadeRepository : IRepository<Entidade>
+    public interface IPrestadorDeServicoRepository : IRepository<PrestadorDeServico>
     {
         Task DeleteById(int id);
     }

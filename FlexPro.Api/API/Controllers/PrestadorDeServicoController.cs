@@ -10,40 +10,40 @@ namespace FlexPro.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EntidadeController : ControllerBase
+    public class PrestadorDeServicoController : ControllerBase
     {
-        private readonly IEntidadeRepository _repository;
+        private readonly IPrestadorDeServicoRepository _repository;
         private readonly AppDbContext _context;
 
-        public EntidadeController(AppDbContext context)
+        public PrestadorDeServicoController(AppDbContext context)
         {
             _context = context;
-            _repository = new EntidadeRepository(_context);
+            _repository = new PrestadorDeServicoRepository(_context);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Entidade>>> GetEntidades()
+        public async Task<ActionResult<IEnumerable<PrestadorDeServico>>> GetAll()
         {
             var entities = await _repository.GetAllAsync();
             return entities == null ? NotFound() : Ok(entities);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Entidade>> GetEntidades(int id)
+        public async Task<ActionResult<PrestadorDeServico>> GetById(int id)
         {
             var entities = await _repository.GetByIdAsync(id);
             return entities == null ? NotFound() : Ok(entities);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Entidade>> PostEntidades(Entidade entities)
+        public async Task<ActionResult<PrestadorDeServico>> PostEntidades(PrestadorDeServico entities)
         {
             await _repository.InsertOrUpdateAsync(entities, x => x.Id == entities.Id);
-            return CreatedAtAction(nameof(GetEntidades), new { id = entities.Id }, entities);
+            return CreatedAtAction(nameof(GetById), new { id = entities.Id }, entities);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutEntidades(int id, Entidade entidade)
+        public async Task<ActionResult> PutEntidades(int id, PrestadorDeServico entidade)
         {
             if (id != entidade.Id)
             {
@@ -69,7 +69,7 @@ namespace FlexPro.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteEntidade(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             await _repository.DeleteById(id);
             return NoContent();
