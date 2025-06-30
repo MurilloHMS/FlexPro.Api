@@ -98,18 +98,28 @@ namespace FlexPro.Api.Infrastructure.Services
         }
         public async Task EnviarInformativos(IEnumerable<Informativo> informativos)
         {
-            var sb = new StringBuilder();
-            foreach( var informativo in informativos)
+            var engine = new RazorLightEngineBuilder()
+                .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "Infrastructure", "Templates", "Email"))
+                .UseMemoryCachingProvider()
+                .Build();
+
+            var semaphore = new SemaphoreSlim(100);
+
+            var tasks = informativos.Select(async newsletter =>
             {
-                var engine = new RazorLightEngineBuilder()
-                    .UseFileSystemProject(Path.Combine(Directory.GetCurrentDirectory(), "Infrastructure", "Templates", "Email"))
-                    .UseMemoryCachingProvider()
-                    .Build();
-
-                string html = await engine.CompileRenderAsync("Informativo.cshtml", informativo);
-
-                await SendEmailLocalWebSmtpAsync(informativo.EmailCliente, $"Resumo Proauto Kimium - {informativo.Mes}", html );
-            }
+                await semaphore.WaitAsync();
+                try
+                {
+                    string html = await engine.CompileRenderAsync("Informativo.cshtml", newsletter);
+                    await SendEmailLocalWebSmtpAsync(newsletter.EmailCliente,
+                        $"Resumo Proauto Kimium - {newsletter.Mes}", html);
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            });
+            await Task.WhenAll(tasks);
         }
     }
 }
