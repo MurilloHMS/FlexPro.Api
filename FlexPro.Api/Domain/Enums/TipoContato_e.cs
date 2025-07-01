@@ -9,6 +9,6 @@ public enum TipoContato_e
     TrabalheConosco,
     ConsultoriaEspecializada,
     VisitaTecnica,
-    InformacoesEmpresa,
-    Outros,
+    InformacoesCertificacoes,
+    ProblemaPedidoEntrega,
 }
