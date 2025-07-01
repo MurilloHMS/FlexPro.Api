@@ -18,6 +18,7 @@ using FlexPro.Api.API.Middlewares;
 using FlexPro.Api.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using FlexPro.Api.API.Hubs;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Formatting.Json;
@@ -51,7 +52,7 @@ builder.Services.AddControllers()
     .AddDataAnnotationsLocalization()
     .AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.Converters.Add((new JsonStringEnumConverter()));
+    //options.JsonSerializerOptions.Converters.Add((new JsonStringEnumConverter()));
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
@@ -111,6 +112,8 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
+// Notification Hub
+builder.Services.AddSignalR();
 
 //Registros das licenças
 QuestPDF.Settings.License = LicenseType.Community;
@@ -227,6 +230,7 @@ using (var scope = app.Services.CreateScope())
     dbcontext.Database.EnsureCreated();
 }
 
+app.MapHub<NotificationHub>("/notificationHub");
 app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseRequestLocalization(localizationOptions);
 app.UseCors("AllowFrontend");
