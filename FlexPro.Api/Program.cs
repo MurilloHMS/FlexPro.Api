@@ -75,7 +75,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var environment = builder.Environment;
-var connectionStringName = !environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
+var connectionStringName = environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
 var connectionString = builder.Configuration[connectionStringName] ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseLazyLoadingProxies().UseNpgsql(connectionString));
