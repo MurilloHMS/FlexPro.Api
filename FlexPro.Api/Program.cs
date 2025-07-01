@@ -75,7 +75,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var environment = builder.Environment;
-var connectionStringName = environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
+var connectionStringName = !environment.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
 var connectionString = builder.Configuration[connectionStringName] ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseLazyLoadingProxies().UseNpgsql(connectionString));
@@ -230,14 +230,22 @@ using (var scope = app.Services.CreateScope())
     dbcontext.Database.EnsureCreated();
 }
 
-app.MapHub<NotificationHub>("/notificationHub");
-app.UseMiddleware<ValidationExceptionMiddleware>();
+app.UseRouting();
+
 app.UseRequestLocalization(localizationOptions);
 app.UseCors("AllowFrontend");
 app.UseAuthentication();
-app.UseMiddleware<DebugAuthMiddleware>();
 app.UseAuthorization();
-app.MapControllers();
+
+app.UseMiddleware<DebugAuthMiddleware>();
+app.UseMiddleware<ValidationExceptionMiddleware>();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<NotificationHub>("/notificationHub");
+});
+    
 app.Run();
 
 public partial class Program { }
