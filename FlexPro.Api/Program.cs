@@ -243,7 +243,7 @@ app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHub<NotificationHub>("/notificationHub");
+    endpoints.MapHub<NotificationHub>("/notificationHub").AllowAnonymous();
 });
     
 app.Run();
