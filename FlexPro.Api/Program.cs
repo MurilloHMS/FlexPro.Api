@@ -199,9 +199,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.AllowAnyOrigin()
+            policy.WithOrigins("https://proautokimium.com.br",  "http://proautokimium.com.br")
                 .AllowAnyMethod()
-                .AllowAnyHeader();
+                .AllowAnyHeader()
+                .AllowCredentials();
         });
 });
 
@@ -243,7 +244,7 @@ app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHub<NotificationHub>("/notificationHub").AllowAnonymous();
+    endpoints.MapHub<NotificationHub>("/notificationHub").RequireCors("AllowFrontend");
 });
     
 app.Run();
