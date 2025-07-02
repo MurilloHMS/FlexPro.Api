@@ -244,7 +244,7 @@ app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHub<NotificationHub>("/notificationHub").RequireCors("AllowFrontend");
+    endpoints.MapHub<NotificationHub>("/notificationHub").RequireCors("AllowFrontend").AllowAnonymous();
 });
     
 app.Run();
