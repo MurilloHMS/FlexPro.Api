@@ -17,7 +17,26 @@ public class ParceiroRepository : Repository<Parceiro>, IParceiroRepository
 
     public async Task IncludeParceiroByRangeAsync(List<Parceiro> parceiros)
     {
-        await _dbSet.AddRangeAsync(parceiros);
+        var codigoParceiros = parceiros.Select(x => x.CodigoSistema).ToList();
+        
+        var parceirosExistentes = await _dbSet.Where(p => codigoParceiros.Contains(p.CodigoSistema)).ToListAsync();
+
+        foreach (var parceiro in parceiros)
+        {
+            var parceiroExistente = parceirosExistentes.FirstOrDefault(p => p.CodigoSistema == parceiro.CodigoSistema);
+
+            if (parceiroExistente != null)
+            {
+                parceiroExistente.Nome = parceiro.Nome;
+                parceiroExistente.Email = parceiro.Email;
+                parceiroExistente.RazaoSocial = parceiro.RazaoSocial;
+            }
+            else
+            {
+                await _dbSet.AddAsync(parceiro);
+            }
+        }
+        
         await _context.SaveChangesAsync();
     }
 }
