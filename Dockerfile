@@ -17,5 +17,9 @@ RUN dotnet publish "FlexPro.Api.csproj" -c Release -o /app/publish /p:UseAppHost
 
 FROM base AS final
 WORKDIR /app
+
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+RUN apk add --no-cache icu-libs
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "FlexPro.Api.dll"]
