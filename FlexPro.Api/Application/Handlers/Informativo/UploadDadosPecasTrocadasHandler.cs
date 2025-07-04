@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Handlers.Informativo;
 
-public class UploadDadosPecasTrocadasHandler :  IRequestHandler<UploadDadosOsCommand, IActionResult>
+public class UploadDadosPecasTrocadasHandler :  IRequestHandler<UploadDadosPecasTrocadasCommand, IActionResult>
 {
     private readonly InformativoService _service;
 
@@ -15,7 +15,7 @@ public class UploadDadosPecasTrocadasHandler :  IRequestHandler<UploadDadosOsCom
         _service = service;
     }
 
-    public async Task<IActionResult> Handle(UploadDadosOsCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Handle(UploadDadosPecasTrocadasCommand request, CancellationToken cancellationToken)
     {
         if (request.file ==null || request.file.Length == 0) 
             return new BadRequestObjectResult("Arquivo inválido ou vazio");
