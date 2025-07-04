@@ -222,6 +222,8 @@ else
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "FlexPro API V1");
         c.RoutePrefix = string.Empty;
+        c.SupportedSubmitMethods();
+        c.ConfigObject.AdditionalItems["tryItOutEnabled"] = false;
     });
 }
 
