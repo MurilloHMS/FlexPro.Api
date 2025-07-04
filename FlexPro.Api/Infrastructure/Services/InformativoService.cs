@@ -130,53 +130,72 @@ namespace FlexPro.Api.Infrastructure.Services
             }
         }
 
-        public async Task<IEnumerable<Informativo>> CreateInfoData(IEnumerable<InformativoNFe> nfeInfo, IEnumerable<InformativoOS> osInfo, IEnumerable<InformativoPecasTrocadas> pecasInfo)
+        public async Task<IEnumerable<Informativo>> CreateInfoData(
+            IEnumerable<InformativoNFe> nfeInfo,
+            IEnumerable<InformativoOS> osInfo,
+            IEnumerable<InformativoPecasTrocadas> pecasInfo)
         {
             try
             {
-                List<Informativo> informativos = new List<Informativo>();
+                if (!nfeInfo.Any() || !osInfo.Any() || !pecasInfo.Any())
+                    return Enumerable.Empty<Informativo>();
 
-                List<Parceiro> parceiros = new List<Parceiro>();
+                var parceiros = await _context.Parceiro.ToListAsync();
+                if (!parceiros.Any())
+                    return Enumerable.Empty<Informativo>();
 
-                parceiros = await _context.Parceiro.ToListAsync();
+                var nfeGrouped = nfeInfo.GroupBy(x => x.CodigoCliente).ToDictionary(g => g.Key, g => g.ToList());
+                var osGrouped = osInfo.GroupBy(x => x.CodigoCliente).ToDictionary(g => g.Key, g => g.ToList());
+                var pecasGrouped = pecasInfo.GroupBy(x => x.CodigoCliente).ToDictionary(g => g.Key, g => g.ToList());
 
-                if (parceiros.Any() && nfeInfo.Any() && osInfo.Any() && pecasInfo.Any())
+                var informativos = new List<Informativo>();
+
+                foreach (var cliente in parceiros)
                 {
-                    foreach (var cliente in parceiros)
+                    nfeGrouped.TryGetValue(cliente.CodigoSistema, out var clienteNfeInfo);
+                    osGrouped.TryGetValue(cliente.CodigoSistema, out var clienteOsInfo);
+                    pecasGrouped.TryGetValue(cliente.CodigoSistema, out var clientePecasInfo);
+
+                    if (clienteNfeInfo == null || !clienteNfeInfo.Any())
+                        continue;
+
+                    var data = clienteNfeInfo.First().Data.Date;
+                    var produtoEmDestaque = clienteNfeInfo
+                        .GroupBy(nfe => nfe.NomeDoProduto)
+                        .OrderByDescending(g => g.Count())
+                        .FirstOrDefault()?.Key;
+
+                    if (string.IsNullOrEmpty(produtoEmDestaque))
+                        continue;
+
+                    var informativo = new Informativo
                     {
-                        var clienteNfeInfo = nfeInfo.Where(nfe => nfe.CodigoCliente == cliente.CodigoSistema);
-                        var clienteOsInfo = osInfo.Where(os => os.CodigoCliente == cliente.CodigoSistema);
-                        var clientePecas = pecasInfo.Where(pecas => pecas.CodigoCliente == cliente.CodigoSistema);
+                        CodigoCliente = cliente.CodigoSistema,
+                        NomeDoCliente = cliente.Nome,
+                        Data = data,
+                        Mes = data.ToString("MMMM"),
+                        QuantidadeDeProdutos = clienteNfeInfo.Count,
+                        QuantidadeDeLitros = clienteNfeInfo.Sum(x => x.Quantidade),
+                        QuantidadeNotasEmitidas = clienteNfeInfo.Select(x => x.NumeroNFe).Distinct().Count(),
+                        QuantidadeDeVisitas = clienteOsInfo?.Count ?? 0,
+                        MediaDiasAtendimento = clienteOsInfo != null && clienteOsInfo.Any() ? (int)clienteOsInfo.Sum(x => x.DiasDaSemana) : 0,
+                        ProdutoEmDestaque = produtoEmDestaque,
+                        FaturamentoTotal = clienteNfeInfo.Sum(x => x.ValorTotalComImpostos),
+                        ValorDePeçasTrocadas = clientePecasInfo?.Sum(x => x.CustoTotal) ?? 0,
+                        ClienteCadastrado = true,
+                        EmailCliente = cliente.Email
+                    };
 
-                        var informativo = new Informativo
-                        {
-                            CodigoCliente = cliente.CodigoSistema,
-                            NomeDoCliente = cliente.Nome,
-                            Data = clienteNfeInfo.Select(d => d.Data.Date).FirstOrDefault(),
-                            Mes = clienteNfeInfo.Select(d => d.Data.Date).FirstOrDefault().ToString("MMMM"),
-                            QuantidadeDeProdutos = clienteNfeInfo.Count(),
-                            QuantidadeDeLitros = clienteNfeInfo.Sum(x => x.Quantidade),
-                            QuantidadeNotasEmitidas = clienteNfeInfo.Select(x => x.NumeroNFe).Distinct().Count(),
-                            QuantidadeDeVisitas = clienteOsInfo.Count(),
-                            MediaDiasAtendimento = (int)(clienteOsInfo.Any() ? clienteOsInfo.Sum(x => x.DiasDaSemana) : 0),
-                            ProdutoEmDestaque = clienteNfeInfo.GroupBy(nfe => nfe.NomeDoProduto).OrderByDescending(group => group.Count()).FirstOrDefault()?.Key,
-                            FaturamentoTotal = clienteNfeInfo.Sum(nfe => nfe.ValorTotalComImpostos),
-                            ValorDePeçasTrocadas = clientePecas.Sum(pecas => pecas.CustoTotal),
-                            ClienteCadastrado = true,
-                            EmailCliente = cliente.Email
-                        };
-
-                        informativos.Add(informativo);
-                    }
+                    informativos.Add(informativo);
                 }
-                informativos.RemoveAll(x => string.IsNullOrEmpty(x.ProdutoEmDestaque));
+
                 return informativos;
             }
             catch (Exception)
             {
-                return new List<Informativo>();
+                return Enumerable.Empty<Informativo>();
             }
         }
-        
+
     }
 }
