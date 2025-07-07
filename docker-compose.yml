@@ -1,0 +1,15 @@
+services:
+  flexpro-api:
+    container_name: flexpro-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - FlexPro.Api/.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:8080"
+    restart: always
+    mem_limit: 300m
+    cpus: 0.5   
