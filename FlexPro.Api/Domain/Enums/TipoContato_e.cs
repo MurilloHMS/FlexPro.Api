@@ -11,4 +11,5 @@ public enum TipoContato_e
     VisitaTecnica,
     InformacoesCertificacoes,
     ProblemaPedidoEntrega,
+    Outros
 }
