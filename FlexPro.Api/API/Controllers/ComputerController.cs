@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.API.Controllers;
 
-[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class ComputerController : ControllerBase
