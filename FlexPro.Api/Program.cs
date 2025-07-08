@@ -89,7 +89,7 @@ builder.Host.UseSerilog((context, ServiceCollectionServiceExtensions, LoggerConf
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .WriteTo.Console()
-        .WriteTo.Http(requestUri: context.Configuration["SEQ_URL"] ?? "http://seq:5341",
+        .WriteTo.Http(requestUri: context.Configuration["SEQ_URL"] ?? "http://seq:5342",
             queueLimitBytes: null,
             textFormatter: new JsonFormatter()
         );
