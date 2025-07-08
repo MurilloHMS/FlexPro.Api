@@ -25,17 +25,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Formatting.Json;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Debug()
-    .WriteTo.Console()
-    .WriteTo.Http(
-        "https://s1300161.eu-nbg-2.betterstackdata.com",
-        queueLimitBytes: null,
-        textFormatter: new JsonFormatter())
-    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Host.UseSerilog();
 Env.Load();
 builder.Configuration.AddEnvironmentVariables();
 
@@ -91,9 +82,24 @@ builder.Services.AddControllers()
         o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
-Log.Information("Iniciando FlexPro API...");
+// logs
+builder.Host.UseSerilog((context, ServiceCollectionServiceExtensions, LoggerConfiguration) =>
+{
+    LoggerConfiguration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .WriteTo.Http(requestUri: context.Configuration["SEQ_URL"] ?? "http://seq:5341",
+            queueLimitBytes: null,
+            textFormatter: new JsonFormatter()
+        );
+});
+
 
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Starting application");
 
 if (env.IsDevelopment())
 {
