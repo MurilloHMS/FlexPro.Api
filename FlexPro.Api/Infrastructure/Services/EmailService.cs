@@ -33,7 +33,7 @@ namespace FlexPro.Api.Infrastructure.Services
             message.Subject = subject;
             message.Body = body;
             message.To = to;
-            message.From = Environment.GetEnvironmentVariable("SMTP_FROM_EMAIL");
+            message.From = Environment.GetEnvironmentVariable("SMTP__FROM_EMAIL");
             message.Headers = new Dictionary<string, string>{{"Content-Type", "text/html"}};
 
             if (cc != null && cc.Any())
