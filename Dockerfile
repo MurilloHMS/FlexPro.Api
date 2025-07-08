@@ -8,6 +8,9 @@ WORKDIR /src
 COPY ["FlexPro.Api/FlexPro.Api.csproj", "FlexPro.Api/"]
 RUN dotnet restore "FlexPro.Api/FlexPro.Api.csproj"
 
+# Copiar a pasta Templates separadamente
+COPY FlexPro.Api/Infrastructure/Templates /src/Infrastructure/Templates
+
 COPY . .
 WORKDIR "/src/FlexPro.Api"
 RUN dotnet build "FlexPro.Api.csproj" -c Release -o /app/build
@@ -22,4 +25,5 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 RUN apk add --no-cache icu-libs
 
 COPY --from=publish /app/publish .
+COPY --from=build /src/Infrastructure/Templates /app/Infrastructure/Templates
 ENTRYPOINT ["dotnet", "FlexPro.Api.dll"]
