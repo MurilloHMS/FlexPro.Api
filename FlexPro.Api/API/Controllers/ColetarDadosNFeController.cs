@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Xml.Linq;
 using ClosedXML.Excel;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using LoadOptions = System.Xml.Linq.LoadOptions;
 

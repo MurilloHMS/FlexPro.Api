@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Domain.Models;
 using FlexPro.Api.Infrastructure.Services;
 
 namespace FlexPro.Api.Extensions;

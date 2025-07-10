@@ -4,7 +4,7 @@ using System.IO;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using UglyToad.PdfPig;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Domain.Models;
 
 namespace FlexPro.Api.Infrastructure.Services
 {

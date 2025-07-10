@@ -1,5 +1,5 @@
 ﻿using System.IO.Compression;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Domain.Models;
 using FlexPro.Api.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

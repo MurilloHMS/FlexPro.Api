@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using ClosedXML.Excel;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Domain.Models;
 using FlexPro.Api.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Crypto;
@@ -15,7 +15,7 @@ namespace FlexPro.Api.Infrastructure.Services
         {
             _context = context;
         }
-
+        
         public async Task<IEnumerable<InformativoNFe>> ReadNfeData(IFormFile file)
         {
             try

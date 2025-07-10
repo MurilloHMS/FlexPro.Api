@@ -1,4 +1,4 @@
-﻿namespace FlexPro.Api.Domain.Entities
+﻿namespace FlexPro.Api.Domain.Models
 {
     public class SepararPDF
     {

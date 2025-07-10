@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.IO.Compression;
 using System.Linq;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Domain.Models;
 
 // TODO: Migrate this to Mediator Pattern
 [Route("api/[controller]")]

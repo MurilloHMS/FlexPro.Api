@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
-namespace FlexPro.Api.Domain.Entities
+namespace FlexPro.Api.Domain.Models
 {
     public class Email
     {

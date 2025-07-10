@@ -6,12 +6,12 @@ using MimeKit;
 using System.Text;
 using RazorLight;
 using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
 using Npgsql.Replication.TestDecoding;
 using NuGet.Packaging;
 using SmtpLw;
 using SmtpLw.Models;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using FlexPro.Api.Domain.Models;
 
 namespace FlexPro.Api.Infrastructure.Services
 {

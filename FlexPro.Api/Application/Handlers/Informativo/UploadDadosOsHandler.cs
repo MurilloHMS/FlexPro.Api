@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.Commands.Informativo;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Api.Domain.Models;
 using FlexPro.Api.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
