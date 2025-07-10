@@ -1,13 +1,31 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FlexPro.Api.Domain.Entities
+namespace FlexPro.Api.Domain.Entities;
+
+[Table("archives")]
+public class Arquivo
 {
-    public class Arquivo
-    {
-        public string Nome { get; set;}
-        public string Url { get; set;}
-    }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("id")]
+    public int Id { get; set; }
+    [Column("file_name")]
+    [MaxLength(100)]
+    public string Name { get; set;}
+    [Column("file_extensions")]
+    public string? Extensions { get; set;}
+    [Column("file_size")]
+    public long Size { get; set; }
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [Column("updated_at")]
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    [Column("is_active")]
+    public bool IsActive { get; set; } = true;
+    [Column("is_public")]
+    public bool IsPublic { get; set; } = false;
+
 }
