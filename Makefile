@@ -1,6 +1,6 @@
 # Variaveis
 DEV_COMPOSE=docker-compose.dev.yaml
-PROD_COMPOSE=docker-compose.prod.yaml
+PROD_COMPOSE=docker-compose.yaml
 SERVICE_NAME=FlexPro-Api
 
 dev:

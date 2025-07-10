@@ -19,7 +19,7 @@ public class CalcularDadosInformativoHandler : IRequestHandler<CalcularDadosInfo
     {
         if( request.informativoRequest == null) return new BadRequestObjectResult("Dados não foram enviados corretamente");
 
-        IEnumerable<Domain.Entities.Informativo> informativos = await _service.CreateInfoData(request.informativoRequest.InformativoNFes, request.informativoRequest.informativoOs, request.informativoRequest.InformativoPecasTrocadas);
+        IEnumerable<Domain.Models.Informativo> informativos = await _service.CreateInfoData(request.informativoRequest.InformativoNFes, request.informativoRequest.informativoOs, request.informativoRequest.InformativoPecasTrocadas, request.informativoRequest.Month);
 
         return informativos.Any()
             ? new OkObjectResult(informativos)

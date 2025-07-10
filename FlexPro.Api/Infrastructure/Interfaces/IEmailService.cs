@@ -1,4 +1,4 @@
-﻿using FlexPro.Api.Domain.Entities;
+﻿using FlexPro.Api.Domain.Models;
 
 namespace FlexPro.Api.Application.Interfaces
 {

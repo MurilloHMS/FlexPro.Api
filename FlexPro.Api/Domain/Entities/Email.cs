@@ -1,13 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FlexPro.Api.Domain.Entities
+namespace FlexPro.Api.Domain.Entities;
+
+[Table("emails_smtp")]
+public class Email
 {
-    public class Email
-    {
-        public string To { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-        public List<string>? Cc { get; set; }
-        public List<string>? Bcc { get; set; }
-    }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("id")]
+    public int Id { get; set; }
+    [Column("email_address")]
+    [MaxLength(50)]
+    public string? Address { get; set; }
+    [Column("is_enabled")]
+    public bool IsEnabled { get; set; } = true;
+
 }

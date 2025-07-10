@@ -38,7 +38,7 @@ public class InformativoController : ControllerBase
     }
 
     [HttpPost("calcular")]
-    public async Task<IActionResult> GenerateMetrics([FromBody] InformativoRequestDTO dados)
+    public async Task<IActionResult> GenerateMetrics([FromBody]InformativoRequestDTO dados)
     {
         var response = await _mediator.Send(new CalcularDadosInformativoCommand(dados));
         return response;

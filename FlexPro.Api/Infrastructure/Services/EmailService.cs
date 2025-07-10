@@ -6,12 +6,12 @@ using MimeKit;
 using System.Text;
 using RazorLight;
 using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
 using Npgsql.Replication.TestDecoding;
 using NuGet.Packaging;
 using SmtpLw;
 using SmtpLw.Models;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using FlexPro.Api.Domain.Models;
 
 namespace FlexPro.Api.Infrastructure.Services
 {
@@ -33,7 +33,7 @@ namespace FlexPro.Api.Infrastructure.Services
             message.Subject = subject;
             message.Body = body;
             message.To = to;
-            message.From = _settings.FromEmail;
+            message.From = Environment.GetEnvironmentVariable("SMTP__FROM_EMAIL");
             message.Headers = new Dictionary<string, string>{{"Content-Type", "text/html"}};
 
             if (cc != null && cc.Any())
