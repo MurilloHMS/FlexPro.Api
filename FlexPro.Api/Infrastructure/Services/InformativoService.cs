@@ -133,7 +133,8 @@ namespace FlexPro.Api.Infrastructure.Services
         public async Task<IEnumerable<Informativo>> CreateInfoData(
             IEnumerable<InformativoNFe> nfeInfo,
             IEnumerable<InformativoOS> osInfo,
-            IEnumerable<InformativoPecasTrocadas> pecasInfo)
+            IEnumerable<InformativoPecasTrocadas> pecasInfo,
+            string? month = "")
         {
             try
             {
@@ -159,7 +160,7 @@ namespace FlexPro.Api.Infrastructure.Services
                     if (clienteNfeInfo == null || !clienteNfeInfo.Any())
                         continue;
 
-                    var data = clienteNfeInfo.First().Data.Date;
+                    var data = clienteNfeInfo.First().Data;
                     var produtoEmDestaque = clienteNfeInfo
                         .GroupBy(nfe => nfe.NomeDoProduto)
                         .OrderByDescending(g => g.Count())
