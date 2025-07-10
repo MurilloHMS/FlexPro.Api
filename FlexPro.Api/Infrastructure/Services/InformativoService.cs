@@ -134,7 +134,7 @@ namespace FlexPro.Api.Infrastructure.Services
             IEnumerable<InformativoNFe> nfeInfo,
             IEnumerable<InformativoOS> osInfo,
             IEnumerable<InformativoPecasTrocadas> pecasInfo,
-            string? month = "")
+            string? month = null)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace FlexPro.Api.Infrastructure.Services
                         CodigoCliente = cliente.CodigoSistema,
                         NomeDoCliente = cliente.Nome,
                         Data = data,
-                        Mes = data.ToString("MMMM"),
+                        Mes = month ?? data.ToString("MMMM", CultureInfo.InvariantCulture),
                         QuantidadeDeProdutos = clienteNfeInfo.Count,
                         QuantidadeDeLitros = clienteNfeInfo.Sum(x => x.Quantidade),
                         QuantidadeNotasEmitidas = clienteNfeInfo.Select(x => x.NumeroNFe).Distinct().Count(),
