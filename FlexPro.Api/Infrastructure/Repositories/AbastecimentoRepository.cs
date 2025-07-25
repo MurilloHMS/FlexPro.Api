@@ -28,16 +28,6 @@ namespace FlexPro.Api.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task ExportData(List<Abastecimento> fuelSupplies)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ImportData()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task RemoveFuelSupply(int fuelSupplyId)
         {
             throw new NotImplementedException();
