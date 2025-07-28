@@ -9,16 +9,10 @@ namespace FlexPro.Api.Infrastructure.Repositories
     {
         public PrestadorDeServicoRepository(AppDbContext context) : base(context) { }
 
-        public async Task DeleteAsync(PrestadorDeServico entidade)
-        {
-            _context.PrestadorDeServico.Remove(entidade);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task DeleteById(int id)
         {
             var entidade = await _context.PrestadorDeServico.FirstOrDefaultAsync(x => x.Id == id);
-            if (entidade == null)
+            if (entidade != null)
             {
                 _context.PrestadorDeServico.Remove(entidade);
                 await _context.SaveChangesAsync();
@@ -31,7 +25,7 @@ namespace FlexPro.Api.Infrastructure.Repositories
             return entities ?? Enumerable.Empty<PrestadorDeServico>();
         }
 
-        public async Task<PrestadorDeServico> GetByIdAsync(int id)
+        public async Task<PrestadorDeServico?> GetByIdAsync(int id)
         {
             var entidade = await _context.PrestadorDeServico.FirstOrDefaultAsync(x => x.Id == id);
             return entidade ?? null;

@@ -1,7 +1,6 @@
 ﻿using FlexPro.Api.Infrastructure.Persistance;
 using Microsoft.AspNetCore.Identity;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace FlexPro.Api.Application.Commands.Auth
 {
