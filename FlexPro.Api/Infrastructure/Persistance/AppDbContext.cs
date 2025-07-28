@@ -24,10 +24,12 @@ namespace FlexPro.Api.Infrastructure.Persistance
         public DbSet<ApplicationUser> AspNetUsers { get; set; } = default!;
         public DbSet<Contato> Contato { get; set; } = default!;
         public DbSet<Embalagem> Embalagem { get; set; } = default!;
-        public DbSet<Equipamento>  Equipamento { get; set; } = default!;
+        public DbSet<Equipamento> Equipamento { get; set; } = default!;
         public DbSet<Computador> Computador { get; set; } = default!;
         public DbSet<AcessoRemoto> AcessoRemoto { get; set; } = default!;
-        public DbSet<Especificacoes>  Especificacoes { get; set; } = default!;
+        public DbSet<Especificacoes> Especificacoes { get; set; } = default!;
+        public DbSet<InventoryMovement> InventoryMovement { get; set; } = default!;
+        public DbSet<Products> Products { get; set; } = default!;
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
