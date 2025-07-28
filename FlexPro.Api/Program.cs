@@ -129,7 +129,11 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<DebugAuthMiddleware>();
+if (builder.Environment.IsDevelopment())
+{
+    app.UseMiddleware<DebugAuthMiddleware>();
+}
+
 app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.UseEndpoints(endpoints =>

@@ -23,6 +23,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IProdutoLojaRepository, ProdutoLojaRepository>();
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();
         services.AddScoped<IComputadorRepository, ComputadorRepository>();
+        services.AddScoped<InventoryRepository>();
+        services.AddScoped<InventoryService>();
 
         return services;
     }
