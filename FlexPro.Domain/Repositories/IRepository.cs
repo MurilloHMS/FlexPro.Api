@@ -1,8 +1,9 @@
 using System.Linq.Expressions;
+using FlexPro.Domain.Abstractions;
 
-namespace FlexPro.Api.Application.Interfaces;
+namespace FlexPro.Domain.Repositories;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T> where T : Entity
 {
     Task<IEnumerable<T>> GetAllAsync();
     Task<T?> GetByIdAsync(int id);

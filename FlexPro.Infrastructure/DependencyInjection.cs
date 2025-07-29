@@ -1,12 +1,13 @@
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Infrastructure.Repositories;
-using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Repositories;
+using FlexPro.Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace FlexPro.Api.Extensions;
+namespace FlexPro.Infrastructure;
 
-public static class ServiceCollectionExtensions
+public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IAbastecimentoRepository, AbastecimentoRepository>();
@@ -25,7 +26,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IComputadorRepository, ComputadorRepository>();
         services.AddScoped<InventoryRepository>();
         services.AddScoped<InventoryService>();
-
+        
+        
         return services;
     }
 }
