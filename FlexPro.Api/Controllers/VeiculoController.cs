@@ -1,5 +1,6 @@
 ﻿using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.Queries.Veiculo;
+using FlexPro.Application.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
@@ -36,10 +37,13 @@ namespace FlexPro.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] CreateVeiculoCommand command)
+        public async Task<IResult> Create([FromBody] VeiculoDTO dto)
         {
-            var id = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id }, command);
+            var command = new FlexPro.Application.UseCases.Vehicles.Create.Command(dto);
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? Results.Ok(result.Value)
+                : Results.BadRequest(result.Error);
         }
 
         [HttpPut("{id}")]
