@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using FlexPro.Application.DTOs;
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.DTOs
+namespace FlexPro.Application.DTOs
 {
     public class MappingProfile : Profile
     {

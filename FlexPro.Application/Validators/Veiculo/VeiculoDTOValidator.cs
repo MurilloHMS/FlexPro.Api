@@ -1,4 +1,5 @@
-﻿using FlexPro.Api.Application.DTOs;
+﻿
+using FlexPro.Application.DTOs;
 using FluentValidation;
 
 namespace FlexPro.Application.Validators.Veiculo
