@@ -2,6 +2,8 @@
 using FlexPro.Api.Application.Queries.Veiculo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
+using ISender = MediatR.ISender;
 
 namespace FlexPro.Api.Controllers
 {
@@ -17,10 +19,13 @@ namespace FlexPro.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public async Task<IResult> GetAll()
         {
-            var result = await _mediator.Send(new GetAllVeiculosQuery());
-            return Ok(result);
+            var command = new FlexPro.Application.UseCases.Vehicles.GetAll.Command();
+            var result = await _mediator.Send(command);
+            return result.IsSuccess
+                ? Results.Ok(result.Value)
+                : Results.BadRequest(result.Error);
         }
 
         [HttpGet("{id}")]
