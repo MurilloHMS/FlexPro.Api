@@ -1,15 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FlexPro.Domain.Abstractions;
 
 namespace FlexPro.Domain.Entities;
 
 [Table("inventory_movements")]
-public class InventoryMovement
+public class InventoryMovement : Entity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
-    public int Id { get; set; }
+    
     [Column("system_code")]
     public string SystemId { get; set; } = String.Empty;
     [Column("date")]

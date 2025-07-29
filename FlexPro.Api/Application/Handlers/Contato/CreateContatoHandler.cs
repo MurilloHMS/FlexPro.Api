@@ -1,8 +1,8 @@
 using AutoMapper;
-using FlexPro.Api.API.Hubs;
 using FlexPro.Api.Application.Commands.Contato;
 using FlexPro.Api.Application.DTOs.Contato;
-using FlexPro.Api.Application.Interfaces;
+using FlexPro.Api.Hubs;
+using FlexPro.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 

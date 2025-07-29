@@ -2,7 +2,7 @@
 
 namespace FlexPro.Domain.Repositories
 {
-    public interface IRevisaoRepository : Api.Application.Interfaces.IRepository<Revisao>
+    public interface IRevisaoRepository : IRepository<Revisao>
     {
         Task<Revisao> GetByName(string name);
         Task<IEnumerable<Revisao>> GetByVehicleId(int vehicleId);

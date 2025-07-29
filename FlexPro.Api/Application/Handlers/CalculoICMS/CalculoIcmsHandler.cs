@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.Commands.CalculoICMS;
-using FlexPro.Api.Application.Interfaces;
+using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.CalculoICMS;

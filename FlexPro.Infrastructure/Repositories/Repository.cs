@@ -1,10 +1,11 @@
 using System.Linq.Expressions;
-using FlexPro.Api.Application.Interfaces;
+using FlexPro.Domain.Abstractions;
+using FlexPro.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Infrastructure.Repositories;
 
-public abstract class Repository<T>(DbContext context) : IRepository<T> where T : class
+public abstract class Repository<T>(DbContext context) : IRepository<T> where T : Entity
 {
     private readonly DbSet<T> _dbSet = context.Set<T>();
     

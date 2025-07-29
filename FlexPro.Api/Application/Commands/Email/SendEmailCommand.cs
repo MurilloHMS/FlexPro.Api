@@ -4,9 +4,9 @@ namespace FlexPro.Api.Application.Commands.Email;
 
 public class SendEmailCommand : IRequest<IActionResult>
 {
-    public Domain.Models.Email EmailData { get; set; }
+    public FlexPro.Domain.Models.Email EmailData { get; set; }
 
-    public SendEmailCommand(Domain.Models.Email emailData)
+    public SendEmailCommand(FlexPro.Domain.Models.Email emailData)
     {
         EmailData = emailData;
     }

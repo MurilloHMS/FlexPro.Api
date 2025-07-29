@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
 using DotNetEnv;
-using FlexPro.Api.API.Hubs;
-using FlexPro.Api.API.Middlewares;
 using FlexPro.Api.Application.DTOs;
 using FlexPro.Api.Extensions;
+using FlexPro.Api.Hubs;
+using FlexPro.Api.Middlewares;
 using FlexPro.Application;
 using FlexPro.Infrastructure;
 using FlexPro.Infrastructure.Data;

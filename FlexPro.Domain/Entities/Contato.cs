@@ -1,8 +1,9 @@
+using FlexPro.Domain.Abstractions;
 using FlexPro.Domain.Enums;
 
 namespace FlexPro.Domain.Entities;
 
-public class Contato
+public class Contato : Entity
 { 
     public int Id { get; set; }
     public string Nome { get; set; }

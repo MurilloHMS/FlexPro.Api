@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.Commands.Informativo;
-using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ public class CalcularDadosInformativoHandler : IRequestHandler<CalcularDadosInfo
     {
         if( request.informativoRequest == null) return new BadRequestObjectResult("Dados não foram enviados corretamente");
 
-        IEnumerable<Domain.Models.Informativo> informativos = await _service.CreateInfoData(request.informativoRequest.InformativoNFes, request.informativoRequest.informativoOs, request.informativoRequest.InformativoPecasTrocadas, request.informativoRequest.Month);
+        IEnumerable<FlexPro.Domain.Models.Informativo> informativos = await _service.CreateInfoData(request.informativoRequest.InformativoNFes, request.informativoRequest.informativoOs, request.informativoRequest.InformativoPecasTrocadas, request.informativoRequest.Month);
 
         return informativos.Any()
             ? new OkObjectResult(informativos)

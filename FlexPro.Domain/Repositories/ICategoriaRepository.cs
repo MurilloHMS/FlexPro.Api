@@ -2,7 +2,7 @@
 
 namespace FlexPro.Domain.Repositories
 {
-    public interface ICategoriaRepository : Api.Application.Interfaces.IRepository<Categoria>
+    public interface ICategoriaRepository : IRepository<Categoria>
     {
         Task<Categoria> GetByNameAsync(string name);
         Task SaveOrUpdate(Categoria categoria);

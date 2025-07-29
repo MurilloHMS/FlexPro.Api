@@ -1,4 +1,4 @@
-﻿using FlexPro.Api.Infrastructure.Persistance;
+﻿using FlexPro.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using MediatR;
 

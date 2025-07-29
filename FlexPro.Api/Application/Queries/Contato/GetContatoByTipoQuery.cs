@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.DTOs.Contato;
-using FlexPro.Api.Domain;
+using FlexPro.Domain.Enums;
 using MediatR;
 
 namespace FlexPro.Api.Application.Queries.Contato;

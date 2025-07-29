@@ -3,7 +3,7 @@ using FlexPro.Domain.Enums;
 
 namespace FlexPro.Domain.Repositories;
 
-public interface IContatoRepository : Api.Application.Interfaces.IRepository<Contato>
+public interface IContatoRepository : IRepository<Contato>
 {
     Task InsertOrUpdateContatoAsync(Contato contato);
     Task<List<Contato>> GetContatosByStatusAsync(StatusContato_e status);

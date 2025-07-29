@@ -1,6 +1,8 @@
+using FlexPro.Domain.Abstractions;
+
 namespace FlexPro.Domain.Entities
 {
-    public class Revisao
+    public class Revisao : Entity
     {
         public int Id { get; set; }
         public DateTime? Data { get; set; }

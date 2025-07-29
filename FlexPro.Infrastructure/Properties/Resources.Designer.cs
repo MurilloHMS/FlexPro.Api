@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FlexPro.Api.Properties {
+namespace FlexPro.Infrastructure.Properties {
     using System;
     
     
