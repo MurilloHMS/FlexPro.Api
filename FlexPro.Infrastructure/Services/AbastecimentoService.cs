@@ -1,11 +1,12 @@
-﻿using ClosedXML.Excel;
+﻿using System.Text;
+using ClosedXML.Excel;
+using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
-using FlexPro.Api.Infrastructure.Persistance;
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
 
-namespace FlexPro.Api.Infrastructure.Services
+namespace FlexPro.Infrastructure.Services
 {
     public class AbastecimentoService
     {

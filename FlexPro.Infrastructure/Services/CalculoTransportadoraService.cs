@@ -1,10 +1,11 @@
 using System.Globalization;
 using System.Text;
 using System.Xml.Linq;
-using FlexPro.Api.Application.Interfaces;
+using FlexPro.Domain.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexPro.Api.Infrastructure.Services;
+namespace FlexPro.Infrastructure.Services;
 
 public class CalculoTransportadoraService : ICalculoTransportadoraService
 {
