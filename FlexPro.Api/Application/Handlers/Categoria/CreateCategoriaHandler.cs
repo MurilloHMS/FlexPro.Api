@@ -1,6 +1,6 @@
 using AutoMapper;
 using FlexPro.Api.Application.Commands.Categoria;
-using FlexPro.Api.Application.Interfaces;
+using FlexPro.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +20,7 @@ public class CreateCategoriaHandler : IRequestHandler<CreateCategoriaCommand, IA
     public async Task<IActionResult> Handle(CreateCategoriaCommand request, CancellationToken cancellationToken)
     {
         var entity = _mapper.Map<Domain.Entities.Categoria>(request.dto);
-        await _categoriaRepository.InsertOrUpdateAsync(entity);
+        await _categoriaRepository.SaveOrUpdate(entity);
         return new OkObjectResult("Categoria criada com sucesso");
     }
 }

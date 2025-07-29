@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Domain.Entities;
 
 namespace FlexPro.Api.Application.DTOs
 {

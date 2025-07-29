@@ -1,4 +1,4 @@
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Domain.Entities;
 using MediatR;
 
 namespace FlexPro.Api.Application.Queries.Produtos;

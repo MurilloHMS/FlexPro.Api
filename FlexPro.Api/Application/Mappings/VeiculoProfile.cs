@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Domain.Entities;
 
 namespace FlexPro.Api.Application.Mappings
 {

@@ -1,30 +1,20 @@
-using System.Globalization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text.Json.Serialization;
+using DotNetEnv;
+using FlexPro.Api.Application.DTOs;
+using FlexPro.Api.Extensions;
+using FlexPro.Api.Hubs;
+using FlexPro.Api.Middlewares;
+using FlexPro.Application;
+using FlexPro.Infrastructure;
+using FlexPro.Infrastructure.Data;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Localization;
-using FlexPro.Api.Infrastructure.Persistance;
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Infrastructure.Services;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Repositories;
 using QuestPDF.Infrastructure;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using FlexPro.Api.API.Middlewares;
-using FlexPro.Api.Application.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using DotNetEnv;
-using FlexPro.Api.API.Hubs;
-using FlexPro.Api.Extensions;
-using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Formatting.Json;
-
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
@@ -46,16 +36,17 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddHttpContextAccessor();
 
 // Registros dos services 
-builder.Services.AddApplicationServices();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 builder.Services.AddJwtAuthentication(config);
 builder.Services.AddCorsPolicy();
 builder.Services.AddSwaggerDocs();
 builder.Services.AddEmailServices(config);
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(FlexPro.Api.Program).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssemblyContaining<FlexPro.Api.Program>();
 builder.Services.Configure<IISServerOptions>(options =>
 {
     options.MaxRequestBodySize = null;
@@ -98,7 +89,7 @@ builder.Host.UseSerilog((context, ServiceCollectionServiceExtensions, LoggerConf
 
 var app = builder.Build();
 
-var logger = app.Services.GetRequiredService<ILogger<Program>>();
+var logger = app.Services.GetRequiredService<ILogger<FlexPro.Api.Program>>();
 logger.LogInformation("Starting application");
 
 if (env.IsDevelopment())
@@ -151,4 +142,7 @@ app.UseEndpoints(endpoints =>
 
 app.Run();
 
-public partial class Program { }
+namespace FlexPro.Api
+{
+    public partial class Program { }
+}

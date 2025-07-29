@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Application.Queries.Veiculo;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Domain.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Api.Application.Handlers.Veiculo
 {

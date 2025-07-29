@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.Commands.CalculoTransportadora;
-using FlexPro.Api.Application.Interfaces;
+using FlexPro.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

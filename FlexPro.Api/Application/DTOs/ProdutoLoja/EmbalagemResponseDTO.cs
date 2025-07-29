@@ -1,4 +1,4 @@
-using FlexPro.Api.Domain;
+using FlexPro.Domain.Enums;
 
 namespace FlexPro.Api.Application.DTOs.ProdutoLoja;
 

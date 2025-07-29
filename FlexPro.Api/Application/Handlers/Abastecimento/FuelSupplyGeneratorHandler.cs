@@ -1,8 +1,6 @@
-using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Application.Queries.Abastecimento;
-using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Domain.Repositories;
 using MediatR;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace FlexPro.Api.Application.Handlers.Abastecimento;
 

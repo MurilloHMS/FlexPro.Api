@@ -1,4 +1,4 @@
-using FlexPro.Api.Domain.Models;
+using FlexPro.Domain.Models;
 
 namespace FlexPro.Api.Application.DTOs.Informativo;
 

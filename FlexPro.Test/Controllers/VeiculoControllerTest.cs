@@ -1,5 +1,4 @@
 ﻿using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.API.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.Queries.Veiculo;
+using FlexPro.Api.Controllers;
 
 namespace FlexPro.Test.Controllers
 {

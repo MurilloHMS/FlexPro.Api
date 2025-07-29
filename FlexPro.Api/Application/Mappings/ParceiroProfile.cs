@@ -1,7 +1,7 @@
 using AutoMapper;
 using FlexPro.Api.Application.DTOs.Cliente;
 using FlexPro.Api.Application.DTOs.Parceiro;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Domain.Entities;
 
 namespace FlexPro.Api.Application.Mappings;
 

@@ -1,6 +1,5 @@
-﻿using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+﻿using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -10,10 +9,10 @@ namespace FlexPro.Api.Application.Commands.Auth
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IJwtTokenGenerator _jwt;
+        private readonly IJwtTokenGenerator<ApplicationUser> _jwt;
 
 
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenGenerator jwt)
+        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenGenerator<ApplicationUser> jwt)
         {
             _userManager = userManager;
             _roleManager = roleManager;

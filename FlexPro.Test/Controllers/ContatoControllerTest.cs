@@ -1,6 +1,6 @@
 using System.Net;
 using FlexPro.Api.Application.DTOs.Contato;
-using FlexPro.Api.Domain;
+using FlexPro.Domain.Enums;
 using FlexPro.Test.Setup;
 
 namespace FlexPro.Test.Controllers;

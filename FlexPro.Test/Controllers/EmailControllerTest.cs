@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices.JavaScript;
-using FlexPro.Api.API.Controllers;
 using FlexPro.Api.Application.Commands.Email;
-using FlexPro.Api.Domain.Models;
+using FlexPro.Api.Controllers;
+using FlexPro.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
