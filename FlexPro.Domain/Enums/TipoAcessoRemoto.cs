@@ -1,4 +1,4 @@
-namespace FlexPro.Api.Domain;
+namespace FlexPro.Domain.Enums;
 
 public enum TipoAcessoRemoto
 {
