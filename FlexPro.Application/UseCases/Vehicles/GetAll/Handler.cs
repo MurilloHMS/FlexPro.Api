@@ -1,5 +1,7 @@
 using AutoMapper;
+using FlexPro.Application.DTOs;
 using FlexPro.Domain.Abstractions;
+using FlexPro.Domain.Entities;
 using FlexPro.Domain.Repositories;
 using MediatR;
 
@@ -12,6 +14,6 @@ public sealed class Handler(IVeiculoRepository repository, IMapper mapper) : IRe
         var vehicle = await repository.GetAllAsync();
         return vehicle is null
             ? Result.Failure<Response>(new Error("404", "Vehicle not found"))
-            : Result.Success(new Response(vehicle));
+            : Result.Success(new Response(mapper.Map<IEnumerable<VeiculoDTO>>(vehicle)));
     }
 }
