@@ -1,12 +1,12 @@
 ﻿using System.Globalization;
 using System.Xml.Linq;
 using ClosedXML.Excel;
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
+using FlexPro.Domain.Models;
+using FlexPro.Domain.Repositories;
+using Microsoft.AspNetCore.Http;
 using LoadOptions = System.Xml.Linq.LoadOptions;
 
-namespace FlexPro.Api.Infrastructure.Services
+namespace FlexPro.Infrastructure.Services
 {
     public class IcmsService : IIcmsService
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using FlexPro.Domain.Models;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using UglyToad.PdfPig;
-using FlexPro.Api.Domain.Models;
 
-namespace FlexPro.Api.Infrastructure.Services
+namespace FlexPro.Infrastructure.Services
 {
     public class SepararPdfService
     {

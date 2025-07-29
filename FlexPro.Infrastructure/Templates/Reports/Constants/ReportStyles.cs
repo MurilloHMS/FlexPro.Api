@@ -1,6 +1,6 @@
 ﻿using QuestPDF.Infrastructure;
 
-namespace FlexPro.Api.Infrastructure.Templates.Reports.Constants
+namespace FlexPro.Infrastructure.Templates.Reports.Constants
 {
     public static class ReportStyles
     {

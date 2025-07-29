@@ -1,21 +1,21 @@
-﻿using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+﻿using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexPro.Api.Infrastructure.Repositories
+namespace FlexPro.Infrastructure.Repositories
 {
-    public class FuncionarioRepository : Repository<Funcionario>,IFuncionarioRepository
+    public class FuncionarioRepository(AppDbContext context) : Repository<Funcionario>(context),IFuncionarioRepository
     {
-        public FuncionarioRepository(AppDbContext context) : base(context) { }
+        private readonly DbSet<Funcionario> _dbSet = context.Set<Funcionario>();
 
         public async Task DeleteById(int id)
         {
             var funcionario = _dbSet.FirstOrDefault(f => f.Id == id);
             if (funcionario != null)
             {
-                _context.Funcionarios.Remove(funcionario);
-                await _context.SaveChangesAsync();
+                context.Funcionarios.Remove(funcionario);
+                await context.SaveChangesAsync();
             }
         }
         public async Task SaveOrUpdate(Funcionario funcionario)
@@ -23,14 +23,14 @@ namespace FlexPro.Api.Infrastructure.Repositories
             var employeeFound = await _dbSet.FirstOrDefaultAsync(x => x.Id == funcionario.Id);
             if (employeeFound != null)
             {
-                _context.Entry(employeeFound).CurrentValues.SetValues(funcionario);
+                context.Entry(employeeFound).CurrentValues.SetValues(funcionario);
             }
             else
             {
                 _dbSet.Add(funcionario);
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }

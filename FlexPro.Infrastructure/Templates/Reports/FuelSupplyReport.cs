@@ -1,19 +1,13 @@
-﻿using FlexPro.Api.Domain.Entities;
+﻿using FlexPro.Domain.Entities;
+using FlexPro.Infrastructure.Services;
+using FlexPro.Infrastructure.Templates.Reports.Components;
+using FlexPro.Infrastructure.Templates.Reports.Constants;
+using FlexPro.Infrastructure.Templates.Reports.Models;
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using FlexPro.Api.Infrastructure.Templates.Reports.Components;
-using FlexPro.Api.Infrastructure.Templates.Reports.Constants;
-using FlexPro.Api.Infrastructure.Templates.Reports.Models;
-using ScottPlot;
 using Colors = QuestPDF.Helpers.Colors;
-using FlexPro.Api.Infrastructure.Services;
-using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace FlexPro.Api.Infrastructure.Templates.Reports
+namespace FlexPro.Infrastructure.Templates.Reports
 {
     public class FuelSupplyReport : IDocument
     {

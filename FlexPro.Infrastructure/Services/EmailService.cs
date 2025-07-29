@@ -1,19 +1,15 @@
-﻿using System.Net;
-using System.Net.Mail;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MailKit.Net.Smtp;
 using MimeKit;
-using System.Text;
 using RazorLight;
-using FlexPro.Api.Application.Interfaces;
-using Npgsql.Replication.TestDecoding;
-using NuGet.Packaging;
 using SmtpLw;
 using SmtpLw.Models;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
-using FlexPro.Api.Domain.Models;
+using FlexPro.Domain.Models;
+using FlexPro.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 
-namespace FlexPro.Api.Infrastructure.Services
+namespace FlexPro.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
@@ -36,15 +32,15 @@ namespace FlexPro.Api.Infrastructure.Services
             message.From = Environment.GetEnvironmentVariable("SMTP__FROM_EMAIL");
             message.Headers = new Dictionary<string, string>{{"Content-Type", "text/html"}};
 
-            if (cc != null && cc.Any())
-            {
-                message.CarbonCopy.AddRange(cc);
-            }
-
-            if (bcc != null && bcc.Any())
-            {
-                message.BlindCarbonCopy.AddRange(bcc);
-            }
+            // if (cc != null && cc.Any())
+            // {
+            //     message.CarbonCopy.AddRange(cc);
+            // }
+            //
+            // if (bcc != null && bcc.Any())
+            // {
+            //     message.BlindCarbonCopy.AddRange(bcc);
+            // }
             
             var messageId = await client.SendMessageAsync(message, CancellationToken.None).ConfigureAwait(false);
             Console.WriteLine($"Message Id: {messageId}");

@@ -1,4 +1,4 @@
-namespace FlexPro.Api.Domain.Entities;
+namespace FlexPro.Domain.Entities;
 
 public class PrestadorDeServico : Entidade
 {

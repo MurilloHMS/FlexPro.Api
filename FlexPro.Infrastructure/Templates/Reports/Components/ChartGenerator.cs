@@ -2,7 +2,7 @@
 using ScottPlot;
 using ScottPlot.TickGenerators;
 
-namespace FlexPro.Api.Infrastructure.Templates.Reports.Components
+namespace FlexPro.Infrastructure.Templates.Reports.Components
 {
     public static class ChartGenerator
     {

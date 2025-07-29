@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-namespace FlexPro.Api.Application.Interfaces;
+namespace FlexPro.Domain.Repositories;
 
 public interface ICalculoTransportadoraService
 {

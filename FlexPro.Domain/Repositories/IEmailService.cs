@@ -1,6 +1,6 @@
-﻿using FlexPro.Api.Domain.Models;
+﻿using FlexPro.Domain.Models;
 
-namespace FlexPro.Api.Application.Interfaces
+namespace FlexPro.Domain.Repositories
 {
     public interface IEmailService
     {

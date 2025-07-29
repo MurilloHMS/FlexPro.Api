@@ -1,16 +1,16 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
-namespace FlexPro.Api.Infrastructure.Services
+namespace FlexPro.Infrastructure.Services
 {
-    public class JwtTokenGenerator : IJwtTokenGenerator
+    public class JwtTokenGenerator : IJwtTokenGenerator<ApplicationUser>
     {
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;

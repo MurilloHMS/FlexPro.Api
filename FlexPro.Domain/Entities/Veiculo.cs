@@ -1,11 +1,12 @@
-﻿namespace FlexPro.Api.Domain.Entities
+﻿using FlexPro.Domain.Abstractions;
+
+namespace FlexPro.Domain.Entities
 {
-    public class Veiculo
+    public class Veiculo : Entity
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Placa { get; set; }
-        public string Marca { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public string Placa { get; set; } = string.Empty;
+        public string Marca { get; set; } = string.Empty;
         public double? ConsumoUrbanoAlcool { get; set; }
         public double? ConsumoUrbanoGasolina { get; set; }
         public double? ConsumoRodoviarioAlcool { get; set; }

@@ -1,26 +1,18 @@
-﻿using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Services;
-using QuestPDF.Companion;
+﻿using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Services;
+using FlexPro.Infrastructure.Templates.Reports.Components;
+using FlexPro.Infrastructure.Templates.Reports.Constants;
+using FlexPro.Infrastructure.Templates.Reports.Models;
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using QuestPDF.Previewer;
-using System.Collections.Generic;
-using System.Resources;
 using ScottPlot;
-using Colors = QuestPDF.Helpers.Colors;
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Infrastructure.Repositories;
-using Microsoft.Extensions.DependencyInjection;
-using MimeKit.Cryptography;
-using Color = QuestPDF.Infrastructure.Color;
 using ScottPlot.TickGenerators;
-using FlexPro.Api.Infrastructure.Templates.Reports.Models;
-using FlexPro.Api.Infrastructure.Templates.Reports.Components;
-using FlexPro.Api.Infrastructure.Templates.Reports.Constants;
+using Colors = QuestPDF.Helpers.Colors;
+using Color = QuestPDF.Infrastructure.Color;
 
 
-namespace FlexPro.Api.Infrastructure.Templates.Reports
+namespace FlexPro.Infrastructure.Templates.Reports
 {
     public class FuelSuppy_Report : IDocument
     {
