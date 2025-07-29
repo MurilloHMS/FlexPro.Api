@@ -1,13 +1,13 @@
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexPro.Api.Infrastructure.Repositories;
+namespace FlexPro.Infrastructure.Repositories;
 
-public class ClienteRepository : Repository<Cliente>, IClienteRepository
+public class ClienteRepository(AppDbContext context) : Repository<Cliente>(context), IClienteRepository
 {
-    public ClienteRepository(AppDbContext context) : base(context) { }
+    private readonly DbSet<Cliente> _dbSet = context.Set<Cliente>();
     
 
     public async Task<Cliente> GetByEmail(string email)
@@ -27,18 +27,18 @@ public class ClienteRepository : Repository<Cliente>, IClienteRepository
         Cliente clienteEncontrado = await _dbSet.FirstOrDefaultAsync(x => x.Id == cliente.Id);
         if (clienteEncontrado != null)
         {
-            _context.Entry(clienteEncontrado).CurrentValues.SetValues(cliente);
+            context.Entry(clienteEncontrado).CurrentValues.SetValues(cliente);
         }
         else
         {
-            _context.Cliente.Add(cliente);
+            context.Cliente.Add(cliente);
         }
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task IncludeClienteByRange(List<Cliente> clientes)
     {
         await _dbSet.AddRangeAsync(clientes);
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 }

@@ -1,6 +1,7 @@
-﻿using FlexPro.Api.Domain.Entities;
+﻿using FlexPro.Api.Application.Interfaces;
+using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Interfaces
+namespace FlexPro.Infrastructure.Repositories
 {
     public interface IRevisaoRepository : IRepository<Revisao>
     {

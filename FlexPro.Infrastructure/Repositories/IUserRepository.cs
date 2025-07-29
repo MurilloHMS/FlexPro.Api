@@ -1,6 +1,6 @@
-﻿using FlexPro.Api.Domain.Entities;
+﻿using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Interfaces
+namespace FlexPro.Infrastructure.Repositories
 {
     public interface IUserRepository
     {

@@ -1,8 +1,8 @@
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Interfaces;
+namespace FlexPro.Domain.Repositories;
 
-public interface IClienteRepository : IRepository<Cliente>
+public interface IClienteRepository : Api.Application.Interfaces.IRepository<Cliente>
 {
     Task<Cliente> GetByEmail(string email);
     Task<Cliente> GetByName(string nome);

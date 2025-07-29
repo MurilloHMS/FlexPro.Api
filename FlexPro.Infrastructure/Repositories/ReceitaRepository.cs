@@ -1,9 +1,9 @@
-﻿using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+﻿using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexPro.Api.Infrastructure.Repositories
+namespace FlexPro.Infrastructure.Repositories
 {
     public class ReceitaRepository : IReceitaRepository
     {

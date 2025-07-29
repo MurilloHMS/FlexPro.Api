@@ -1,14 +1,13 @@
-﻿using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+﻿using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexPro.Api.Infrastructure.Repositories
+namespace FlexPro.Infrastructure.Repositories
 {
-    public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
+    public class CategoriaRepository(AppDbContext context) : Repository<Categoria>(context), ICategoriaRepository
     {
-        public CategoriaRepository(AppDbContext context) : base(context) { }
-
+        private readonly DbSet<Categoria> _dbSet = context.Set<Categoria>();
         public async Task<Categoria> GetByNameAsync(string name)
         {
             var category = await _dbSet.FirstOrDefaultAsync(c => c.Nome == name);
@@ -20,13 +19,13 @@ namespace FlexPro.Api.Infrastructure.Repositories
             var categoryFounded = await _dbSet.FirstOrDefaultAsync(x => x.Id == category.Id);
             if (categoryFounded != null)
             {
-                _context.Entry(categoryFounded).CurrentValues.SetValues(category);
+                context.Entry(categoryFounded).CurrentValues.SetValues(category);
             }
             else
             {
                 _dbSet.Add(category);
             }
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }

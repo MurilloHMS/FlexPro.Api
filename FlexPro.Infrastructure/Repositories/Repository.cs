@@ -1,20 +1,12 @@
 using System.Linq.Expressions;
 using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexPro.Api.Infrastructure.Repositories;
+namespace FlexPro.Infrastructure.Repositories;
 
-public class Repository<T> : IRepository<T> where T : class
+public abstract class Repository<T>(DbContext context) : IRepository<T> where T : class
 {
-    protected readonly AppDbContext _context;
-    protected readonly DbSet<T> _dbSet;
-
-    public Repository(AppDbContext context)
-    {
-        _context = context;
-        _dbSet = context.Set<T>();
-    }
+    private readonly DbSet<T> _dbSet = context.Set<T>();
     
     public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
 
@@ -23,7 +15,7 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task DeleteAsync(T entity)
     {
         _dbSet.Remove(entity);
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
     
     public async Task InsertOrUpdateAsync(T entity, Expression<Func<T, bool>>? predicate = null)
@@ -35,8 +27,8 @@ public class Repository<T> : IRepository<T> where T : class
         }
         else
         {
-            var entry = _context.Entry(entity);
-            var key = _context.Model.FindEntityType(typeof(T))?.FindPrimaryKey();
+            var entry = context.Entry(entity);
+            var key = context.Model.FindEntityType(typeof(T))?.FindPrimaryKey();
 
             if (key != null)
             {
@@ -52,14 +44,14 @@ public class Repository<T> : IRepository<T> where T : class
 
         if (entityFounded != null)
         {
-            _context.Entry(entityFounded).CurrentValues.SetValues(entity);
+            context.Entry(entityFounded).CurrentValues.SetValues(entity);
         }
         else
         {
             await _dbSet.AddAsync(entity);
         }
         
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
     
     private static object? GetDefault(Type type)

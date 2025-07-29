@@ -1,8 +1,8 @@
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Interfaces;
+namespace FlexPro.Domain.Repositories;
 
-public interface IComputadorRepository : IRepository<Computador>
+public interface IComputadorRepository : Api.Application.Interfaces.IRepository<Computador>
 {
     Task InsertAcessoRemoto(int id, AcessoRemoto model);
     Task DeleteAcessoRemoto(int id,  AcessoRemoto model);
