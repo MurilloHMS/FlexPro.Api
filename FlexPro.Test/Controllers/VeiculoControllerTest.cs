@@ -9,6 +9,7 @@ using Xunit;
 using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.Queries.Veiculo;
 using FlexPro.Api.Controllers;
+using FlexPro.Application.DTOs;
 
 namespace FlexPro.Test.Controllers
 {
