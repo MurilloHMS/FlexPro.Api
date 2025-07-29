@@ -1,7 +1,7 @@
 using FlexPro.Api.Application.DTOs;
 using FluentValidation;
 
-namespace FlexPro.Api.Application.Validators.Abastecimento;
+namespace FlexPro.Application.Validators.Abastecimento;
 
 public class AbastecimentoDTOValidator : AbstractValidator<AbastecimentoDTO>
 {

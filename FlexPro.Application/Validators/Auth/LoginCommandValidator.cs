@@ -1,9 +1,9 @@
-﻿using FlexPro.Api.Application.Commands.Auth;
+﻿using FlexPro.Api.Application.DTOs.Auth;
 using FluentValidation;
 
-namespace FlexPro.Api.Application.Validators.Auth
+namespace FlexPro.Application.Validators.Auth
 {
-    public class LoginCommandValidator : AbstractValidator<LoginCommand>
+    public class LoginCommandValidator : AbstractValidator<LoginRequest>
     {
         public LoginCommandValidator() 
         {

@@ -1,7 +1,7 @@
 using FlexPro.Api.Application.DTOs.Cliente;
 using FluentValidation;
 
-namespace FlexPro.Api.Application.Validators.Cliente;
+namespace FlexPro.Application.Validators.Cliente;
 
 public class CreateClienteDtoValidator : AbstractValidator<ClienteRequestDTO>
 {

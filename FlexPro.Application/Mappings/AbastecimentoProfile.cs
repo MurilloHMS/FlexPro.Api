@@ -3,7 +3,7 @@ using FlexPro.Api.Application.Commands.Abastecimento;
 using FlexPro.Api.Application.DTOs;
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Mappings;
+namespace FlexPro.Application.Mappings;
 
 public class AbastecimentoProfile : Profile
 {
