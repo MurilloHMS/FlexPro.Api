@@ -66,4 +66,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Infrastructure\Templates\Email\Informativo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlexPro.Application\FlexPro.Application.csproj" />
+    <ProjectReference Include="..\FlexPro.Domain\FlexPro.Domain.csproj" />
+    <ProjectReference Include="..\FlexPro.Infrastructure\FlexPro.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
