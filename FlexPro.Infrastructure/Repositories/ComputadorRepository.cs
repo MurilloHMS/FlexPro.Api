@@ -1,13 +1,13 @@
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Domain.Entities;
-using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexPro.Api.Infrastructure.Repositories;
+namespace FlexPro.Infrastructure.Repositories;
 
-public class ComputadorRepository : Repository<Computador>,  IComputadorRepository
+public class ComputadorRepository(AppDbContext context) : Repository<Computador>(context),  IComputadorRepository
 {
-    public ComputadorRepository(AppDbContext context) :base(context) { }
+    private readonly DbSet<Computador> _dbSet = context.Set<Computador>();
 
     public async Task InsertAcessoRemoto(int id, AcessoRemoto model)
     {
@@ -15,7 +15,7 @@ public class ComputadorRepository : Repository<Computador>,  IComputadorReposito
         if (computer != null)
         {
             computer.AcessosRemotos.Add(model);
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 
@@ -28,31 +28,31 @@ public class ComputadorRepository : Repository<Computador>,  IComputadorReposito
             if (acesso != null)
             {
                 computer.AcessosRemotos.Remove(acesso);
-                await _context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
     }
     
     public async Task DeleteAcessoRemotoAsync(int id, AcessoRemoto model)
     {
-        var acesso = await _context.AcessoRemoto
+        var acesso = await context.AcessoRemoto
             .FirstOrDefaultAsync(x => x.Id == model.Id && x.IdComputador == id);
 
         if (acesso != null)
         {
-            _context.AcessoRemoto.Remove(acesso);
-            await _context.SaveChangesAsync();
+            context.AcessoRemoto.Remove(acesso);
+            await context.SaveChangesAsync();
         }
     }
 
 
     public async Task UpdateAcessoRemoto(AcessoRemoto model)
     {
-        var acessoRemoto = await _context.AcessoRemoto.FirstOrDefaultAsync(x => x.Id == model.Id);
+        var acessoRemoto = await context.AcessoRemoto.FirstOrDefaultAsync(x => x.Id == model.Id);
         if (acessoRemoto != null)
         {
-            _context.Entry(acessoRemoto).CurrentValues.SetValues(model);
-            await _context.SaveChangesAsync();
+            context.Entry(acessoRemoto).CurrentValues.SetValues(model);
+            await context.SaveChangesAsync();
         }
     }
 }
