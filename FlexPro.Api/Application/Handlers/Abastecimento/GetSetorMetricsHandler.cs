@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.Queries.Abastecimento;
-using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,7 @@
 using AutoMapper;
 using FlexPro.Api.Application.DTOs.Contato;
-using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Application.Queries.Contato;
+using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Contato;

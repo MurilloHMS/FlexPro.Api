@@ -2,9 +2,9 @@ name: Build and Push Docker Image
 
 on: 
   push:
-    branches:
-      - main
-      
+    tags:
+      - '*'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,4 +30,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: murilloproauto/flexpro-api:latest
+          tags: |
+            murilloproauto/flexpro-api:latest
+            murilloproauto/flexpro-api:${{ github.ref_name }}

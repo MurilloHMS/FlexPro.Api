@@ -1,5 +1,4 @@
 ﻿using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.API.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -9,6 +8,8 @@ using System.Threading.Tasks;
 using Xunit;
 using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.Queries.Veiculo;
+using FlexPro.Api.Controllers;
+using FlexPro.Application.DTOs;
 
 namespace FlexPro.Test.Controllers
 {
@@ -61,7 +62,7 @@ namespace FlexPro.Test.Controllers
         [Fact]
         public async Task Create_ShouldReturnCreatedAtAction()
         {
-            var command = new CreateVeiculoCommand
+            var command = new VeiculoDTO()
             {
                 Nome = "Novo Carro",
                 Placa = "XYZ-9876",

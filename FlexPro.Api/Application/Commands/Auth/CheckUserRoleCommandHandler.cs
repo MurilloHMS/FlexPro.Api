@@ -1,5 +1,5 @@
 ﻿using FlexPro.Api.Application.DTOs.Auth;
-using FlexPro.Api.Infrastructure.Persistance;
+using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Org.BouncyCastle.Crypto;

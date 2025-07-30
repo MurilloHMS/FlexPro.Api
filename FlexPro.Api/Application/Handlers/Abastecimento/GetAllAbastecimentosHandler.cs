@@ -1,9 +1,8 @@
 using AutoMapper;
 using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Application.Queries.Abastecimento;
+using FlexPro.Domain.Repositories;
 using MediatR;
-using NuGet.Protocol.Plugins;
 
 namespace FlexPro.Api.Application.Handlers.Abastecimento;
 

@@ -13,6 +13,8 @@
     <Content Remove="Data\**" />
     <EmbeddedResource Remove="Data\**" />
     <None Remove="Data\**" />
+    <EmbeddedResource Remove="Properties\Resources.resx" />
+    <Compile Remove="Properties\Resources.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
@@ -26,10 +28,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -53,16 +51,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    <_ContentIncludedByDefault Remove="Infrastructure\Templates\Email\Informativo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <ProjectReference Include="..\FlexPro.Application\FlexPro.Application.csproj" />
+    <ProjectReference Include="..\FlexPro.Domain\FlexPro.Domain.csproj" />
+    <ProjectReference Include="..\FlexPro.Infrastructure\FlexPro.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

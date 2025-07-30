@@ -1,7 +1,7 @@
 using AutoMapper;
 using FlexPro.Api.Application.DTOs.Cliente;
-using FlexPro.Api.Application.Interfaces;
 using FlexPro.Api.Application.Queries.Cliente;
+using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Cliente;

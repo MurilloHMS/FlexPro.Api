@@ -1,7 +1,7 @@
 using FlexPro.Api.Application.Commands.Abastecimento;
-using FlexPro.Api.Application.Interfaces;
-using FlexPro.Api.Infrastructure.Persistance;
-using FlexPro.Api.Infrastructure.Services;
+using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
+using FlexPro.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

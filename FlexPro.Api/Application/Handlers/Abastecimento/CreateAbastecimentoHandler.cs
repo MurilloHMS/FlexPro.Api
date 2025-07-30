@@ -1,6 +1,6 @@
 using AutoMapper;
 using FlexPro.Api.Application.Commands.Abastecimento;
-using FlexPro.Api.Application.Interfaces;
+using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Abastecimento;

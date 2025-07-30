@@ -1,5 +1,5 @@
 ﻿using FlexPro.Api.Application.DTOs;
-using FlexPro.Api.Domain.Entities;
+using FlexPro.Application.DTOs;
 using MediatR;
 
 namespace FlexPro.Api.Application.Queries.Veiculo

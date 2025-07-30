@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlexPro.Api.Infrastructure.Persistance;
+﻿using FlexPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Test.Setup
