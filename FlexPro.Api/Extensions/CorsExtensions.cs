@@ -8,9 +8,14 @@ public static class CorsExtensions
         {
             options.AddPolicy("AllowFrontend", policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.WithOrigins(
+                    "https://proautokimium.com.br",
+                    "http://proautokimium.com.br",
+                    "https://proautokimium.com",
+                    "http://proautokimium.com")
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .AllowCredentials();
             });
         });
 
