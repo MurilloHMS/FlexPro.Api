@@ -5,16 +5,15 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 WORKDIR /src
 
-COPY ["FlexPro.Api/FlexPro.Api.csproj", "FlexPro.Api/"]
-COPY ["FlexPro.Infrastructure/FlexPro.Infrastructure.csproj", "FlexPro.Infrastructure/"]
-COPY ["FlexPro.Application/FlexPro.Application.csproj", "FlexPro.Application/"]
-COPY ["FlexPro.Domain/FlexPro.Domain.csproj", "FlexPro.Domain/"]
+COPY FlexPro.Api/ FlexPro.Api/
+COPY FlexPro.Infrastructure/ FlexPro.Infrastructure/
+COPY FlexPro.Application/ FlexPro.Application/
+COPY FlexPro.Domain/ FlexPro.Domain/
 RUN dotnet restore "FlexPro.Api/FlexPro.Api.csproj"
 
 # Copiar a pasta Templates separadamente
 COPY FlexPro.Infrastructure/Templates /src/Infrastructure/Templates
 
-COPY . .
 WORKDIR "/src/FlexPro.Api"
 RUN dotnet build "FlexPro.Api.csproj" -c Release -o /app/build
 
