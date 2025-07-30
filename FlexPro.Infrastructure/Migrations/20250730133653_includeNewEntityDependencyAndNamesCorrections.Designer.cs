@@ -3,6 +3,7 @@ using System;
 using FlexPro.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FlexPro.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250730133653_includeNewEntityDependencyAndNamesCorrections")]
+    partial class includeNewEntityDependencyAndNamesCorrections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -406,13 +409,13 @@ namespace FlexPro.Infrastructure.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("NVARCHAR")
                         .HasColumnName("name");
 
                     b.Property<string>("SystemCode")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("NVARCHAR")
                         .HasColumnName("system_code");
 
                     b.HasKey("Id");

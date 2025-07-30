@@ -10,7 +10,7 @@ public class ProductMap : EntityBaseMap<Produto>
     {
         base.Configure(builder);
         
-        builder.ToTable("Produto");
+        builder.ToTable("produto");
 
         builder.HasDiscriminator<string>("Tipo")
             .HasValue<ProdutoLoja>("ProdutoLoja")

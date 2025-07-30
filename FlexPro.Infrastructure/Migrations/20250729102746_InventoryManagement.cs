@@ -39,7 +39,7 @@ namespace FlexPro.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_produtos", x => x.id);
+                    table.PrimaryKey("PK_inventory_products", x => x.id);
                 });
         }
 

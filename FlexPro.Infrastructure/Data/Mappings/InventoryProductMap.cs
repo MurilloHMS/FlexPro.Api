@@ -17,13 +17,13 @@ public class InventoryProductMap : EntityBaseMap<Products>
         builder.Property(x => x.Nome)
             .IsRequired(true)
             .HasMaxLength(200)
-            .HasColumnType("NVARCHAR")
+            .HasColumnType("TEXT")
             .HasColumnName("name");
         
         builder.Property(x => x.SystemCode)
             .IsRequired(true)
             .HasMaxLength(8)
-            .HasColumnType("NVARCHAR")
+            .HasColumnType("TEXT")
             .HasColumnName("system_code");
         
         builder.Property(x => x.MinimumStock)
