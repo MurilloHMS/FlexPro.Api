@@ -10,9 +10,8 @@ using Serilog;
 
 namespace FlexPro.Infrastructure.Services
 {
-    public class JwtTokenGenerator<T> : IJwtTokenGenerator<ApplicationUser>
+    public class JwtTokenGenerator : IJwtTokenGenerator<ApplicationUser>
     {
-        private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
         public JwtTokenGenerator( UserManager<ApplicationUser> userManager)
         {
@@ -20,10 +19,10 @@ namespace FlexPro.Infrastructure.Services
         }
         public async Task<string> GenerateToken(ApplicationUser user)
         {
-            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT__SECRET"));
+            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT__SECRET")!);
             var claims = new List<Claim>
     {
-        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.Name, user.UserName!),
         new Claim(ClaimTypes.NameIdentifier, user.Id)
     };
 
