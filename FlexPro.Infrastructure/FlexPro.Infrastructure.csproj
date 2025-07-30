@@ -61,9 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ItemGroup>
-      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
-    </ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
