@@ -62,7 +62,7 @@ namespace FlexPro.Test.Controllers
         [Fact]
         public async Task Create_ShouldReturnCreatedAtAction()
         {
-            var command = new CreateVeiculoCommand
+            var command = new VeiculoDTO()
             {
                 Nome = "Novo Carro",
                 Placa = "XYZ-9876",
