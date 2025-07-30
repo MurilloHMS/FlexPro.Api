@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexPro.Infrastructure", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexPro.Domain.Test", "FlexPro.Domain.Test\FlexPro.Domain.Test.csproj", "{E551C024-E496-4047-BDDB-4A55B7B8121A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexPro.Api.Test", "FlexPro.Api.Test\FlexPro.Api.Test.csproj", "{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{E551C024-E496-4047-BDDB-4A55B7B8121A}.Release|x64.Build.0 = Release|Any CPU
 		{E551C024-E496-4047-BDDB-4A55B7B8121A}.Release|x86.ActiveCfg = Release|Any CPU
 		{E551C024-E496-4047-BDDB-4A55B7B8121A}.Release|x86.Build.0 = Release|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Debug|x64.Build.0 = Debug|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Debug|x86.Build.0 = Debug|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Release|x64.ActiveCfg = Release|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Release|x64.Build.0 = Release|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Release|x86.ActiveCfg = Release|Any CPU
+		{6E17E311-5EF5-4F4B-BAFC-C453A7A61458}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
