@@ -81,4 +81,22 @@ public class AuthControllerTests
         Assert.AreEqual(expectedToken, actualToken);
         
     }
+
+    [TestMethod]
+    public async Task Register_ReturnsNotNull_WhenCredentialsAreInvalid()
+    {
+        var registerDto = new RegisterDTO { Password = "1234", Role = "Departamento" };
+        var expectedToken = "fake-jwt-token";
+        
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((string?)null);
+        
+        var result = await _authController.Register(registerDto);
+        
+        var notFoundResult = result as NotFoundObjectResult;
+        Assert.IsNotNull(notFoundResult);
+        Assert.AreEqual(404, notFoundResult.StatusCode);
+        Assert.AreEqual("Credenciais incorretas",  notFoundResult.Value);
+    }
 }
