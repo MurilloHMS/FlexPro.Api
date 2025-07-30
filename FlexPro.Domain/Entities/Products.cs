@@ -7,10 +7,6 @@ namespace FlexPro.Domain.Entities;
 [Table("inventory_products")]
 public class Products : Entity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
-    public int Id { get; set; }
     [Column("system_code")]
     public string SystemCode { get; set; } = string.Empty;
     [Column("name")]

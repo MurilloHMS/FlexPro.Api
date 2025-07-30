@@ -1,6 +1,8 @@
+using FlexPro.Domain.Abstractions;
+
 namespace FlexPro.Domain.Entities;
 
-public class ReceitaMateriaPrima
+public class ReceitaMateriaPrima : Entity
 {
     public int ReceitaId { get; set; }
     public virtual Receita? Receita { get; set; }

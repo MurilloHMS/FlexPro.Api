@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FlexPro.Infrastructure.Data.Mappings;
 
-public class InventoryProductMap : IEntityTypeConfiguration<Products>
+public class InventoryProductMap : EntityBaseMap<Products>
 {
-    public void Configure(EntityTypeBuilder<Products> builder)
+    public override void Configure(EntityTypeBuilder<Products> builder)
     {
+        base.Configure(builder);
+        
         builder.ToTable("inventory-products");
 
         builder.HasKey(p => p.Id);
