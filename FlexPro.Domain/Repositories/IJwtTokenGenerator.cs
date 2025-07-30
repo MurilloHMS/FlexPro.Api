@@ -1,7 +1,7 @@
 ﻿namespace FlexPro.Domain.Repositories
 {
-    public interface IJwtTokenGenerator<T> where T : class
+    public interface IJwtTokenGenerator<TUser>
     {
-        Task<string> GenerateToken(T user);
+        Task<string> GenerateToken(TUser user);
     }
 }

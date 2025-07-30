@@ -1,4 +1,5 @@
 using FlexPro.Domain.Repositories;
+using FlexPro.Infrastructure.Data;
 using FlexPro.Infrastructure.Repositories;
 using FlexPro.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ public static class DependencyInjection
         services.AddScoped<IReportService, ReportService>();
         services.AddScoped<InformativoService>();
         services.AddScoped<IVeiculoRepository, VeiculoRepository>();
-        services.AddScoped(typeof(IJwtTokenGenerator<>), typeof(JwtTokenGenerator<>));
+        services.AddScoped<IJwtTokenGenerator<ApplicationUser>, JwtTokenGenerator>();
         services.AddScoped<IIcmsService, IcmsService>();
         services.AddScoped<ICalculoTransportadoraService, CalculoTransportadoraService>();
         services.AddScoped<IClienteRepository, ClienteRepository>();
