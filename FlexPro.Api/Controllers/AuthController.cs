@@ -29,7 +29,7 @@ namespace FlexPro.Api.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDTO dto)
         {
             var token = await _mediator.Send(new RegisterCommand { Register = dto});
-            return Ok(new {token});
+            return token != null ? Ok(new {token}) : NotFound("Credenciais incorretas");
         }
 
         [HttpPost("AddRole")]
