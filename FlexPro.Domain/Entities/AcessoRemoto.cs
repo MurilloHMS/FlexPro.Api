@@ -1,14 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FlexPro.Domain.Abstractions;
 using FlexPro.Domain.Enums;
 
 namespace FlexPro.Domain.Entities;
 
-public class AcessoRemoto
+public class AcessoRemoto : Entity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
     public string? Usuario { get; set; }
     public string Senha { get; set; } = string.Empty;
     public TipoAcessoRemoto TipoAcessoRemoto { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlexPro.Domain.Abstractions;
 
-public abstract class Entity
+public class Entity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

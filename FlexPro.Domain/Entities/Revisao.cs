@@ -4,7 +4,6 @@ namespace FlexPro.Domain.Entities
 {
     public class Revisao : Entity
     {
-        public int Id { get; set; }
         public DateTime? Data { get; set; }
         public int Kilometragem { get; set; }
         public string NotaFiscal { get; set; } = string.Empty;

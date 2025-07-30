@@ -4,7 +4,6 @@ namespace FlexPro.Domain.Entities
 {
     public class Funcionario : Entity
     {
-        public int Id { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string? Departamento { get; set; }
         public string? Hash { get; set; }

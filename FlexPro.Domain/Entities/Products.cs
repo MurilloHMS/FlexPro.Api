@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FlexPro.Domain.Abstractions;
 
 namespace FlexPro.Domain.Entities;
 
 [Table("inventory_products")]
-public class Products
+public class Products : Entity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

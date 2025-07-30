@@ -10,7 +10,7 @@ using Serilog;
 
 namespace FlexPro.Infrastructure.Services
 {
-    public class JwtTokenGenerator : IJwtTokenGenerator<ApplicationUser>
+    public class JwtTokenGenerator<T> : IJwtTokenGenerator<ApplicationUser>
     {
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;

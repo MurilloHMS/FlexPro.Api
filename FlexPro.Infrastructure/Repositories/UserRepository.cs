@@ -1,4 +1,5 @@
 ﻿using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
 
 namespace FlexPro.Infrastructure.Repositories
 {

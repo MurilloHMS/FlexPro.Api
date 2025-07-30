@@ -1,8 +1,9 @@
+using FlexPro.Domain.Abstractions;
+
 namespace FlexPro.Domain.Entities
 {
-    public class Receita
+    public class Receita : Entity
     {
-        public int Id { get; set; }
         public string Nome { get; set; } = string.Empty;
         public double Embalagem { get; set; }
         public decimal ValorMaoDeObra { get; set; }

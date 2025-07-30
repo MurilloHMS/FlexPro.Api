@@ -1,8 +1,9 @@
+using FlexPro.Domain.Abstractions;
+
 namespace FlexPro.Domain.Entities;
 
-public class Especificacoes
+public class Especificacoes : Entity
 {
-    public int Id { get; set; }
     public string Processador { get; set; } = string.Empty;
     public int MemoriaRam {get; set;}
     public int Armazenamento {get; set;}

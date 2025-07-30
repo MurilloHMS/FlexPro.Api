@@ -1,6 +1,6 @@
 ﻿using FlexPro.Domain.Entities;
 
-namespace FlexPro.Infrastructure.Repositories
+namespace FlexPro.Domain.Repositories
 {
     public interface IUserRepository
     {

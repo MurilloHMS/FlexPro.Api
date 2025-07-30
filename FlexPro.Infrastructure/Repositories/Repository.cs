@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Infrastructure.Repositories;
 
-public abstract class Repository<T>(DbContext context) : IRepository<T> where T : Entity
+public class Repository<T>(DbContext context) : IRepository<T> where T : Entity
 {
     private readonly DbSet<T> _dbSet = context.Set<T>();
     

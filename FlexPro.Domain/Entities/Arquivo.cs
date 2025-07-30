@@ -1,15 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FlexPro.Domain.Abstractions;
 
 namespace FlexPro.Domain.Entities;
 
 [Table("archives")]
-public class Arquivo
+public class Arquivo : Entity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
-    public int Id { get; set; }
     [Column("file_name")] 
     [MaxLength(100)] 
     public string Name { get; set; } = string.Empty;
