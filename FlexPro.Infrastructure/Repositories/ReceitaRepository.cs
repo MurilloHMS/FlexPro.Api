@@ -20,7 +20,7 @@ public class ReceitaRepository : IReceitaRepository
         return receita;
     }
 
-    public async Task<Receita> GetById(int id)
+    public async Task<Receita?> GetById(int id)
     {
         var receita = await _context.Receita.FirstOrDefaultAsync(x => x.Id == id);
         return receita ?? null;

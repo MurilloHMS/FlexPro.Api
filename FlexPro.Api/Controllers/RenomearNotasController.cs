@@ -13,7 +13,7 @@ public class RenomearNotasController : ControllerBase
     [HttpPost("upload")]
     public async Task<ActionResult> RenomearNotasFiscais(List<IFormFile> files)
     {
-        if (files == null || files.Count == 0)
+        if (files.Count == 0)
             return BadRequest("Nenhum arquivo enviado.");
 
         var dados = new List<DadosNota>();
@@ -93,7 +93,7 @@ public class RenomearNotasController : ControllerBase
 
     private async Task AlterarNomesNotas(string filePath, List<DadosNota> dados, string outputFolder)
     {
-        if (dados == null || !dados.Any()) return;
+        if (!dados.Any()) return;
 
         var nomeDaNota = Path.GetFileNameWithoutExtension(filePath);
 

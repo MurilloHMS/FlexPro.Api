@@ -12,8 +12,8 @@ public class ContatoRepository(AppDbContext context) : Repository<Contato>(conte
 
     public async Task InsertOrUpdateContatoAsync(Contato contato)
     {
-        var ContatoFounded = await _dbSet.FirstOrDefaultAsync(x => x.Id == contato.Id);
-        if (ContatoFounded != null)
+        var contatoFounded = await _dbSet.FirstOrDefaultAsync(x => x.Id == contato.Id);
+        if (contatoFounded != null)
             context.Entry(contato).CurrentValues.SetValues(contato);
         else
             _dbSet.Add(contato);

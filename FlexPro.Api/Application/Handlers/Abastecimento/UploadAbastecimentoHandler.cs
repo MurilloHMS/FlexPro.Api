@@ -24,16 +24,16 @@ public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCom
 
     public async Task<IActionResult> Handle(UploadAbastecimentoCommand request, CancellationToken cancellationToken)
     {
-        if (request.File == null || request.File.Length == 0) return new BadRequestObjectResult("Arquivo inválido");
+        if (request.File.Length == 0) return new BadRequestObjectResult("Arquivo inválido");
 
         var dadosAbastecimento = await _service.ColetarDadosAbastecimento(request.File);
 
-        if (dadosAbastecimento != null && dadosAbastecimento.Any())
+        if (dadosAbastecimento.Any())
         {
             foreach (var abastecimento in dadosAbastecimento)
             {
                 var departamento = _context.Funcionarios.FirstOrDefault(f =>
-                    f.Nome.ToUpper().Contains(abastecimento.NomeDoMotorista.ToUpper()));
+                    abastecimento.NomeDoMotorista != null && f.Nome.ToUpper().Contains(abastecimento.NomeDoMotorista.ToUpper()));
                 abastecimento.Departamento = departamento != null ? departamento.Departamento! : "Sem Departamento";
             }
 

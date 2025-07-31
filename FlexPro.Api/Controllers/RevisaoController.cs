@@ -12,20 +12,18 @@ namespace FlexPro.Api.Controllers;
 [ApiController]
 public class RevisaoController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly IRevisaoRepository _repository;
 
     public RevisaoController(AppDbContext context)
     {
-        _context = context;
-        _repository = new RevisaoRepository(_context);
+        _repository = new RevisaoRepository(context);
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Revisao>>> GetRevisao()
     {
         var revisao = await _repository.GetAllAsync();
-        return revisao == null ? NotFound() : Ok(revisao);
+        return revisao == null! ? NotFound() : Ok(revisao);
     }
 
     [HttpGet("{id}")]
@@ -39,7 +37,7 @@ public class RevisaoController : ControllerBase
     public async Task<ActionResult<Revisao>> GetRevisaoByVehicleId(int id)
     {
         var revisao = await _repository.GetByVehicleId(id);
-        return revisao.Any() && revisao != null ? Ok(revisao) : NotFound();
+        return revisao.Any() && revisao != null! ? Ok(revisao) : NotFound();
     }
 
     [HttpPost]

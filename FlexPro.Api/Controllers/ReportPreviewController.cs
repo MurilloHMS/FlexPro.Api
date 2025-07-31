@@ -1,5 +1,4 @@
 ﻿using FlexPro.Domain.Repositories;
-using FlexPro.Infrastructure.Services;
 using FlexPro.Infrastructure.Templates.Reports;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Companion;
@@ -10,16 +9,11 @@ namespace FlexPro.Api.Controllers;
 [Route("preview/report")]
 public class ReportPreviewController : ControllerBase
 {
-    private readonly IAbastecimentoRepository _abastecimentoRepository;
-    private readonly AbastecimentoService _abastecimentoService;
     private readonly IReportService _reportService;
 
-    public ReportPreviewController(AbastecimentoService abastecimentoService,
-        IAbastecimentoRepository abastecimentoRepository, IReportService reportService)
+    public ReportPreviewController(IReportService reportService)
     {
         _reportService = reportService;
-        _abastecimentoService = abastecimentoService;
-        _abastecimentoRepository = abastecimentoRepository;
     }
 
     [HttpGet("consultoria")]

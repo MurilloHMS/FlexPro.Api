@@ -12,20 +12,18 @@ namespace FlexPro.Api.Controllers;
 [ApiController]
 public class PrestadorDeServicoController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly IPrestadorDeServicoRepository _repository;
 
     public PrestadorDeServicoController(AppDbContext context)
     {
-        _context = context;
-        _repository = new PrestadorDeServicoRepository(_context);
+        _repository = new PrestadorDeServicoRepository(context);
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<PrestadorDeServico>>> GetAll()
     {
         var entities = await _repository.GetAllAsync();
-        return entities == null ? NotFound() : Ok(entities);
+        return entities == null! ? NotFound() : Ok(entities);
     }
 
     [HttpGet("{id}")]

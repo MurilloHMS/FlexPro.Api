@@ -23,14 +23,14 @@ public class ReceitaController : ControllerBase
     public async Task<ActionResult<List<Receita>>> GetReceita()
     {
         var receipt = await _repository.GetAll();
-        return receipt == null ? NotFound() : Ok(receipt);
+        return receipt == null! ? NotFound() : Ok(receipt);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Receita>> GetReceita(int id)
     {
         var receipt = await _repository.GetById(id);
-        return receipt == null ? NotFound() : Ok(receipt);
+        return receipt == null! ? NotFound() : Ok(receipt);
     }
 
     [HttpPost]
@@ -51,7 +51,7 @@ public class ReceitaController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (await _repository.GetById(id) == null) return NotFound();
+            if (await _repository.GetById(id) == null!) return NotFound();
         }
 
         return NoContent();
@@ -61,7 +61,7 @@ public class ReceitaController : ControllerBase
     public async Task<ActionResult> DeleteReceita(int id)
     {
         var receipt = await _repository.GetById(id);
-        if (receipt == null) return NotFound();
+        if (receipt == null!) return NotFound();
 
         await _repository.Delete(receipt);
         return NoContent();

@@ -12,13 +12,13 @@ public class ClienteRepository(AppDbContext context) : Repository<Cliente>(conte
 
     public async Task<Cliente> GetByEmail(string email)
     {
-        var cliente = _dbSet.FirstOrDefault(x => x.Email == email);
+        var cliente = await _dbSet.FirstOrDefaultAsync(x => x.Email == email);
         return cliente!;
     }
 
     public async Task<Cliente> GetByName(string nome)
     {
-        var cliente = _dbSet.FirstOrDefault(x => x.Nome == nome);
+        var cliente = await _dbSet.FirstOrDefaultAsync(x => x.Nome == nome);
         return cliente!;
     }
 

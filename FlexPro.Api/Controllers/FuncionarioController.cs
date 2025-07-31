@@ -23,7 +23,7 @@ public class FuncionarioController : Controller
     public async Task<ActionResult<IEnumerable<Funcionario>>> GetFuncionario()
     {
         var employee = await _repository.GetAllAsync();
-        return employee == null ? NotFound() : Ok(employee);
+        return employee == null! ? NotFound() : Ok(employee);
     }
 
     [HttpGet("{id}")]

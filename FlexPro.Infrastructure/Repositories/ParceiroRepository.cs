@@ -9,7 +9,7 @@ public class ParceiroRepository(AppDbContext context) : Repository<Parceiro>(con
 {
     private readonly DbSet<Parceiro> _dbSet = context.Set<Parceiro>();
 
-    public async Task<Parceiro> GetByNameAsync(string nome)
+    public async Task<Parceiro?> GetByNameAsync(string nome)
     {
         var parceiro = await _dbSet.FirstOrDefaultAsync(x => x.Nome == nome);
         return parceiro;

@@ -14,7 +14,7 @@ public class ComputadorRepository(AppDbContext context) : Repository<Computador>
         var computer = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
         if (computer != null)
         {
-            computer.AcessosRemotos.Add(model);
+            computer.AcessosRemotos?.Add(model);
             await context.SaveChangesAsync();
         }
     }
@@ -24,10 +24,10 @@ public class ComputadorRepository(AppDbContext context) : Repository<Computador>
         var computer = await _dbSet.Include(c => c.AcessosRemotos).FirstOrDefaultAsync(x => x.Id == id);
         if (computer != null)
         {
-            var acesso = computer.AcessosRemotos.FirstOrDefault(x => x.Id == model.Id);
+            var acesso = computer.AcessosRemotos?.FirstOrDefault(x => x.Id == model.Id);
             if (acesso != null)
             {
-                computer.AcessosRemotos.Remove(acesso);
+                computer.AcessosRemotos?.Remove(acesso);
                 await context.SaveChangesAsync();
             }
         }

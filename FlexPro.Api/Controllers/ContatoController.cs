@@ -30,7 +30,7 @@ public class ContatoController : ControllerBase
     public async Task<ActionResult> CreateContato([FromBody] ContatoRequestDto request)
     {
         var contato = await _mediator.Send(new CreateContatoCommand(request));
-        return contato != null
+        return contato != null!
             ? Ok("Em Breve um de nossos consultores entrará em contato!")
             : BadRequest("Ocorreu um erro ao solicitar o contato. Por favor utilize um dos contatos ao lado.");
     }
