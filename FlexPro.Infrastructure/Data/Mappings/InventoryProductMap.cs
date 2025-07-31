@@ -26,6 +26,7 @@ public class InventoryProductMap : EntityBaseMap<Products>
         
         builder.Property(x => x.MinimumStock)
             .IsRequired(false)
-            .HasColumnName("minimum_stock");
+            .HasColumnName("minimum_stock")
+            .HasColumnType("int");
     }
 }
