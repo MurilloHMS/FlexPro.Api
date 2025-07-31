@@ -18,9 +18,6 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
     public async Task<IActionResult> Handle(CreateParceiroListBySheetCommand request,
         CancellationToken cancellationToken)
     {
-        if (request.File == null && request.File.Length == 0)
-            return new BadRequestObjectResult("Nenhum arquivo enviado");
-
         List<Domain.Entities.Parceiro> parceiros;
         using (var stream = new MemoryStream())
         {

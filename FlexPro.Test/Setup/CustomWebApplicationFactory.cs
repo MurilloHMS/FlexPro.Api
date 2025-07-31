@@ -17,13 +17,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             services.AddAuthentication("Test")
-                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", options => { });
+                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
 
             var sp = services.BuildServiceProvider();
             using (var scope = sp.CreateScope())
             {
                 var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<AppDbContext>();
+                var unused = scopedServices.GetRequiredService<AppDbContext>();
             }
         });
     }

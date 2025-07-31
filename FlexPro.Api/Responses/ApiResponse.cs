@@ -4,11 +4,11 @@ namespace FlexPro.Api.Responses;
 
 public class ApiResponse<T>
 {
-    public ApiResponse(HttpStatusCode StatusCode, string Message, T Data)
+    public ApiResponse(HttpStatusCode statusCode, string message, T data)
     {
-        this.StatusCode = StatusCode;
-        this.Message = Message;
-        this.Data = Data;
+        StatusCode = statusCode;
+        Message = message;
+        Data = data;
     }
 
     public HttpStatusCode StatusCode { get; set; }

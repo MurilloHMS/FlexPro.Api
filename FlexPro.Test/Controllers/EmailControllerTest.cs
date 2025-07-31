@@ -41,9 +41,9 @@ public class EmailControllerTest
 
         Assert.IsType<OkObjectResult>(result);
         var returnedResult = result as OkObjectResult;
-        Assert.Equal("E-mail enviado com sucesso", returnedResult.Value);
+        Assert.Equal("E-mail enviado com sucesso", returnedResult?.Value);
         Assert.Equal(expectedResult, returnedResult);
-        Assert.Equal(200, returnedResult.StatusCode);
+        Assert.Equal(200, returnedResult?.StatusCode);
         _mediatorMock.Verify(m => m.Send(It.IsAny<SendEmailCommand>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -70,8 +70,8 @@ public class EmailControllerTest
         Assert.IsType<BadRequestObjectResult>(result);
         var returnedResult = result as BadRequestObjectResult;
         Assert.Equal(expectedResult, result);
-        Assert.Equal(400, returnedResult.StatusCode);
-        Assert.Equal("Erro ao enviar e-mail", returnedResult.Value);
+        Assert.Equal(400, returnedResult?.StatusCode);
+        Assert.Equal("Erro ao enviar e-mail", returnedResult?.Value);
 
         _mediatorMock.Verify(m => m.Send(It.Is<SendEmailCommand>(cmd => cmd.EmailData == emailData), default),
             Times.Once);
@@ -125,8 +125,8 @@ public class EmailControllerTest
         // Assert
         Assert.IsType<OkObjectResult>(result);
         var okResult = result as OkObjectResult;
-        Assert.Equal("Informativos enviados com sucesso", okResult.Value);
-        Assert.Equal(200, okResult.StatusCode);
+        Assert.Equal("Informativos enviados com sucesso", okResult?.Value);
+        Assert.Equal(200, okResult?.StatusCode);
 
         _mediatorMock.Verify(
             m => m.Send(It.Is<SendInformativoCommand>(cmd => cmd.Informativos.SequenceEqual(informativos)), default),
@@ -181,6 +181,6 @@ public class EmailControllerTest
         //Assert
         Assert.IsType<BadRequestObjectResult>(result);
         var badRequestResult = result as BadRequestObjectResult;
-        Assert.Equal("Lista com dados está vazia", badRequestResult.Value);
+        Assert.Equal("Lista com dados está vazia", badRequestResult?.Value);
     }
 }

@@ -6,7 +6,7 @@ namespace FlexPro.Test.Setup;
 
 public static class TestAuthenticate
 {
-    public static async Task AuthenticateAsync(HttpClient _client)
+    public static async Task AuthenticateAsync(HttpClient client)
     {
         var loginPayload = new LoginRequest
         {
@@ -14,11 +14,11 @@ public static class TestAuthenticate
             Password = "Xj7hpmtmma@"
         };
 
-        var response = await _client.PostAsJsonAsync("/api/auth/login", loginPayload);
+        var response = await client.PostAsJsonAsync("/api/auth/login", loginPayload);
         response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadFromJsonAsync<LoginResponse>();
-        _client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", json.Token);
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", json?.Token);
     }
 }

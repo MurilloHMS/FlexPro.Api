@@ -38,6 +38,6 @@ public class VehicleTest
     public void Should_Fail_When_Name_is_Null()
     {
         var vehicle = new Veiculo();
-        vehicle.Nome = null;
+        vehicle.Nome = null!;
     }
 }

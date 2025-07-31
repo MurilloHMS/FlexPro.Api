@@ -2,7 +2,6 @@ using FlexPro.Api.Application.Commands.Categoria;
 using FlexPro.Application.DTOs.Categoria;
 using FlexPro.Domain.Entities;
 using FlexPro.Domain.Repositories;
-using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +13,12 @@ namespace FlexPro.Api.Controllers;
 public class CategoriaController : ControllerBase
 {
     private readonly ICategoriaRepository _categoriaRepository;
-    private readonly AppDbContext _context;
     private readonly IMediator _mediator;
 
-    public CategoriaController(AppDbContext context, ICategoriaRepository repository, IMediator mediator)
+    public CategoriaController( ICategoriaRepository repository, IMediator mediator)
     {
-        _context = context;
         _categoriaRepository = repository;
+        _mediator = mediator;
     }
 
     [HttpGet]

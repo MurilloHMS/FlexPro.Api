@@ -9,10 +9,10 @@ public class CategoriaRepository(AppDbContext context) : Repository<Categoria>(c
 {
     private readonly DbSet<Categoria> _dbSet = context.Set<Categoria>();
 
-    public async Task<Categoria> GetByNameAsync(string name)
+    public async Task<Categoria?> GetByNameAsync(string name)
     {
         var category = await _dbSet.FirstOrDefaultAsync(c => c.Nome == name);
-        return category ?? null;
+        return category;
     }
 
     public async Task SaveOrUpdate(Categoria category)

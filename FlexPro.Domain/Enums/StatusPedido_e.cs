@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum StatusPedido_e
+public enum StatusPedidoE
 {
     Solicitado,
     EmAndamento,

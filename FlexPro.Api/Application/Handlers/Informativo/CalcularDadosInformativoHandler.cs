@@ -17,12 +17,9 @@ public class CalcularDadosInformativoHandler : IRequestHandler<CalcularDadosInfo
     public async Task<IActionResult> Handle(CalcularDadosInformativoCommand request,
         CancellationToken cancellationToken)
     {
-        if (request.InformativoRequest == null)
-            return new BadRequestObjectResult("Dados não foram enviados corretamente");
-
         var informativos =
             await _service.CreateInfoData(request.InformativoRequest.InformativoNFes,
-                request.InformativoRequest.informativoOs, request.InformativoRequest.InformativoPecasTrocadas,
+                request.InformativoRequest.InformativoOs, request.InformativoRequest.InformativoPecasTrocadas,
                 request.InformativoRequest.Month);
 
         return informativos.Any()

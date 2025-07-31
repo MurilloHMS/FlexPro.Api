@@ -15,7 +15,7 @@ public class ColetarDadosNFeController : ControllerBase
     [HttpPost("upload")]
     public async Task<ActionResult> ColetarDadosNFe(List<IFormFile> files)
     {
-        if (files == null || files.Count == 0) return BadRequest("Nenhum arquivo enviado.");
+        if (files.Count == 0) return BadRequest("Nenhum arquivo enviado.");
 
         List<DadosNotasFiscais> dadosDaNotaFiscal = new();
 
@@ -25,8 +25,8 @@ public class ColetarDadosNFeController : ControllerBase
 
             using (var stream = file.OpenReadStream())
             {
-                var dados = await ProcessarXML(stream);
-                if (dados != null)
+                var dados = await ProcessarXml(stream);
+                if (dados != null && dados.Any())
                     foreach (var item in dados)
                         dadosDaNotaFiscal.Add(item);
             }
@@ -57,7 +57,7 @@ public class ColetarDadosNFeController : ControllerBase
                 worksheet.Cell(novaLinha, 4).Value = linha.Produto;
                 worksheet.Cell(novaLinha, 5).Value = linha.ValorUnitario;
                 worksheet.Cell(novaLinha, 6).Value = linha.ValorTotal;
-                worksheet.Cell(novaLinha, 7).Value = linha.CFOP;
+                worksheet.Cell(novaLinha, 7).Value = linha.Cfop;
 
                 novaLinha++;
             }
@@ -71,55 +71,62 @@ public class ColetarDadosNFeController : ControllerBase
             $"DadosNFe-{DateTime.Now:dd-MM-yyyy}.xlsx");
     }
 
-    private async Task<List<DadosNotasFiscais>> ProcessarXML(Stream stream)
+    private async Task<List<DadosNotasFiscais>?> ProcessarXml(Stream stream)
     {
         try
         {
             var xmlDoc = await XDocument.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
-            var ns = xmlDoc.Root.GetDefaultNamespace();
+            var ns = xmlDoc.Root?.GetDefaultNamespace();
 
             List<DadosNotasFiscais> dadosDaNota = new();
-            var prodTag = xmlDoc.Descendants(ns + "prod");
+            var prodTag = xmlDoc.Descendants(ns! + "prod");
             if (prodTag.Any())
                 foreach (var item in prodTag)
                 {
                     var dados = new DadosNotasFiscais();
-                    var numNfTag = xmlDoc.Descendants(ns + "ide").FirstOrDefault();
-                    if (numNfTag != null)
+                    if (ns != null)
                     {
-                        dados.NumeroNota = numNfTag.Element(ns + "nNF")?.Value;
-                        dados.DataNota = DateTime.TryParse(numNfTag.Element(ns + "dhEmi")?.Value, out var dataNota)
-                            ? dataNota
-                            : default;
+                        var numNfTag = xmlDoc.Descendants(ns + "ide").FirstOrDefault();
+                        if (numNfTag != null)
+                        {
+                            dados.NumeroNota = numNfTag.Element(ns + "nNF")?.Value;
+                            dados.DataNota = DateTime.TryParse(numNfTag.Element(ns + "dhEmi")?.Value, out var dataNota)
+                                ? dataNota
+                                : default;
+                        }
+                    
+                        var emitenteTag = xmlDoc.Descendants(ns + "emit").FirstOrDefault();
+                        if (emitenteTag != null) dados.Fornecedor = emitenteTag.Element(ns + "xNome")?.Value;
+                    
+                        var produto = item.Element(ns + "xProd")?.Value;
+                        dados.Produto = !string.IsNullOrEmpty(produto) ? produto : default;
+                    
+                        var valorUnitario = item.Element(ns + "vUnCom")?.Value;
+                        dados.ValorUnitario = !string.IsNullOrEmpty(valorUnitario) && decimal.TryParse(valorUnitario,
+                            NumberStyles.Any, CultureInfo.InvariantCulture, out var unitResult)
+                            ? unitResult
+                            : 0m;
+                    
+                        var cfop = item.Element(ns + "CFOP")?.Value;
+                        dados.Cfop = !string.IsNullOrEmpty(cfop) ? cfop : default;
+                    
+                        var valorTotalProduto = item.Element(ns + "vProd")?.Value;
+                        dados.ValorTotal = !string.IsNullOrEmpty(valorTotalProduto) && decimal.TryParse(valorTotalProduto,
+                            NumberStyles.Any, CultureInfo.InvariantCulture, out var valorTotalResult)
+                            ? valorTotalResult
+                            : 0m;
                     }
-
-                    var emitenteTag = xmlDoc.Descendants(ns + "emit").FirstOrDefault();
-                    if (emitenteTag != null) dados.Fornecedor = emitenteTag.Element(ns + "xNome")?.Value;
-
-                    var produto = item.Element(ns + "xProd")?.Value;
-                    dados.Produto = !string.IsNullOrEmpty(produto) ? produto : default;
-
-                    var valorUnitario = item.Element(ns + "vUnCom").Value;
-                    dados.ValorUnitario = !string.IsNullOrEmpty(valorUnitario) && decimal.TryParse(valorUnitario,
-                        NumberStyles.Any, CultureInfo.InvariantCulture, out var unitResult)
-                        ? unitResult
-                        : 0m;
-
-                    var cfop = item.Element(ns + "CFOP")?.Value;
-                    dados.CFOP = !string.IsNullOrEmpty(cfop) ? cfop : default;
-
-                    var valorTotalProduto = item.Element(ns + "vProd")?.Value;
-                    dados.ValorTotal = !string.IsNullOrEmpty(valorTotalProduto) && decimal.TryParse(valorTotalProduto,
-                        NumberStyles.Any, CultureInfo.InvariantCulture, out var valorTotalResult)
-                        ? valorTotalResult
-                        : 0m;
+                    else
+                    {
+                        return null;
+                    }
 
                     dadosDaNota.Add(dados);
                 }
 
             return dadosDaNota;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return null;
         }

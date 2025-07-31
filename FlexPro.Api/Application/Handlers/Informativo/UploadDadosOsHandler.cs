@@ -16,7 +16,7 @@ public class UploadDadosOsHandler : IRequestHandler<UploadDadosOsCommand, IActio
 
     public async Task<IActionResult> Handle(UploadDadosOsCommand request, CancellationToken cancellationToken)
     {
-        if (request.File == null || request.File.Length == 0)
+        if (request.File.Length == 0)
             return new BadRequestObjectResult("Não foi possivel obter os dados do arquivo");
 
         var dados = await _service.ReadOsData(request.File);

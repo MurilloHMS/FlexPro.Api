@@ -5,6 +5,6 @@ namespace FlexPro.Domain.Repositories;
 
 public interface ICalculoTransportadoraService
 {
-    Task<(string, decimal)> ProcessarXML(Stream file);
+    Task<(string, decimal)> ProcessarXml(Stream file);
     Task<IActionResult> CalcularAsync(List<IFormFile> files);
 }

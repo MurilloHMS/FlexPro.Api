@@ -1,9 +1,9 @@
 namespace FlexPro.Domain.Enums;
 
-public enum Hierarquia_e
+public enum HierarquiaE
 {
     Diretor,
-    CEO,
+    Ceo,
     Supervisor,
     Gerente,
     Coordenador,

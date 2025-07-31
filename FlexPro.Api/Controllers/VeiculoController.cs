@@ -32,7 +32,7 @@ public class VeiculoController : ControllerBase
     public async Task<ActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new GetVeiculoByIdQuery { Id = id });
-        return result == null ? NotFound() : Ok(result);
+        return result == null! ? NotFound() : Ok(result);
     }
 
     [HttpPost]

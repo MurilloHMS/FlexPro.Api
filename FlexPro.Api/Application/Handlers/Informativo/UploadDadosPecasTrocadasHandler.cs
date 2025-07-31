@@ -17,7 +17,7 @@ public class UploadDadosPecasTrocadasHandler : IRequestHandler<UploadDadosPecasT
     public async Task<IActionResult> Handle(UploadDadosPecasTrocadasCommand request,
         CancellationToken cancellationToken)
     {
-        if (request.File == null || request.File.Length == 0)
+        if (request.File.Length == 0)
             return new BadRequestObjectResult("Arquivo inválido ou vazio");
 
         var dados = await _service.ReadPecasTrocadasData(request.File);

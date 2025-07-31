@@ -1,6 +1,6 @@
 ﻿namespace FlexPro.Domain.Models;
 
-public class InformativoOS
+public class InformativoOs
 {
     public int NumOs { get; set; }
     public string CodigoCliente { get; set; } = string.Empty;

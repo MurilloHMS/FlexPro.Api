@@ -14,7 +14,7 @@ public class InventoryService
         _context = context;
     }
 
-    public async Task<byte[]> ExportInventoryToSheetAsync(DateTime? date = null)
+    public async Task<byte[]?> ExportInventoryToSheetAsync(DateTime? date = null)
     {
         try
         {
@@ -43,9 +43,9 @@ public class InventoryService
                 for (var i = 0; i < dayStock.Count; i++)
                 {
                     var movimentations = dayStock[i];
-                    var product = products.FirstOrDefault(m => m.Id.Equals(movimentations.SystemId));
+                    var product = products.FirstOrDefault(m => m.Id == int.Parse(movimentations.SystemId));
                     worksheet.Cell(i + 2, 1).Value = movimentations.SystemId;
-                    worksheet.Cell(i + 2, 2).Value = product!.Nome;
+                    worksheet.Cell(i + 2, 2).Value = product?.Nome;
                     worksheet.Cell(i + 2, 3).Value = movimentations.Data!.Value.ToString("dd/MM/yyyy");
                     worksheet.Cell(i + 2, 4).Value = movimentations.Quantity;
                 }

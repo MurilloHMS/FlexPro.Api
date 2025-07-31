@@ -11,7 +11,7 @@ namespace FlexPro.Api.Controllers;
 public class SepararPdfController : ControllerBase
 {
     [HttpPost("upload")]
-    public async Task<ActionResult<List<SepararPdf>>> Upload(IFormFile file)
+    public async Task<ActionResult<List<SepararPdf>>> Upload(IFormFile? file)
     {
         if (file is null || file.Length is 0) return BadRequest("Nenhum arquivo ou arquivo inválido enviado");
 
@@ -22,14 +22,14 @@ public class SepararPdfController : ControllerBase
         }
 
         var paginas = SepararPdfService.GetPdfByPage(inputPdfpath);
-        if (paginas is null || paginas.Count is 0)
+        if (paginas.Count is 0)
             return BadRequest("Não é possivel extrair as paginas do pdf informado");
 
         return Ok(paginas);
     }
 
     [HttpPost("save")]
-    public async Task<ActionResult> Save(List<SepararPdf> paginasSeparadas)
+    public async Task<ActionResult> Save(List<SepararPdf>? paginasSeparadas)
     {
         if (paginasSeparadas is not null && paginasSeparadas.Any())
         {

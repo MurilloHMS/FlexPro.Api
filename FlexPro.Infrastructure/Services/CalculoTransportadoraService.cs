@@ -9,19 +9,19 @@ namespace FlexPro.Infrastructure.Services;
 
 public class CalculoTransportadoraService : ICalculoTransportadoraService
 {
-    public async Task<(string, decimal)> ProcessarXML(Stream file)
+    public async Task<(string, decimal)> ProcessarXml(Stream file)
     {
         try
         {
             var xmlDoc = await XDocument.LoadAsync(file, LoadOptions.None, CancellationToken.None);
-            var ns = xmlDoc.Root.GetDefaultNamespace();
+            var ns = xmlDoc.Root?.GetDefaultNamespace();
 
-            var vPrest = xmlDoc.Descendants(ns + "vPrest").FirstOrDefault();
+            var vPrest = xmlDoc.Descendants(ns! + "vPrest").FirstOrDefault();
             var vTPrest = 0m;
 
             if (vPrest != null)
             {
-                var vTPrestString = vPrest.Element(ns + "vTPrest")?.Value;
+                var vTPrestString = vPrest.Element(ns! + "vTPrest")?.Value;
 
                 vTPrest = !string.IsNullOrEmpty(vTPrestString) && decimal.TryParse(vTPrestString, NumberStyles.Any,
                     CultureInfo.InvariantCulture, out var vTPrestValue)
@@ -41,7 +41,7 @@ public class CalculoTransportadoraService : ICalculoTransportadoraService
 
     public async Task<IActionResult> CalcularAsync(List<IFormFile> files)
     {
-        if (files == null || files.Count == 0) return new BadRequestObjectResult("Nenhum arquivo foi encontrado.");
+        if (files.Count == 0) return new BadRequestObjectResult("Nenhum arquivo foi encontrado.");
 
         StringBuilder result = new();
         var totalValorPrest = 0m;
@@ -50,7 +50,7 @@ public class CalculoTransportadoraService : ICalculoTransportadoraService
             if (files[i].Length > 0)
                 using (var stream = files[i].OpenReadStream())
                 {
-                    var (resultadoArquivo, valorPrest) = await ProcessarXML(stream);
+                    var (resultadoArquivo, valorPrest) = await ProcessarXml(stream);
                     result.Append(resultadoArquivo);
                     if (i < files.Count - 1) result.Append(" + ");
 
@@ -60,7 +60,7 @@ public class CalculoTransportadoraService : ICalculoTransportadoraService
 
         result.AppendLine();
         result.AppendLine($"Total: R$ {totalValorPrest}");
-        return result != null
+        return result != null!
             ? new OkObjectResult(result)
             : new BadRequestObjectResult("Erro ao calcular os arquivos.");
     }

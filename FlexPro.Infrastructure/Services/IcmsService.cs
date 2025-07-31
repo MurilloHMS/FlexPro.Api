@@ -12,9 +12,9 @@ public class IcmsService : IIcmsService
 {
     public async Task<Stream> CalcularAsync(List<IFormFile> files)
     {
-        if (files == null || files.Count == 0) return new MemoryStream();
+        if (files.Count == 0) return new MemoryStream();
 
-        var dadosICMS = new List<ICMS>();
+        var dadosIcms = new List<Icms?>();
 
         foreach (var file in files)
         {
@@ -22,18 +22,18 @@ public class IcmsService : IIcmsService
 
             using (var stream = file.OpenReadStream())
             {
-                var dados = await ProcessarXML(stream);
-                if (dados != null) dadosICMS.Add(dados);
+                var dados = await ProcessarXml(stream);
+                dadosIcms.Add(dados);
             }
         }
 
-        var arquivo = await CriarPlanilha(dadosICMS);
+        var arquivo = await CriarPlanilha(dadosIcms);
         return arquivo;
     }
 
-    public async Task<Stream> CriarPlanilha(List<ICMS> dadosICMS)
+    public Task<Stream> CriarPlanilha(List<Icms?> dadosIcms)
     {
-        if (!dadosICMS.Any()) return new MemoryStream();
+        if (!dadosIcms.Any()) return Task.FromResult<Stream>(new MemoryStream());
 
         var memoryStream = new MemoryStream();
         using (var workbook = new XLWorkbook())
@@ -47,12 +47,12 @@ public class IcmsService : IIcmsService
 
             var novaLinha = 2;
 
-            foreach (var linha in dadosICMS)
+            foreach (var linha in dadosIcms)
             {
-                worksheet.Cell(novaLinha, 1).Value = int.TryParse(linha.nNF, out var valor) ? valor : 0;
-                worksheet.Cell(novaLinha, 2).Value = linha.vICMS;
-                worksheet.Cell(novaLinha, 3).Value = linha.vPis;
-                worksheet.Cell(novaLinha, 4).Value = linha.vCofins;
+                worksheet.Cell(novaLinha, 1).Value = int.TryParse(linha?.NNf, out var valor) ? valor : 0;
+                worksheet.Cell(novaLinha, 2).Value = linha?.VIcms;
+                worksheet.Cell(novaLinha, 3).Value = linha?.VPis;
+                worksheet.Cell(novaLinha, 4).Value = linha?.VCofins;
                 novaLinha++;
             }
 
@@ -61,39 +61,39 @@ public class IcmsService : IIcmsService
 
         memoryStream.Seek(0, SeekOrigin.Begin);
 
-        return memoryStream;
+        return Task.FromResult<Stream>(memoryStream);
     }
 
-    public async Task<ICMS> ProcessarXML(Stream stream)
+    public async Task<Icms?> ProcessarXml(Stream stream)
     {
         try
         {
             var xmlDoc = await XDocument.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
-            var ns = xmlDoc.Root.GetDefaultNamespace();
+            var ns = xmlDoc.Root?.GetDefaultNamespace();
 
-            var dados = new ICMS();
-            var numNfTag = xmlDoc.Descendants(ns + "ide").FirstOrDefault();
-            if (numNfTag != null) dados.nNF = numNfTag.Element(ns + "nNF")?.Value;
+            var dados = new Icms();
+            var numNfTag = xmlDoc.Descendants(ns! + "ide").FirstOrDefault();
+            if (numNfTag != null) dados.NNf = numNfTag.Element(ns! + "nNF")?.Value;
 
-            var icmsTag = xmlDoc.Descendants(ns + "ICMSTot").FirstOrDefault();
+            var icmsTag = xmlDoc.Descendants(ns! + "ICMSTot").FirstOrDefault();
             if (icmsTag != null)
             {
-                var icms = icmsTag.Element(ns + "vICMS")?.Value;
-                dados.vICMS =
+                var icms = icmsTag.Element(ns! + "vICMS")?.Value;
+                dados.VIcms =
                     !string.IsNullOrEmpty(icms) && decimal.TryParse(icms, NumberStyles.Any,
                         CultureInfo.InvariantCulture, out var result)
                         ? result
                         : 0m;
 
-                var pis = icmsTag.Element(ns + "vPIS").Value;
-                dados.vPis =
+                var pis = icmsTag.Element(ns! + "vPIS")?.Value;
+                dados.VPis =
                     !string.IsNullOrEmpty(pis) && decimal.TryParse(pis, NumberStyles.Any, CultureInfo.InvariantCulture,
                         out var pisResult)
                         ? pisResult
                         : 0m;
 
-                var cofins = icmsTag.Element(ns + "vCOFINS").Value;
-                dados.vCofins = !string.IsNullOrEmpty(cofins) && decimal.TryParse(cofins, NumberStyles.Any,
+                var cofins = icmsTag.Element(ns! + "vCOFINS")?.Value;
+                dados.VCofins = !string.IsNullOrEmpty(cofins) && decimal.TryParse(cofins, NumberStyles.Any,
                     CultureInfo.InvariantCulture, out var cofinsResult)
                     ? cofinsResult
                     : 0m;

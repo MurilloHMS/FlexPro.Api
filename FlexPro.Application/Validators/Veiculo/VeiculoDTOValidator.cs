@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace FlexPro.Application.Validators.Veiculo;
 
-public class VeiculoDTOValidator : AbstractValidator<VeiculoDto>
+public class VeiculoDtoValidator : AbstractValidator<VeiculoDto>
 {
-    public VeiculoDTOValidator()
+    public VeiculoDtoValidator()
     {
         RuleFor(v => v.Nome).NotEmpty().WithMessage("Nome é obrigatório");
         RuleFor(v => v.Placa).NotEmpty().Length(7).WithMessage("Placa deve conter 7 caracteres");

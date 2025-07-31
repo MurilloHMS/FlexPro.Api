@@ -16,7 +16,7 @@ public class UploadDadosNfeHandler : IRequestHandler<UploadDadosNfeCommand, IAct
 
     public async Task<IActionResult> Handle(UploadDadosNfeCommand request, CancellationToken cancellationToken)
     {
-        if (request.File == null || request.File.Length == 0)
+        if (request.File.Length == 0)
             return new BadRequestObjectResult("Não foi possível obter os dados do arquivo");
 
         var dados = await _service.ReadNfeData(request.File);

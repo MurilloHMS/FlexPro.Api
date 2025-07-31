@@ -23,8 +23,8 @@ public class EmailService : IEmailService
         _logger = logger;
     }
 
-    public async Task SendEmailAsync(string to, string subject, string body, List<string> cc = null,
-        List<string> bcc = null)
+    public async Task SendEmailAsync(string to, string subject, string body, List<string>? cc = null,
+        List<string>? bcc = null)
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress("Proauto Kimium", _settings.FromEmail));
@@ -91,8 +91,8 @@ public class EmailService : IEmailService
         await Task.WhenAll(tasks);
     }
 
-    public async Task SendEmailLocalWebSmtpAsync(string to, string subject, string body, List<string> cc = null,
-        List<string> bcc = null)
+    public async Task SendEmailLocalWebSmtpAsync(string to, string subject, string body, List<string>? cc = null,
+        List<string>? bcc = null)
     {
         var client = new SmtpLwClient("465be8f65256ab11670023b66bee82a2");
         var message = new MessageModel();
@@ -113,6 +113,6 @@ public class EmailService : IEmailService
         // }
 
         var messageId = await client.SendMessageAsync(message, CancellationToken.None).ConfigureAwait(false);
-        Console.WriteLine($"Message Id: {messageId}");
+        Console.WriteLine($@"Message Id: {messageId}");
     }
 }

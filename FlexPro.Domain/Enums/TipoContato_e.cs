@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum TipoContato_e
+public enum TipoContatoE
 {
     DuvidaProduto,
     SuporteTecnico,

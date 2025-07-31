@@ -10,10 +10,11 @@ public static class ChartGenerator
         bool showBarLabels = false, float fontSize = 10, float marginBottom = 0.2f, float marginTop = 0.2f)
     {
         var plot = new Plot();
-        var count = data.Count();
+        var enumerable = data.ToList();
+        var count = enumerable.Count();
         var xBase = Enumerable.Range(0, count).Select(i => (double)i).ToArray();
 
-        var bars = plot.Add.Bars(xBase, data.Select(valueSelector).ToArray());
+        var bars = plot.Add.Bars(xBase, enumerable.Select(valueSelector).ToArray());
         bars.Color = color;
         bars.LegendText = legendText;
 
@@ -21,7 +22,7 @@ public static class ChartGenerator
             foreach (var bar in bars.Bars)
                 bar.Label = bar.Value.ToString("N0");
 
-        var ticks = xBase.Select((x, i) => new Tick(x, labelSelector(data.ElementAt(i)))).ToArray();
+        var ticks = xBase.Select((x, i) => new Tick(x, labelSelector(enumerable.ElementAt(i)))).ToArray();
         plot.Axes.Bottom.TickGenerator = new NumericManual(ticks);
 
         plot.Legend.IsVisible = false;

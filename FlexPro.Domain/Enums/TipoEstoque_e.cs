@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum TipoEstoque_e
+public enum TipoEstoqueE
 {
     Proauto,
     BoaSolucao,

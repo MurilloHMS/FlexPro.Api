@@ -12,13 +12,11 @@ namespace FlexPro.Api.Controllers;
 [ApiController]
 public class ReceitaController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly IReceitaRepository _repository;
 
     public ReceitaController(AppDbContext context)
     {
-        _context = context;
-        _repository = new ReceitaRepository(_context);
+        _repository = new ReceitaRepository(context);
     }
 
     [HttpGet]

@@ -71,7 +71,7 @@ public class VeiculoControllerTests
         var result = await _controller.Create(command);
 
         var createdResult = Assert.IsType<CreatedAtActionResult>(result);
-        Assert.Equal(42, createdResult.RouteValues["id"]);
+        Assert.Equal(42, createdResult.RouteValues?["id"]);
     }
 
     [Fact]

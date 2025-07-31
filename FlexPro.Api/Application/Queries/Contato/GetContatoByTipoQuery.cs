@@ -4,4 +4,4 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Queries.Contato;
 
-public record GetContatoByTipoQuery(TipoContato_e Tipo) : IRequest<List<ContatoResponseDto>>;
+public record GetContatoByTipoQuery(TipoContatoE Tipo) : IRequest<List<ContatoResponseDto>>;

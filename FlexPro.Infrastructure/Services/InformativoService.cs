@@ -73,11 +73,11 @@ public class InformativoService
         }
     }
 
-    public async Task<IEnumerable<InformativoOS>> ReadOsData(IFormFile file)
+    public async Task<IEnumerable<InformativoOs>> ReadOsData(IFormFile file)
     {
         try
         {
-            List<InformativoOS> dados = new();
+            List<InformativoOs> dados = new();
 
             using (var stream = new MemoryStream())
             {
@@ -89,7 +89,7 @@ public class InformativoService
                     var worksheet = workbook.Worksheets.First();
                     var fileData = worksheet.RowsUsed()
                         .Skip(1)
-                        .Select(row => new InformativoOS
+                        .Select(row => new InformativoOs
                         {
                             NumOs = row.Cell(1).TryGetValue<int>(out var numeroOs) ? numeroOs : default,
                             CodigoCliente = row.Cell(2).TryGetValue<string>(out var codigoCliente)
@@ -112,7 +112,7 @@ public class InformativoService
         }
         catch (Exception)
         {
-            return new List<InformativoOS>();
+            return new List<InformativoOs>();
         }
     }
 
@@ -154,7 +154,7 @@ public class InformativoService
 
     public async Task<IEnumerable<Informativo>> CreateInfoData(
         IEnumerable<InformativoNFe> nfeInfo,
-        IEnumerable<InformativoOS> osInfo,
+        IEnumerable<InformativoOs> osInfo,
         IEnumerable<InformativoPecasTrocadas> pecasInfo,
         string? month = null)
     {

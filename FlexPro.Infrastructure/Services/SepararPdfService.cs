@@ -33,7 +33,7 @@ public class SepararPdfService
         return files;
     }
 
-    public static void SeparatedPdfByPage(string inputPdfPath, string outputFolder, List<SepararPdf> lista)
+    public static void SeparatedPdfByPage(string inputPdfPath, string outputFolder, List<SepararPdf>? lista)
     {
         if (!File.Exists(inputPdfPath) || lista == null || lista.Count == 0)
             return;

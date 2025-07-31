@@ -4,4 +4,4 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Queries.Contato;
 
-public record GetContatoByStatusQuery(StatusContato_e Status) : IRequest<List<ContatoResponseDto>>;
+public record GetContatoByStatusQuery(StatusContatoE Status) : IRequest<List<ContatoResponseDto>>;

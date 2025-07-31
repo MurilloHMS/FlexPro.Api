@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum TipoVendedor_e
+public enum TipoVendedorE
 {
     Representante,
     Interno,

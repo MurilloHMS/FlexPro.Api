@@ -16,6 +16,7 @@ public class DeleteVeiculoHandler : IRequestHandler<DeleteVeiculoCommand>
     public async Task Handle(DeleteVeiculoCommand request, CancellationToken cancellationToken)
     {
         var entity = await _repo.GetByIdAsync(request.Id);
-        _repo.DeleteAsync(entity);
+        if (entity != null)
+                await _repo.DeleteAsync(entity);
     }
 }

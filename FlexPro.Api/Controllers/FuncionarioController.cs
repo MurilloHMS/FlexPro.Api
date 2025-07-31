@@ -12,13 +12,11 @@ namespace FlexPro.Api.Controllers;
 [ApiController]
 public class FuncionarioController : Controller
 {
-    private readonly AppDbContext _context;
     private readonly IFuncionarioRepository _repository;
 
     public FuncionarioController(AppDbContext context)
     {
-        _context = context;
-        _repository = new FuncionarioRepository(_context);
+        _repository = new FuncionarioRepository(context);
     }
 
     [HttpGet]

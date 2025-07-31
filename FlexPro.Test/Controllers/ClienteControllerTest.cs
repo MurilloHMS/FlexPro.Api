@@ -2,15 +2,18 @@ using System.Net;
 using FlexPro.Application.DTOs.Cliente;
 using FlexPro.Domain.Enums;
 using FlexPro.Test.Setup;
+using Xunit.Abstractions;
 
 namespace FlexPro.Test.Controllers;
 
 public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
 {
+    private readonly ITestOutputHelper _testOutputHelper;
     private readonly HttpClient _client;
 
-    public ClienteControllerTests(CustomWebApplicationFactory factory)
+    public ClienteControllerTests(CustomWebApplicationFactory factory, ITestOutputHelper testOutputHelper)
     {
+        _testOutputHelper = testOutputHelper;
         _client = factory.CreateClient();
         TestAuthenticate.AuthenticateAsync(_client).GetAwaiter().GetResult();
     }
@@ -24,9 +27,9 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             Nome = "Cliente Teste",
             Email = "teste@cliente.com",
             CodigoSistema = "SYS123",
-            Status = StatusContato_e.NaoContatado,
+            Status = StatusContatoE.NaoContatado,
             Contato = "emaildecontato@cliente.com",
-            MeioDeContato = FormasDeContato_e.Email
+            MeioDeContato = FormasDeContatoE.Email
         };
 
         // Act
@@ -36,7 +39,7 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
         if (!response.IsSuccessStatusCode)
         {
             var errorContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Erros de Validação: {errorContent}");
+            _testOutputHelper.WriteLine($"Erros de Validação: {errorContent}");
         }
 
         response.EnsureSuccessStatusCode();
@@ -51,9 +54,9 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             Nome = "Cliente teste",
             Email = "Emailinvalido.com",
             CodigoSistema = "SYS123",
-            Status = StatusContato_e.NaoContatado,
+            Status = StatusContatoE.NaoContatado,
             Contato = "emaildecontato@cliente.com",
-            MeioDeContato = FormasDeContato_e.Email
+            MeioDeContato = FormasDeContatoE.Email
         };
 
         //act
@@ -61,7 +64,7 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
 
         //assert
         var errorContent = await response.Content.ReadAsStringAsync();
-        Console.WriteLine(errorContent);
+        _testOutputHelper.WriteLine(errorContent);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 }

@@ -73,9 +73,9 @@ builder.Services.AddControllers()
     });
 
 // logs
-builder.Host.UseSerilog((context, ServiceCollectionServiceExtensions, LoggerConfiguration) =>
+builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
-    LoggerConfiguration
+    loggerConfiguration
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .WriteTo.Console()

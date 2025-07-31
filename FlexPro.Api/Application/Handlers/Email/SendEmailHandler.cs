@@ -16,8 +16,6 @@ public class SendEmailHandler : IRequestHandler<SendEmailCommand, IActionResult>
 
     public async Task<IActionResult> Handle(SendEmailCommand request, CancellationToken cancellationToken)
     {
-        if (request.EmailData == null) return new BadRequestObjectResult("Dados do e-mail são obrigatórios");
-
         try
         {
             await _emailService.SendEmailAsync(request.EmailData.To, request.EmailData.Subject, request.EmailData.Body,

@@ -20,13 +20,13 @@ public class ContatoRepository(AppDbContext context) : Repository<Contato>(conte
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<Contato>> GetContatosByStatusAsync(StatusContato_e status)
+    public async Task<List<Contato>> GetContatosByStatusAsync(StatusContatoE status)
     {
         var contatos = await context.Contato.Where(x => x.StatusContato == status).ToListAsync();
         return contatos;
     }
 
-    public async Task<List<Contato>> GetContatosByTipoAsync(TipoContato_e tipo)
+    public async Task<List<Contato>> GetContatosByTipoAsync(TipoContatoE tipo)
     {
         var contatos = await context.Contato.Where(x => x.TipoContato == tipo).ToListAsync();
         return contatos;
