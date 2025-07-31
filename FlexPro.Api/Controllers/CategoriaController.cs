@@ -1,5 +1,4 @@
 using FlexPro.Api.Application.Commands.Categoria;
-using FlexPro.Api.Application.DTOs.Categoria;
 using FlexPro.Application.DTOs.Categoria;
 using FlexPro.Domain.Entities;
 using FlexPro.Domain.Repositories;

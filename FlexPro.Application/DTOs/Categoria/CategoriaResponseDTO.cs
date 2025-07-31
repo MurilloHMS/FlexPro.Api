@@ -1,7 +1,7 @@
-namespace FlexPro.Api.Application.DTOs.Categoria;
+namespace FlexPro.Application.DTOs.Categoria;
 
-public class CategoriaResponseDTO
+public class CategoriaResponseDto
 {
     public int Id { get; set; }
-    public string Nome { get; set; }
+    public string Nome { get; set; } =  string.Empty;
 }

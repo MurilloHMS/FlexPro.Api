@@ -15,9 +15,9 @@ namespace FlexPro.Infrastructure.Templates.Reports.Components
                     col.Item().Height(15).Background(Color.FromHex("#1f305b"));
                     col.Item().Height(15).Background(Color.FromHex("#01a396"));
                 });
-                row.RelativeItem().AlignRight().PaddingTop(2).Row(row =>
+                row.RelativeItem().AlignRight().PaddingTop(2).Row(descriptor =>
                 {
-                    row.ConstantItem(290).PaddingRight(10).Height(30).Image(logoImage).FitWidth();
+                    descriptor.ConstantItem(290).PaddingRight(10).Height(30).Image(logoImage).FitWidth();
                 });
             });
         }

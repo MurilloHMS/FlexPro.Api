@@ -35,13 +35,13 @@ namespace FlexPro.Infrastructure.Services
 
                 var result = new AbastecimentoMetricsResult();
 
-                result.MetricasGeral = await CalculaAbastecimento(abastecimentoMesAtual, abastecimentoMesAnterior, "Geral");
+                result.MetricasGeral = CalculaAbastecimento(abastecimentoMesAtual, abastecimentoMesAnterior, "Geral");
 
                 foreach (var departamento in departamentos)
                 {
                     var abastecimentoAtualDepto = abastecimentoMesAtual.Where(a => a.Departamento == departamento).ToList();
                     var abastecimentoAnteriorDepto = abastecimentoMesAnterior.Where(a => a.Departamento == departamento).ToList();
-                    result.MetricasPorDepartamento[departamento] = await CalculaAbastecimento(
+                    result.MetricasPorDepartamento[departamento] = CalculaAbastecimento(
                         abastecimentoAtualDepto,
                         abastecimentoAnteriorDepto,
                         departamento);
@@ -71,7 +71,7 @@ namespace FlexPro.Infrastructure.Services
 
                 var sb = new StringBuilder();
 
-                sb.AppendLine(await CalculaAbastecimento(abastecimentoMesAtual, abastecimentoMesAnterior, "Geral"));
+                sb.AppendLine(CalculaAbastecimento(abastecimentoMesAtual, abastecimentoMesAnterior, "Geral"));
 
                 return sb.ToString();
             }
@@ -100,7 +100,7 @@ namespace FlexPro.Infrastructure.Services
                 var abastecimentoAtualDepto = abastecimentoMesAtual.Where(a => a.Departamento == departamento).ToList();
                 var abastecimentoAnteriorDepto = abastecimentoMesAnterior.Where(a => a.Departamento == departamento).ToList();
 
-                sb.AppendLine(await CalculaAbastecimento(abastecimentoAtualDepto, abastecimentoAnteriorDepto, $"{departamento}"));
+                sb.AppendLine(CalculaAbastecimento(abastecimentoAtualDepto, abastecimentoAnteriorDepto, $"{departamento}"));
             }
             return sb.ToString();
         }
@@ -119,7 +119,7 @@ namespace FlexPro.Infrastructure.Services
             var abastecimentoAtualDepto = abastecimentoMesAtual.Where(a => a.Departamento == departamento).ToList();
             var abastecimentoAnteriorDepto = abastecimentoMesAnterior.Where(a => a.Departamento == departamento).ToList();
 
-            return await CalculaAbastecimento(abastecimentoAtualDepto, abastecimentoAnteriorDepto, $"{departamento}");
+            return CalculaAbastecimento(abastecimentoAtualDepto, abastecimentoAnteriorDepto, $"{departamento}");
         }
 
         public async Task<string> CalcularAbastecimentoIndividual(DateTime data)
@@ -143,36 +143,35 @@ namespace FlexPro.Infrastructure.Services
                     var abastecimentoAtualFuncionario = abastecimentoMesAtual.Where(a => a.NomeDoMotorista == funcionario).ToList();
                     var abastecimentoAnteriorFuncionario = abastecimentoMesAnterior.Where(a => a.NomeDoMotorista == funcionario).ToList();
 
-                    sb.AppendLine(await CalculaAbastecimento(abastecimentoAtualFuncionario, abastecimentoAnteriorFuncionario, $"{funcionario}"));
+                    sb.AppendLine(CalculaAbastecimento(abastecimentoAtualFuncionario, abastecimentoAnteriorFuncionario, $"{funcionario}"));
                 }
                 catch (Exception)
                 {
-                    continue;
+                    // ignored
                 }
-
             }
             return sb.ToString();
         }
 
-        public async Task<string> CalculaAbastecimento(List<Abastecimento>? abastecimentoMesAtual, List<Abastecimento>? abastecimentoMesAnterior, string tipo)
+        public string CalculaAbastecimento(List<Abastecimento>? abastecimentoMesAtual, List<Abastecimento>? abastecimentoMesAnterior, string tipo)
         {
             var sb = new StringBuilder();
             try
             {
-                var totalLitrosMesAtual = abastecimentoMesAtual.Sum(a => a.Litros);
-                var totalLitrosMesAnterior = abastecimentoMesAnterior.Sum(a => a.Litros);
+                var totalLitrosMesAtual = abastecimentoMesAtual!.Sum(a => a.Litros);
+                var totalLitrosMesAnterior = abastecimentoMesAnterior!.Sum(a => a.Litros);
 
-                var totalPercorridoMesAtual = abastecimentoMesAtual.Sum(a => a.DiferencaHodometro);
-                var totalPercorridoMesAnterior = abastecimentoMesAnterior.Sum(a => a.DiferencaHodometro);
+                var totalPercorridoMesAtual = abastecimentoMesAtual!.Sum(a => a.DiferencaHodometro);
+                var totalPercorridoMesAnterior = abastecimentoMesAnterior!.Sum(a => a.DiferencaHodometro);
 
-                var mediaKmMesAtual = abastecimentoMesAtual.Average(a => a.MediaKm);
-                var mediaKmMesAnterior = abastecimentoMesAnterior.Average(a => a.MediaKm);
+                var mediaKmMesAtual = abastecimentoMesAtual!.Average(a => a.MediaKm);
+                var mediaKmMesAnterior = abastecimentoMesAnterior!.Average(a => a.MediaKm);
 
-                var valorTotalGastoMesAtual = abastecimentoMesAtual.Sum(a => a.ValorTotalTransacao);
-                var valorTotalGastoMesAnterior = abastecimentoMesAnterior.Sum(a => a.ValorTotalTransacao);
+                var valorTotalGastoMesAtual = abastecimentoMesAtual!.Sum(a => a.ValorTotalTransacao);
+                var valorTotalGastoMesAnterior = abastecimentoMesAnterior!.Sum(a => a.ValorTotalTransacao);
 
-                var mediaPrecoLitroMesAtual = abastecimentoMesAtual.Average(a => a.Preco);
-                var mediaPrecoLitroMesAnterior = abastecimentoMesAnterior.Average(a => a.Preco);
+                var mediaPrecoLitroMesAtual = abastecimentoMesAtual!.Average(a => a.Preco);
+                var mediaPrecoLitroMesAnterior = abastecimentoMesAnterior!.Average(a => a.Preco);
 
                 sb.AppendLine($"Abastecimento {tipo}");
                 sb.AppendLine($"Quantidade de litros abastecidos: {CalcularDesempenho(totalLitrosMesAtual, totalLitrosMesAnterior, "N0")}");
@@ -199,8 +198,8 @@ namespace FlexPro.Infrastructure.Services
 
             var porcentagem = CalcularPorcentagem(Convert.ToDouble(valorAtual), Convert.ToDouble(valorAnterior));
             var descricao = porcentagem < 0 ? "caiu" : "aumentou";
-            string desempenho = default;
-            switch (tipo.ToString())
+            string desempenho = string.Empty;
+            switch (tipo)
             {
                 case "C":
                     desempenho = $"{descricao} em {porcentagem:P2} de {valorAnterior:C} para {valorAtual:C}";
@@ -215,10 +214,10 @@ namespace FlexPro.Infrastructure.Services
             return desempenho;
         }
 
-        public static double CalcularPorcentagem(double? atual, double? anterior)
+        public static double CalcularPorcentagem(double atual, double anterior)
         {
             if (anterior == 0) return 0;
-            return atual.Value / anterior.Value - 1;
+            return atual / anterior - 1;
         }
 
         public async Task<List<Abastecimento>> ColetarDadosAbastecimento(IFormFile arquivo)

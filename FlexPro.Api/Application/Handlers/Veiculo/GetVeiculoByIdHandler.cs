@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FlexPro.Api.Application.DTOs;
 using FlexPro.Api.Application.Queries.Veiculo;
 using FlexPro.Application.DTOs;
 using FlexPro.Domain.Repositories;

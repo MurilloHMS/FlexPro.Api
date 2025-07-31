@@ -1,4 +1,3 @@
-using FlexPro.Api.Application.DTOs.Categoria;
 using FlexPro.Application.DTOs.Categoria;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

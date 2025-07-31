@@ -1,5 +1,4 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.Categoria;
 using FlexPro.Application.DTOs.Categoria;
 using FlexPro.Domain.Entities;
 
@@ -9,7 +8,7 @@ public class CategoriaProfile : Profile
 {
     public CategoriaProfile()
     {
-        CreateMap<Categoria, CategoriaResponseDTO>();
+        CreateMap<Categoria, CategoriaResponseDto>();
         CreateMap<CategoriaRequestDto, Categoria>();
     }
 }
