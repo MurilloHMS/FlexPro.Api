@@ -19,7 +19,7 @@ public class CreateProdutoLojaWithEmbalagemHandler : IRequestHandler<CreateProdu
 
     public async Task<IActionResult> Handle(CreateProdutoLojaWithEmbalagemCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Domain.Entities.ProdutoLoja>(request.dto);
+        var entity = _mapper.Map<Domain.Entities.ProdutoLoja>(request.Dto);
 
         if (entity.Embalagems != null && entity.Embalagems.Any())
         {

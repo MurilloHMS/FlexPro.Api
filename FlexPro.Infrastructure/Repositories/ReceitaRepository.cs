@@ -16,7 +16,7 @@ namespace FlexPro.Infrastructure.Repositories
         public async Task<IEnumerable<Receita>> GetAll()
         {
             var receita = await _context.Receita.ToListAsync();
-            return receita ?? Enumerable.Empty<Receita>();
+            return receita;
         }
 
         public async Task<Receita> GetById(int id)

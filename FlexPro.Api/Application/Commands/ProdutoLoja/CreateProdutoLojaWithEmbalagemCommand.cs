@@ -4,4 +4,4 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Commands.ProdutoLoja;
 
-public record CreateProdutoLojaWithEmbalagemCommand(ProdutoLojaRequestDTO dto) : IRequest<IActionResult>;
+public record CreateProdutoLojaWithEmbalagemCommand(ProdutoLojaRequestDTO Dto) : IRequest<IActionResult>;

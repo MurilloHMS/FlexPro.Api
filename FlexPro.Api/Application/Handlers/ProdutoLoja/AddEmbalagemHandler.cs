@@ -20,12 +20,12 @@ public class AddEmbalagemHandler : IRequestHandler<AddEmbalagemCommand, IActionR
 
     public async Task<IActionResult> Handle(AddEmbalagemCommand request, CancellationToken cancellationToken)
     {
-        var produto = await _repository.GetByIdAsync(request.produtoLojaId);
+        var produto = await _repository.GetByIdAsync(request.ProdutoLojaId);
 
         if (produto == null)
             return new NotFoundObjectResult("Produto no encontrado");
         
-        var novasEmbalagems =  _mapper.Map<List<Embalagem>>(request.embalagens);
+        var novasEmbalagems =  _mapper.Map<List<Embalagem>>(request.Embalagens);
 
         foreach (var embalagem in novasEmbalagems)
         {
