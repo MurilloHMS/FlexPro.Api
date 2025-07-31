@@ -9,8 +9,8 @@ namespace FlexPro.Api.Application.Handlers.ProdutoLoja;
 
 public class AddEmbalagemHandler : IRequestHandler<AddEmbalagemCommand, IActionResult>
 {
-    private readonly IProdutoLojaRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IProdutoLojaRepository _repository;
 
     public AddEmbalagemHandler(IProdutoLojaRepository repository, IMapper mapper)
     {
@@ -30,7 +30,7 @@ public class AddEmbalagemHandler : IRequestHandler<AddEmbalagemCommand, IActionR
         foreach (var embalagem in novasEmbalagems)
         {
             embalagem.ProdutoLojaId = produto.Id;
-            produto.Embalagems.Add(embalagem);
+            produto.Embalagems?.Add(embalagem);
         }
 
         await _repository.InsertOrUpdateAsync(produto);

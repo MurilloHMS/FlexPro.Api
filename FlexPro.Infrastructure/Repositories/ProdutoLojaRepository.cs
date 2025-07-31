@@ -6,7 +6,7 @@ namespace FlexPro.Infrastructure.Repositories;
 
 public class ProdutoLojaRepository : Repository<ProdutoLoja>, IProdutoLojaRepository
 {
-    public ProdutoLojaRepository(AppDbContext context) : base(context) { }
-    
-    
+    public ProdutoLojaRepository(AppDbContext context) : base(context)
+    {
+    }
 }

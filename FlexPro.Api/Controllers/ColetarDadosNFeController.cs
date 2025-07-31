@@ -15,37 +15,24 @@ public class ColetarDadosNFeController : ControllerBase
     [HttpPost("upload")]
     public async Task<ActionResult> ColetarDadosNFe(List<IFormFile> files)
     {
-        if (files == null || files.Count == 0)
-        {
-            return BadRequest("Nenhum arquivo enviado.");
-        }
+        if (files == null || files.Count == 0) return BadRequest("Nenhum arquivo enviado.");
 
         List<DadosNotasFiscais> dadosDaNotaFiscal = new();
 
         foreach (var file in files)
         {
-            if (Path.GetExtension(file.FileName).ToLower() != ".xml")
-            {
-                continue;
-            }
+            if (Path.GetExtension(file.FileName).ToLower() != ".xml") continue;
 
             using (var stream = file.OpenReadStream())
             {
                 var dados = await ProcessarXML(stream);
                 if (dados != null)
-                {
                     foreach (var item in dados)
-                    {
                         dadosDaNotaFiscal.Add(item);
-                    }
-                }
             }
         }
 
-        if (!dadosDaNotaFiscal.Any())
-        {
-            return BadRequest("Nenhuma informação valida nos arquivos");
-        }
+        if (!dadosDaNotaFiscal.Any()) return BadRequest("Nenhuma informação valida nos arquivos");
 
         var memoryStream = new MemoryStream();
         using (var workbook = new XLWorkbook())
@@ -60,7 +47,7 @@ public class ColetarDadosNFeController : ControllerBase
             worksheet.Cell(1, 6).Value = "Valor Total";
             worksheet.Cell(1, 7).Value = "CFOP";
 
-            int novaLinha = 2;
+            var novaLinha = 2;
 
             foreach (var linha in dadosDaNotaFiscal)
             {
@@ -89,12 +76,11 @@ public class ColetarDadosNFeController : ControllerBase
         try
         {
             var xmlDoc = await XDocument.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
-            XNamespace ns = xmlDoc.Root.GetDefaultNamespace();
+            var ns = xmlDoc.Root.GetDefaultNamespace();
 
             List<DadosNotasFiscais> dadosDaNota = new();
             var prodTag = xmlDoc.Descendants(ns + "prod");
             if (prodTag.Any())
-            {
                 foreach (var item in prodTag)
                 {
                     var dados = new DadosNotasFiscais();
@@ -102,38 +88,34 @@ public class ColetarDadosNFeController : ControllerBase
                     if (numNfTag != null)
                     {
                         dados.NumeroNota = numNfTag.Element(ns + "nNF")?.Value;
-                        dados.DataNota = DateTime.TryParse(numNfTag.Element(ns + "dhEmi")?.Value, out DateTime dataNota)
+                        dados.DataNota = DateTime.TryParse(numNfTag.Element(ns + "dhEmi")?.Value, out var dataNota)
                             ? dataNota
                             : default;
                     }
 
                     var emitenteTag = xmlDoc.Descendants(ns + "emit").FirstOrDefault();
-                    if (emitenteTag != null)
-                    {
-                        dados.Fornecedor = emitenteTag.Element(ns + "xNome")?.Value;
-                    }
+                    if (emitenteTag != null) dados.Fornecedor = emitenteTag.Element(ns + "xNome")?.Value;
 
-                    string produto = item.Element(ns + "xProd")?.Value;
+                    var produto = item.Element(ns + "xProd")?.Value;
                     dados.Produto = !string.IsNullOrEmpty(produto) ? produto : default;
 
-                    string valorUnitario = item.Element(ns + "vUnCom").Value;
+                    var valorUnitario = item.Element(ns + "vUnCom").Value;
                     dados.ValorUnitario = !string.IsNullOrEmpty(valorUnitario) && decimal.TryParse(valorUnitario,
-                        NumberStyles.Any, CultureInfo.InvariantCulture, out decimal unitResult)
+                        NumberStyles.Any, CultureInfo.InvariantCulture, out var unitResult)
                         ? unitResult
                         : 0m;
 
-                    string cfop = item.Element(ns + "CFOP")?.Value;
+                    var cfop = item.Element(ns + "CFOP")?.Value;
                     dados.CFOP = !string.IsNullOrEmpty(cfop) ? cfop : default;
 
-                    string valorTotalProduto = item.Element(ns + "vProd")?.Value;
+                    var valorTotalProduto = item.Element(ns + "vProd")?.Value;
                     dados.ValorTotal = !string.IsNullOrEmpty(valorTotalProduto) && decimal.TryParse(valorTotalProduto,
-                        NumberStyles.Any, CultureInfo.InvariantCulture, out decimal valorTotalResult)
+                        NumberStyles.Any, CultureInfo.InvariantCulture, out var valorTotalResult)
                         ? valorTotalResult
                         : 0m;
 
                     dadosDaNota.Add(dados);
                 }
-            }
 
             return dadosDaNota;
         }

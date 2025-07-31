@@ -2,5 +2,5 @@
 
 public class SepararPdf
 {
-    public string Nome { get; set; }  = string.Empty;
+    public string Nome { get; set; } = string.Empty;
 }

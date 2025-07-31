@@ -1,10 +1,7 @@
 using System.Net;
-using System.Net.Http.Json;
-using System.Text;
 using FlexPro.Application.DTOs.Cliente;
 using FlexPro.Domain.Enums;
 using FlexPro.Test.Setup;
-using Newtonsoft.Json;
 
 namespace FlexPro.Test.Controllers;
 
@@ -17,7 +14,7 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
         _client = factory.CreateClient();
         TestAuthenticate.AuthenticateAsync(_client).GetAwaiter().GetResult();
     }
-    
+
     [Fact]
     public async Task Post_Cliente_Should_Return_Created()
     {
@@ -31,7 +28,7 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             Contato = "emaildecontato@cliente.com",
             MeioDeContato = FormasDeContato_e.Email
         };
-        
+
         // Act
         var response = await _client.PostAsJsonAsync("/api/cliente", dto);
 
@@ -41,10 +38,11 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             var errorContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"Erros de Validação: {errorContent}");
         }
+
         response.EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task Post_Cliente_Should_Return_BadRequest_With_Email_Invalid()
     {
@@ -57,15 +55,13 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
             Contato = "emaildecontato@cliente.com",
             MeioDeContato = FormasDeContato_e.Email
         };
-        
+
         //act
         var response = await _client.PostAsJsonAsync("/api/cliente", dto);
-        
+
         //assert
         var errorContent = await response.Content.ReadAsStringAsync();
         Console.WriteLine(errorContent);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
-    
-    
 }

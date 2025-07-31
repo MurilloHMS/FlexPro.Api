@@ -1,9 +1,8 @@
 ﻿using FlexPro.Domain.Entities;
 
-namespace FlexPro.Domain.Repositories
+namespace FlexPro.Domain.Repositories;
+
+public interface IVeiculoRepository : IRepository<Veiculo>
 {
-    public interface IVeiculoRepository : IRepository<Veiculo>
-    {
-       Task<Veiculo?> GetByNameAsync(string name);
-    }
+    Task<Veiculo?> GetByNameAsync(string name);
 }

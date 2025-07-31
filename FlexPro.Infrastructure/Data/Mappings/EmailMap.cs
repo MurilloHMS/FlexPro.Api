@@ -15,7 +15,7 @@ public class EmailMap : EntityBaseMap<Email>
         builder.Property(x => x.Address)
             .HasMaxLength(50)
             .HasColumnName("email_address")
-            .IsRequired(true);
+            .IsRequired();
 
         builder.Property(x => x.IsEnabled)
             .HasColumnName("is_enabled");

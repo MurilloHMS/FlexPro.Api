@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Application.DTOs
+namespace FlexPro.Application.DTOs;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<Veiculo, VeiculoDto>().ReverseMap();
-        }
+        CreateMap<Veiculo, VeiculoDto>().ReverseMap();
     }
 }

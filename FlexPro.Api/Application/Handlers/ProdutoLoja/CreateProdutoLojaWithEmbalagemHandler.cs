@@ -24,12 +24,8 @@ public class
         var entity = _mapper.Map<Domain.Entities.ProdutoLoja>(request.Dto);
 
         if (entity.Embalagems != null && entity.Embalagems.Any())
-        {
             foreach (var embalagem in entity.Embalagems)
-            {
                 embalagem.ProdutoLoja = entity;
-            }
-        }
 
         await _repository.InsertOrUpdateAsync(entity);
         return new OkObjectResult("Produto Loja adicionado com sucesso");

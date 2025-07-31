@@ -19,9 +19,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
         CancellationToken cancellationToken)
     {
         if (request.File == null && request.File.Length == 0)
-        {
             return new BadRequestObjectResult("Nenhum arquivo enviado");
-        }
 
         List<Domain.Entities.Parceiro> parceiros;
         using (var stream = new MemoryStream())
@@ -44,10 +42,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
             }
         }
 
-        if (!parceiros.Any())
-        {
-            return new BadRequestObjectResult("Ocorreu um erro ao coletar os dados");
-        }
+        if (!parceiros.Any()) return new BadRequestObjectResult("Ocorreu um erro ao coletar os dados");
 
         await _repository.IncludeParceiroByRangeAsync(parceiros);
         return new OkObjectResult(parceiros);

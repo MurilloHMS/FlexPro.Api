@@ -11,7 +11,7 @@ public class ArchiveMap : EntityBaseMap<Arquivo>
         base.Configure(builder);
 
         builder.ToTable("archives");
-        
+
         builder.Property(x => x.Name)
             .HasColumnName("file_name")
             .HasMaxLength(100)
@@ -23,7 +23,7 @@ public class ArchiveMap : EntityBaseMap<Arquivo>
             .HasMaxLength(6)
             .HasColumnType("varchar")
             .IsRequired(false);
-        
+
         builder.Property(x => x.Size)
             .HasColumnName("file_size")
             .HasColumnType("bigint")
@@ -33,17 +33,17 @@ public class ArchiveMap : EntityBaseMap<Arquivo>
             .HasColumnName("created_at")
             .HasColumnType("datetime")
             .IsRequired();
-            
+
         builder.Property(x => x.UpdatedAt)
             .HasColumnName("updated_at")
             .HasColumnType("datetime")
             .IsRequired();
-        
+
         builder.Property(x => x.IsActive)
             .HasColumnName("is_active")
             .HasColumnType("boolean")
             .IsRequired();
-        
+
         builder.Property(x => x.IsPublic)
             .HasColumnName("is_public")
             .HasColumnType("boolean")

@@ -1,5 +1,5 @@
 using FlexPro.Domain.Entities;
-    
+
 namespace FlexPro.Domain.Test.Entities;
 
 [TestClass]
@@ -14,17 +14,17 @@ public class VehicleTest
             Placa = "XYZ-1234",
             Marca = "Honda"
         };
-        
+
         var result = vehicle.ToString();
-        
-        Assert.AreEqual("Civic, Honda - XYZ-1234",  result);
+
+        Assert.AreEqual("Civic, Honda - XYZ-1234", result);
     }
 
     [TestMethod]
     public void Should_Not_Fail_When_Vehicle_Has_Default_Values()
     {
         var vehicle = new Veiculo();
-        
+
         Assert.AreEqual(string.Empty, vehicle.Nome);
         Assert.AreEqual(string.Empty, vehicle.Placa);
         Assert.AreEqual(string.Empty, vehicle.Marca);

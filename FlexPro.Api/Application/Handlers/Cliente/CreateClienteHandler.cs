@@ -8,8 +8,8 @@ namespace FlexPro.Api.Application.Handlers.Cliente;
 
 public class CreateClienteHandler : IRequestHandler<CreateClienteCommand, ClienteResponseDto>
 {
-    private readonly IClienteRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IClienteRepository _repository;
 
     public CreateClienteHandler(IClienteRepository repository, IMapper mapper)
     {

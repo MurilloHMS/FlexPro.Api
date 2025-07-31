@@ -20,7 +20,7 @@ public class CalcularDadosInformativoHandler : IRequestHandler<CalcularDadosInfo
         if (request.InformativoRequest == null)
             return new BadRequestObjectResult("Dados não foram enviados corretamente");
 
-        IEnumerable<FlexPro.Domain.Models.Informativo> informativos =
+        var informativos =
             await _service.CreateInfoData(request.InformativoRequest.InformativoNFes,
                 request.InformativoRequest.informativoOs, request.InformativoRequest.InformativoPecasTrocadas,
                 request.InformativoRequest.Month);

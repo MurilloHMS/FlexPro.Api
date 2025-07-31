@@ -49,10 +49,7 @@ public class CategoriaController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutCategory(int id, Categoria category)
     {
-        if (id != category.Id)
-        {
-            return BadRequest();
-        }
+        if (id != category.Id) return BadRequest();
 
         try
         {
@@ -60,14 +57,9 @@ public class CategoriaController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (await _categoriaRepository.GetByIdAsync(id) == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            if (await _categoriaRepository.GetByIdAsync(id) == null) return NotFound();
+
+            throw;
         }
 
         return NoContent();

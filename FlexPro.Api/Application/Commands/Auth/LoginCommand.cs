@@ -1,16 +1,15 @@
 ﻿using MediatR;
 
-namespace FlexPro.Api.Application.Commands.Auth
-{
-    public class LoginCommand : IRequest<string>
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
+namespace FlexPro.Api.Application.Commands.Auth;
 
-        public LoginCommand(string username, string password)
-        {
-            Username = username;
-            Password = password;
-        }
+public class LoginCommand : IRequest<string>
+{
+    public LoginCommand(string username, string password)
+    {
+        Username = username;
+        Password = password;
     }
+
+    public string Username { get; set; }
+    public string Password { get; set; }
 }

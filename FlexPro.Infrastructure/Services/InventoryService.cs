@@ -14,7 +14,7 @@ public class InventoryService
         _context = context;
     }
 
-    public async Task<Byte[]> ExportInventoryToSheetAsync(DateTime? date = null)
+    public async Task<byte[]> ExportInventoryToSheetAsync(DateTime? date = null)
     {
         try
         {
@@ -30,7 +30,7 @@ public class InventoryService
                 )
                 .GroupBy(m => m.SystemId)
                 .Select(g => g.OrderByDescending(m => m.Data).First()).ToList();
-            
+
             var products = await _context.Products.ToListAsync();
             using (var workbook = new XLWorkbook())
             {
@@ -40,7 +40,7 @@ public class InventoryService
                 worksheet.Cell(1, 3).Value = "Data do ultimo estoque";
                 worksheet.Cell(1, 4).Value = "Quantidade";
 
-                for (int i = 0; i < dayStock.Count; i++)
+                for (var i = 0; i < dayStock.Count; i++)
                 {
                     var movimentations = dayStock[i];
                     var product = products.FirstOrDefault(m => m.Id.Equals(movimentations.SystemId));

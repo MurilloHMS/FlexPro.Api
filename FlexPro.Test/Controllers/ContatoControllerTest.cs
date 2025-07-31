@@ -18,7 +18,7 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Post_Contato_Should_Return_Created()
     {
-        var dto = new ContatoRequestDto()
+        var dto = new ContatoRequestDto
         {
             Nome = "Contato Teste",
             Email = "Teste@gmail.com",
@@ -42,7 +42,7 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Post_Contato_Should_Return_BadRequest_With_Email_Invalid()
     {
-        var dto = new ContatoRequestDto()
+        var dto = new ContatoRequestDto
         {
             Nome = "Contato Teste",
             Email = "email invalido",
@@ -51,9 +51,9 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
             Mensagem = "Mensagem de teste",
             NomeEmpresa = "Empresa de teste"
         };
-        
+
         var response = await _client.PostAsJsonAsync("/api/contato", dto);
-        
+
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 }

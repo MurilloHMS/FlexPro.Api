@@ -12,6 +12,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF;
 using QuestPDF.Infrastructure;
 using Serilog;
 using Serilog.Formatting.Json;
@@ -54,7 +55,7 @@ builder.Services.Configure<IISServerOptions>(options => { options.MaxRequestBody
 builder.Services.AddSignalR();
 
 //Registros das licenças
-QuestPDF.Settings.License = LicenseType.Community;
+Settings.License = LicenseType.Community;
 
 //authorization
 builder.Services.AddAuthorization(options =>
@@ -78,8 +79,8 @@ builder.Host.UseSerilog((context, ServiceCollectionServiceExtensions, LoggerConf
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .WriteTo.Console()
-        .WriteTo.Http(requestUri: context.Configuration["SEQ_URL"] ?? "http://seq:5342",
-            queueLimitBytes: null,
+        .WriteTo.Http(context.Configuration["SEQ_URL"] ?? "http://seq:5342",
+            null,
             textFormatter: new JsonFormatter()
         );
 });
@@ -118,13 +119,11 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
-if (builder.Environment.IsDevelopment())
-{
-    app.UseMiddleware<DebugAuthMiddleware>();
-}
+if (builder.Environment.IsDevelopment()) app.UseMiddleware<DebugAuthMiddleware>();
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
 
+#pragma warning disable ASP0014
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
@@ -137,12 +136,13 @@ app.UseEndpoints(endpoints =>
         return Task.CompletedTask;
     });
 });
+#pragma warning restore ASP0014
 
 app.Run();
 
 namespace FlexPro.Api
 {
-    public partial class Program
+    public class Program
     {
     }
 }

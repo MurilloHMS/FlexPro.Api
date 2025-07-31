@@ -2,7 +2,7 @@ namespace FlexPro.Application.DTOs.Parceiro;
 
 public class ParceiroRequestDto
 {
-    public string Nome { get; set; } =  string.Empty;
+    public string Nome { get; set; } = string.Empty;
     public string? CodigoSistema { get; set; }
     public string? Email { get; set; }
     public bool Ativo { get; set; }

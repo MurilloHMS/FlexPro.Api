@@ -1,29 +1,29 @@
-﻿namespace FlexPro.Api.Middlewares
+﻿using FluentValidation;
+
+namespace FlexPro.Api.Middlewares;
+
+public class ValidationExceptionMiddleware
 {
-    public class ValidationExceptionMiddleware
+    private readonly ILogger<ValidationExceptionMiddleware> _logger;
+    private readonly RequestDelegate _next;
+
+    public ValidationExceptionMiddleware(RequestDelegate next, ILogger<ValidationExceptionMiddleware> logger)
     {
-        private readonly RequestDelegate _next;
+        _next = next;
+        _logger = logger;
+    }
 
-        private readonly ILogger<ValidationExceptionMiddleware> _logger;
-
-        public ValidationExceptionMiddleware(RequestDelegate next, ILogger<ValidationExceptionMiddleware> logger)
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
         {
-            _next = next;
-            _logger = logger;
+            await _next(context);
         }
-
-        public async Task InvokeAsync(HttpContext context)
+        catch (ValidationException ex)
         {
-            try
-            {
-                await _next(context);
-            }
-            catch (FluentValidation.ValidationException ex)
-            {
-                _logger.LogWarning("Erro de validação: {Message}", ex.Message);
-                context.Response.StatusCode = 400;
-                await context.Response.WriteAsJsonAsync(new { errors = ex.Errors });
-            }
+            _logger.LogWarning("Erro de validação: {Message}", ex.Message);
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsJsonAsync(new { errors = ex.Errors });
         }
     }
 }

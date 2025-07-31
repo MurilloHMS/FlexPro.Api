@@ -5,10 +5,10 @@ namespace FlexPro.Api.Application.Commands.Email;
 
 public class SendInformativoCommand : IRequest<IActionResult>
 {
-    public IEnumerable<FlexPro.Domain.Models.Informativo> Informativos { get; set; }
-
-    public SendInformativoCommand(IEnumerable<FlexPro.Domain.Models.Informativo> informativos)
+    public SendInformativoCommand(IEnumerable<Domain.Models.Informativo> informativos)
     {
         Informativos = informativos;
     }
+
+    public IEnumerable<Domain.Models.Informativo> Informativos { get; set; }
 }

@@ -1,5 +1,4 @@
 using FlexPro.Api.Application.Commands.Informativo;
-using FlexPro.Domain.Models;
 using FlexPro.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,7 @@ public class UploadDadosNfeHandler : IRequestHandler<UploadDadosNfeCommand, IAct
         if (request.File == null || request.File.Length == 0)
             return new BadRequestObjectResult("Não foi possível obter os dados do arquivo");
 
-        IEnumerable<InformativoNFe> dados = await _service.ReadNfeData(request.File);
+        var dados = await _service.ReadNfeData(request.File);
         return dados.Any()
             ? new OkObjectResult(dados)
             : new BadRequestObjectResult("Não foi possivel retornar os dados do arquivo");

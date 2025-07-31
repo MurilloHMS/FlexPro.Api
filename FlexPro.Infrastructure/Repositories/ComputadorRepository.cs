@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Infrastructure.Repositories;
 
-public class ComputadorRepository(AppDbContext context) : Repository<Computador>(context),  IComputadorRepository
+public class ComputadorRepository(AppDbContext context) : Repository<Computador>(context), IComputadorRepository
 {
     private readonly DbSet<Computador> _dbSet = context.Set<Computador>();
 
@@ -32,18 +32,6 @@ public class ComputadorRepository(AppDbContext context) : Repository<Computador>
             }
         }
     }
-    
-    public async Task DeleteAcessoRemotoAsync(int id, AcessoRemoto model)
-    {
-        var acesso = await context.AcessoRemoto
-            .FirstOrDefaultAsync(x => x.Id == model.Id && x.IdComputador == id);
-
-        if (acesso != null)
-        {
-            context.AcessoRemoto.Remove(acesso);
-            await context.SaveChangesAsync();
-        }
-    }
 
 
     public async Task UpdateAcessoRemoto(AcessoRemoto model)
@@ -52,6 +40,18 @@ public class ComputadorRepository(AppDbContext context) : Repository<Computador>
         if (acessoRemoto != null)
         {
             context.Entry(acessoRemoto).CurrentValues.SetValues(model);
+            await context.SaveChangesAsync();
+        }
+    }
+
+    public async Task DeleteAcessoRemotoAsync(int id, AcessoRemoto model)
+    {
+        var acesso = await context.AcessoRemoto
+            .FirstOrDefaultAsync(x => x.Id == model.Id && x.IdComputador == id);
+
+        if (acesso != null)
+        {
+            context.AcessoRemoto.Remove(acesso);
             await context.SaveChangesAsync();
         }
     }

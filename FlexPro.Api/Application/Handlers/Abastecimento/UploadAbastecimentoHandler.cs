@@ -9,9 +9,9 @@ namespace FlexPro.Api.Application.Handlers.Abastecimento;
 
 public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCommand, IActionResult>
 {
-    private readonly AbastecimentoService _service;
     private readonly AppDbContext _context;
     private readonly IAbastecimentoRepository _repository;
+    private readonly AbastecimentoService _service;
 
 
     public UploadAbastecimentoHandler(AppDbContext context, AbastecimentoService service,
@@ -26,7 +26,7 @@ public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCom
     {
         if (request.File == null || request.File.Length == 0) return new BadRequestObjectResult("Arquivo inválido");
 
-        List<Domain.Entities.Abastecimento> dadosAbastecimento = await _service.ColetarDadosAbastecimento(request.File);
+        var dadosAbastecimento = await _service.ColetarDadosAbastecimento(request.File);
 
         if (dadosAbastecimento != null && dadosAbastecimento.Any())
         {

@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexPro.Infrastructure.Repositories;
 
-public class ParceiroRepository(AppDbContext context) : Repository<Parceiro>(context), IParceiroRepository 
+public class ParceiroRepository(AppDbContext context) : Repository<Parceiro>(context), IParceiroRepository
 {
     private readonly DbSet<Parceiro> _dbSet = context.Set<Parceiro>();
 
     public async Task<Parceiro> GetByNameAsync(string nome)
     {
-        Parceiro parceiro = await _dbSet.FirstOrDefaultAsync(x => x.Nome == nome);
+        var parceiro = await _dbSet.FirstOrDefaultAsync(x => x.Nome == nome);
         return parceiro;
     }
 
     public async Task IncludeParceiroByRangeAsync(List<Parceiro> parceiros)
     {
         var codigoParceiros = parceiros.Select(x => x.CodigoSistema).ToList();
-        
+
         var parceirosExistentes = await _dbSet.Where(p => codigoParceiros.Contains(p.CodigoSistema)).ToListAsync();
 
         foreach (var parceiro in parceiros)
@@ -36,7 +36,7 @@ public class ParceiroRepository(AppDbContext context) : Repository<Parceiro>(con
                 await _dbSet.AddAsync(parceiro);
             }
         }
-        
+
         await context.SaveChangesAsync();
     }
 }

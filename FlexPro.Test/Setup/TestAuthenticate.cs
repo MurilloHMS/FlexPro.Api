@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using FlexPro.Application.DTOs.Auth;
 
@@ -17,7 +18,7 @@ public static class TestAuthenticate
         response.EnsureSuccessStatusCode();
 
         var json = await response.Content.ReadFromJsonAsync<LoginResponse>();
-        _client.DefaultRequestHeaders.Authorization = 
-            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", json.Token);
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", json.Token);
     }
 }

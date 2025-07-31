@@ -4,7 +4,7 @@ using FlexPro.Domain.Entities;
 
 namespace FlexPro.Application.Mappings;
 
-public class ProdutoLojaProfile :  Profile
+public class ProdutoLojaProfile : Profile
 {
     public ProdutoLojaProfile()
     {

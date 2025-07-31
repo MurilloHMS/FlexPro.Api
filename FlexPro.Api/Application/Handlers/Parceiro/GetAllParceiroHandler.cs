@@ -8,8 +8,8 @@ namespace FlexPro.Api.Application.Handlers.Parceiro;
 
 public class GetAllParceiroHandler : IRequestHandler<GetAllParceiroQuery, IEnumerable<ParceiroResponseDto>>
 {
-    private IMapper _mapper;
-    private IParceiroRepository _repository;
+    private readonly IMapper _mapper;
+    private readonly IParceiroRepository _repository;
 
     public GetAllParceiroHandler(IMapper mapper, IParceiroRepository repository)
     {

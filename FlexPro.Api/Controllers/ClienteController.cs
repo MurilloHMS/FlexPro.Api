@@ -48,7 +48,7 @@ public class ClienteController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        IEnumerable<ClienteResponseDto> response = await _mediator.Send(new GetAllClienteQuery());
+        var response = await _mediator.Send(new GetAllClienteQuery());
         return response != null ? Ok(response) : NotFound();
     }
 }

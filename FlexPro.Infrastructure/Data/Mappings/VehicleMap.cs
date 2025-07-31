@@ -9,9 +9,9 @@ public class VehicleMap : EntityBaseMap<Veiculo>
     public override void Configure(EntityTypeBuilder<Veiculo> builder)
     {
         base.Configure(builder);
-        
+
         builder.ToTable("Veiculos");
-        
+
         builder.HasKey(x => x.Id);
     }
 }

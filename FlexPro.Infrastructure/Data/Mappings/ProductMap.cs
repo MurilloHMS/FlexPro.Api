@@ -9,7 +9,7 @@ public class ProductMap : EntityBaseMap<Produto>
     public override void Configure(EntityTypeBuilder<Produto> builder)
     {
         base.Configure(builder);
-        
+
         builder.ToTable("produto");
 
         builder.HasDiscriminator<string>("Tipo")

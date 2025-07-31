@@ -9,9 +9,9 @@ public class InventoryMovementMap : EntityBaseMap<InventoryMovement>
     public override void Configure(EntityTypeBuilder<InventoryMovement> builder)
     {
         base.Configure(builder);
-        
+
         builder.ToTable("inventory_movements");
-        
+
         builder.Property(x => x.SystemId)
             .IsRequired()
             .HasMaxLength(10)

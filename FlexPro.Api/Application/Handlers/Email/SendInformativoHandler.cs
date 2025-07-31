@@ -18,7 +18,7 @@ public class SendInformativoHandler : IRequestHandler<SendInformativoCommand, IA
     {
         if (!request.Informativos.Any()) return new BadRequestObjectResult("Lista com dados está vazia");
 
-        await _emailService.EnviarInformativos(informativos: request.Informativos);
+        await _emailService.EnviarInformativos(request.Informativos);
         return new OkObjectResult("Informativos enviados com sucesso");
     }
 }

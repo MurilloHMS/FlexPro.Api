@@ -9,7 +9,7 @@ public class CategoryMap : EntityBaseMap<Categoria>
     public override void Configure(EntityTypeBuilder<Categoria> builder)
     {
         base.Configure(builder);
-        
+
         builder.Property(x => x.Nome)
             .HasColumnName("name")
             .HasColumnType("varchar")

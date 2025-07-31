@@ -9,17 +9,14 @@ namespace FlexPro.Infrastructure.Repositories;
 public class ContatoRepository(AppDbContext context) : Repository<Contato>(context), IContatoRepository
 {
     private readonly DbSet<Contato> _dbSet = context.Set<Contato>();
+
     public async Task InsertOrUpdateContatoAsync(Contato contato)
     {
         var ContatoFounded = await _dbSet.FirstOrDefaultAsync(x => x.Id == contato.Id);
         if (ContatoFounded != null)
-        {
             context.Entry(contato).CurrentValues.SetValues(contato);
-        }
         else
-        {
             _dbSet.Add(contato);
-        }
         await context.SaveChangesAsync();
     }
 

@@ -7,8 +7,8 @@ namespace FlexPro.Api.Application.Handlers.Abastecimento;
 
 public class UpdateAbastecimentoHandler : IRequestHandler<UpdateAbastecimentoCommand>
 {
-    private readonly IAbastecimentoRepository _repo;
     private readonly IMapper _mapper;
+    private readonly IAbastecimentoRepository _repo;
 
     public UpdateAbastecimentoHandler(IAbastecimentoRepository repo, IMapper mapper)
     {

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Informativo</title>
   <style>
@@ -121,7 +121,7 @@
       flex: 1 1;
     }
 
-    .content-value{
+    .content-value {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -232,84 +232,88 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="hero">
-      <img src="https://proautokimium.com.br/assets/images/logo-proauto.png" alt="Logo Proauto" />
-      <div class="hero-data">@Model.Mes - 2025</div>
-      <div class="saudacao">
-        Olá, <strong>@Model.NomeDoCliente</strong><br />
-        Veja como foi seu desempenho neste mês com a <strong>Proauto Kimium</strong>
-      </div>
-      <a href="#" class="btn">VER MÉTRICAS COMPLETAS</a>
+<div class="container">
+  <div class="hero">
+    <img src="https://proautokimium.com.br/assets/images/logo-proauto.png" alt="Logo Proauto"/>
+    <div class="hero-data">@Model.Mes - 2025</div>
+    <div class="saudacao">
+      Olá, <strong>@Model.NomeDoCliente</strong><br/>
+      Veja como foi seu desempenho neste mês com a <strong>Proauto Kimium</strong>
     </div>
+    <a href="#" class="btn">VER MÉTRICAS COMPLETAS</a>
+  </div>
 
-    <div class="produto-destaque">
-      <img src="https://www.proautokimium.com.br/assets/images/produtos-proauto.png" alt="Produto destaque" />
-      <div class="content">
-        <h2>@Model.ProdutoEmDestaque</h2>
-        <h3>PRODUTO MAIS COMPRADO</h3>
-        <p>Este é o produto que conquistou sua preferência. Qualidade e eficiência fazem dele a sua escolha número um. Continue aproveitando tudo o que ele tem a oferecer!</p>
-      </div>
-    </div>
-
-    <div class="metricas-container">
-      <div class="content-metricas">
-        <h2>quantidade de <span class="green">produtos</span> comprados</h2>
-        <p>Você fez a escolha certa adquirindo nossos produtos! A quantidade adquirida demonstra a confiança na qualidade e eficiência que oferecemos.</p>
-      </div>
-      <div class="content-value">
-        <h1>@Model.QuantidadeDeProdutos</h1>
-      </div>
-    </div>
-
-    <div class="metricas-container">
-      <div class="content-value">
-        <h1>@Model.QuantidadeDeLitros.ToString("N0")</h1>
-      </div>
-      <div class="content-metricas">
-        <h2>quantidade de litros / produtos comprados</h2>
-        <p>Parabéns pela excelente escolha ao adquirir nossos produtos! A quantidade de litros/kg comprados reflete sua confiança em nossa qualidade e no compromisso com a eficiência.</p>
-      </div>
-    </div>
-    
-    @if (Model.QuantidadeDeVisitas != null && Model.QuantidadeDeVisitas > 0)
-    {
-      <div class="manutencoes-container">
-        <div class="valor-container">
-          <h3>Manutenções realizadas</h3>
-          <h1>@Model.QuantidadeDeVisitas</h1>
-        </div>
-        <div class="valor-container">
-          <h3>valor das peças trocadas</h3>
-          <h1>@Model.ValorDePeçasTrocadas.ToString("C")</h1>
-        </div>
-        <div class="valor-container">
-          <h3>média de dias para atendimento</h3>
-          <h1>@Model.MediaDiasAtendimento</h1>
-        </div>
-      </div>
-    }
-
-    <div class="metricas-container">
-      <div class="content-metricas">
-        <h2>faturamento mensal</h2>
-        <p>Este valor representa a sua confiança nos nossos produtos/serviços e reforça a parceria que estamos construindo. Agradecemos pela preferência e seguimos comprometidos em oferecer sempre a melhor experiência e resultados.</p>
-      </div>
-      <div class="content-value">
-        <h1>@Model.FaturamentoTotal.ToString("C")</h1>
-      </div>
-    </div>
-
-    <div class="footer">
-      <p>
-        <img src="https://images.icon-icons.com/1294/PNG/512/2362137-chat-media-whatsapp_85529.png" alt="WhatsApp">
-        <a href="https://wa.me/5511957782766" target="_blank">(11) 9 5778-2766</a> |
-        📧 <a href="mailto:sac@proautokimium.com.br">sac@proautokimium.com.br</a>
-      </p>
-      <p>
-        <a href="https://maps.app.goo.gl/Ei4dycuvt6jpA8Af7" target="_blank">Av. João do Prado, 300 - Santo André, SP</a>
-      </p>
+  <div class="produto-destaque">
+    <img src="https://www.proautokimium.com.br/assets/images/produtos-proauto.png" alt="Produto destaque"/>
+    <div class="content">
+      <h2>@Model.ProdutoEmDestaque</h2>
+      <h3>PRODUTO MAIS COMPRADO</h3>
+      <p>Este é o produto que conquistou sua preferência. Qualidade e eficiência fazem dele a sua escolha número um.
+        Continue aproveitando tudo o que ele tem a oferecer!</p>
     </div>
   </div>
+
+  <div class="metricas-container">
+    <div class="content-metricas">
+      <h2>quantidade de <span class="green">produtos</span> comprados</h2>
+      <p>Você fez a escolha certa adquirindo nossos produtos! A quantidade adquirida demonstra a confiança na qualidade
+        e eficiência que oferecemos.</p>
+    </div>
+    <div class="content-value">
+      <h1>@Model.QuantidadeDeProdutos</h1>
+    </div>
+  </div>
+
+  <div class="metricas-container">
+    <div class="content-value">
+      <h1>@Model.QuantidadeDeLitros.ToString("N0")</h1>
+    </div>
+    <div class="content-metricas">
+      <h2>quantidade de litros / produtos comprados</h2>
+      <p>Parabéns pela excelente escolha ao adquirir nossos produtos! A quantidade de litros/kg comprados reflete sua
+        confiança em nossa qualidade e no compromisso com a eficiência.</p>
+    </div>
+  </div>
+
+  @if (Model.QuantidadeDeVisitas != null && Model.QuantidadeDeVisitas > 0) {
+    <div class="manutencoes-container">
+      <div class="valor-container">
+        <h3>Manutenções realizadas</h3>
+        <h1>@Model.QuantidadeDeVisitas</h1>
+      </div>
+      <div class="valor-container">
+        <h3>valor das peças trocadas</h3>
+        <h1>@Model.ValorDePeçasTrocadas.ToString("C")</h1>
+      </div>
+      <div class="valor-container">
+        <h3>média de dias para atendimento</h3>
+        <h1>@Model.MediaDiasAtendimento</h1>
+      </div>
+    </div>
+  }
+
+  <div class="metricas-container">
+    <div class="content-metricas">
+      <h2>faturamento mensal</h2>
+      <p>Este valor representa a sua confiança nos nossos produtos/serviços e reforça a parceria que estamos
+        construindo. Agradecemos pela preferência e seguimos comprometidos em oferecer sempre a melhor experiência e
+        resultados.</p>
+    </div>
+    <div class="content-value">
+      <h1>@Model.FaturamentoTotal.ToString("C")</h1>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>
+      <img src="https://images.icon-icons.com/1294/PNG/512/2362137-chat-media-whatsapp_85529.png" alt="WhatsApp">
+      <a href="https://wa.me/5511957782766" target="_blank">(11) 9 5778-2766</a> |
+      📧 <a href="mailto:sac@proautokimium.com.br">sac@proautokimium.com.br</a>
+    </p>
+    <p>
+      <a href="https://maps.app.goo.gl/Ei4dycuvt6jpA8Af7" target="_blank">Av. João do Prado, 300 - Santo André, SP</a>
+    </p>
+  </div>
+</div>
 </body>
 </html>

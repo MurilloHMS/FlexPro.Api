@@ -1,4 +1,5 @@
-﻿using ClosedXML.Excel;
+﻿using System.IO.Compression;
+using ClosedXML.Excel;
 using FlexPro.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,24 +16,16 @@ public class RenomearNotasController : ControllerBase
         if (files == null || files.Count == 0)
             return BadRequest("Nenhum arquivo enviado.");
 
-        List<DadosNota> dados = new List<DadosNota>();
+        var dados = new List<DadosNota>();
 
         foreach (var file in files)
-        {
             if (Path.GetExtension(file.FileName).Contains("xlsx"))
-            {
                 dados = await ObterIndices(file);
-            }
-        }
 
         var outputFolder = Path.Combine(Path.GetTempPath(), "NotasRenomeadas");
-        if (!Directory.Exists(outputFolder))
-        {
-            Directory.CreateDirectory(outputFolder);
-        }
+        if (!Directory.Exists(outputFolder)) Directory.CreateDirectory(outputFolder);
 
         foreach (var file in files)
-        {
             if (Path.GetExtension(file.FileName).Contains("pdf"))
             {
                 var tempFilePath = Path.Combine(Path.GetTempPath(), file.FileName);
@@ -44,13 +37,12 @@ public class RenomearNotasController : ControllerBase
                 // Alterar os nomes dos arquivos PDF com base nos dados extraídos do Excel
                 await AlterarNomesNotas(tempFilePath, dados, outputFolder);
             }
-        }
 
         var zipFilePath = Path.Combine(Path.GetTempPath(), "NotasRenomeadas.zip");
         if (System.IO.File.Exists(zipFilePath))
             System.IO.File.Delete(zipFilePath);
 
-        System.IO.Compression.ZipFile.CreateFromDirectory(outputFolder, zipFilePath);
+        ZipFile.CreateFromDirectory(outputFolder, zipFilePath);
 
         var zipBytes = await System.IO.File.ReadAllBytesAsync(zipFilePath);
 
@@ -65,7 +57,7 @@ public class RenomearNotasController : ControllerBase
     {
         try
         {
-            List<DadosNota> dados = new List<DadosNota>();
+            var dados = new List<DadosNota>();
 
             using (var stream = new MemoryStream())
             {
@@ -106,7 +98,6 @@ public class RenomearNotasController : ControllerBase
         var nomeDaNota = Path.GetFileNameWithoutExtension(filePath);
 
         foreach (var nota in dados)
-        {
             if (nomeDaNota.Equals(nota.Identificador, StringComparison.OrdinalIgnoreCase))
             {
                 var novoCaminho = Path.Combine(outputFolder, $"NFe_{nota.NumeroNFe}.pdf");
@@ -114,6 +105,5 @@ public class RenomearNotasController : ControllerBase
                 System.IO.File.Copy(filePath, novoCaminho, true);
                 return;
             }
-        }
     }
 }

@@ -9,7 +9,7 @@ public class EntityMap : EntityBaseMap<Entidade>
     public override void Configure(EntityTypeBuilder<Entidade> builder)
     {
         base.Configure(builder);
-        
+
         builder.ToTable("Entidades");
 
         builder.HasDiscriminator<string>("Tipo")

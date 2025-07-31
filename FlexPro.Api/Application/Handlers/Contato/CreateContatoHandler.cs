@@ -10,9 +10,9 @@ namespace FlexPro.Api.Application.Handlers.Contato;
 
 public class CreateContatoHandler : IRequestHandler<CreateContatoCommand, ContatoResponseDto>
 {
-    private readonly IMapper _mapper;
     private readonly IContatoRepository _contatoRepository;
     private readonly IHubContext<NotificationHub> _hubContext;
+    private readonly IMapper _mapper;
 
     public CreateContatoHandler(IMapper mapper, IContatoRepository contatoRepository,
         IHubContext<NotificationHub> hubContext)

@@ -8,8 +8,8 @@ namespace FlexPro.Api.Application.Handlers.Abastecimento;
 
 public class GetAllAbastecimentosHandler : IRequestHandler<GetAllAbastecimentoQuery, IEnumerable<AbastecimentoDto>>
 {
-    private readonly IAbastecimentoRepository _repo;
     private readonly IMapper _mapper;
+    private readonly IAbastecimentoRepository _repo;
 
     public GetAllAbastecimentosHandler(IAbastecimentoRepository repo, IMapper mapper)
     {

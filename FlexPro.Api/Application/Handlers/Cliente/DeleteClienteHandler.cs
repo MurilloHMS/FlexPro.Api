@@ -7,8 +7,8 @@ namespace FlexPro.Api.Application.Handlers.Cliente;
 
 public class DeleteClienteHandler : IRequestHandler<DeleteClienteCommand>
 {
-    private IClienteRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IClienteRepository _repository;
 
     public DeleteClienteHandler(IClienteRepository repository, IMapper mapper)
     {

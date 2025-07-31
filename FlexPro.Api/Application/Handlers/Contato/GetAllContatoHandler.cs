@@ -8,8 +8,8 @@ namespace FlexPro.Api.Application.Handlers.Contato;
 
 public class GetAllContatoHandler : IRequestHandler<GetAllContatoQuery, IEnumerable<ContatoResponseDto>>
 {
-    private readonly IContatoRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IContatoRepository _repository;
 
     public GetAllContatoHandler(IContatoRepository repository, IMapper mapper)
     {

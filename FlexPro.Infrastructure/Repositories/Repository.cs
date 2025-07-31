@@ -8,17 +8,23 @@ namespace FlexPro.Infrastructure.Repositories;
 public class Repository<T>(DbContext context) : IRepository<T> where T : Entity
 {
     private readonly DbSet<T> _dbSet = context.Set<T>();
-    
-    public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
 
-    public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+    public async Task<IEnumerable<T>> GetAllAsync()
+    {
+        return await _dbSet.ToListAsync();
+    }
+
+    public async Task<T?> GetByIdAsync(int id)
+    {
+        return await _dbSet.FindAsync(id);
+    }
 
     public async Task DeleteAsync(T entity)
     {
         _dbSet.Remove(entity);
         await context.SaveChangesAsync();
     }
-    
+
     public async Task InsertOrUpdateAsync(T entity, Expression<Func<T, bool>>? predicate = null)
     {
         T? entityFounded = null;
@@ -37,24 +43,18 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : Entity
                 var keyValue = entry.Property(keyProperties.Name).CurrentValue;
 
                 if (keyValue != null && !keyValue.Equals(GetDefault(keyProperties.ClrType)))
-                {
                     entityFounded = await _dbSet.FindAsync(keyValue);
-                }
             }
         }
 
         if (entityFounded != null)
-        {
             context.Entry(entityFounded).CurrentValues.SetValues(entity);
-        }
         else
-        {
             await _dbSet.AddAsync(entity);
-        }
-        
+
         await context.SaveChangesAsync();
     }
-    
+
     private static object? GetDefault(Type type)
     {
         return type.IsValueType ? Activator.CreateInstance(type) : null;

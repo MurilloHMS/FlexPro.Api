@@ -8,8 +8,8 @@ namespace FlexPro.Api.Application.Handlers.Parceiro;
 
 public class UpdateParceiroHandler : IRequestHandler<UpdateParceiroCommand, IActionResult>
 {
-    private readonly IParceiroRepository _parceiroRepository;
     private readonly IMapper _mapper;
+    private readonly IParceiroRepository _parceiroRepository;
 
     public UpdateParceiroHandler(IParceiroRepository parceiroRepository, IMapper mapper)
     {

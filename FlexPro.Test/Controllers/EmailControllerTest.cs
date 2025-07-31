@@ -1,10 +1,8 @@
-using System.Runtime.InteropServices.JavaScript;
 using FlexPro.Api.Application.Commands.Email;
 using FlexPro.Api.Controllers;
 using FlexPro.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Moq;
 
 namespace FlexPro.Test.Controllers;
@@ -28,18 +26,19 @@ public class EmailControllerTest
         {
             To = "test@example.com",
             Subject = "Test Subject",
-            Body = "Test Body",
+            Body = "Test Body"
         };
-        
+
         var expectedResult = new OkObjectResult("E-mail enviado com sucesso");
 
-        _mediatorMock.Setup(m => m.Send(It.Is<SendEmailCommand>(cmd => cmd.EmailData == emailData), default)).ReturnsAsync(expectedResult);
-        
+        _mediatorMock.Setup(m => m.Send(It.Is<SendEmailCommand>(cmd => cmd.EmailData == emailData), default))
+            .ReturnsAsync(expectedResult);
+
         //act
         var result = await _controller.SendEmailAsync(emailData);
-        
+
         //assert
-        
+
         Assert.IsType<OkObjectResult>(result);
         var returnedResult = result as OkObjectResult;
         Assert.Equal("E-mail enviado com sucesso", returnedResult.Value);
@@ -56,24 +55,26 @@ public class EmailControllerTest
         {
             To = "test@example.com",
             Subject = "Test Subject",
-            Body = "Test Body",
+            Body = "Test Body"
         };
-        
+
         var expectedResult = new BadRequestObjectResult("Erro ao enviar e-mail");
-        
-        _mediatorMock.Setup(m => m.Send(It.Is<SendEmailCommand>(cmd => cmd.EmailData == emailData), default)).ReturnsAsync(expectedResult);
-        
+
+        _mediatorMock.Setup(m => m.Send(It.Is<SendEmailCommand>(cmd => cmd.EmailData == emailData), default))
+            .ReturnsAsync(expectedResult);
+
         //act
         var result = await _controller.SendEmailAsync(emailData);
-        
+
         //Assert
         Assert.IsType<BadRequestObjectResult>(result);
         var returnedResult = result as BadRequestObjectResult;
         Assert.Equal(expectedResult, result);
         Assert.Equal(400, returnedResult.StatusCode);
         Assert.Equal("Erro ao enviar e-mail", returnedResult.Value);
-        
-        _mediatorMock.Verify(m => m.Send(It.Is<SendEmailCommand>(cmd => cmd.EmailData == emailData), default), Times.Once);
+
+        _mediatorMock.Verify(m => m.Send(It.Is<SendEmailCommand>(cmd => cmd.EmailData == emailData), default),
+            Times.Once);
     }
 
     [Fact]
@@ -82,39 +83,40 @@ public class EmailControllerTest
         //Arrange
         var informativos = new List<Informativo>
         {
-            new Informativo
+            new()
             {
                 CodigoCliente = "01", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
             },
-            new Informativo
+            new()
             {
                 CodigoCliente = "02", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
             },
-            new Informativo
+            new()
             {
                 CodigoCliente = "03", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
             },
-            new Informativo
+            new()
             {
                 CodigoCliente = "04", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
-            },
+            }
         };
-        
+
         var expectedResult = new OkObjectResult("Informativos enviados com sucesso");
 
-        _mediatorMock.Setup(m => m.Send(It.Is<SendInformativoCommand>(cmd => cmd.Informativos.SequenceEqual(informativos)), default))
+        _mediatorMock.Setup(m =>
+                m.Send(It.Is<SendInformativoCommand>(cmd => cmd.Informativos.SequenceEqual(informativos)), default))
             .ReturnsAsync(expectedResult);
 
         // Act
@@ -125,8 +127,10 @@ public class EmailControllerTest
         var okResult = result as OkObjectResult;
         Assert.Equal("Informativos enviados com sucesso", okResult.Value);
         Assert.Equal(200, okResult.StatusCode);
-        
-        _mediatorMock.Verify(m => m.Send(It.Is<SendInformativoCommand>(cmd => cmd.Informativos.SequenceEqual(informativos)), default), Times.Once());
+
+        _mediatorMock.Verify(
+            m => m.Send(It.Is<SendInformativoCommand>(cmd => cmd.Informativos.SequenceEqual(informativos)), default),
+            Times.Once());
     }
 
     [Fact]
@@ -135,34 +139,34 @@ public class EmailControllerTest
         //Arrange
         var informativos = new List<Informativo>
         {
-            new Informativo
+            new()
             {
                 CodigoCliente = "01", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
             },
-            new Informativo
+            new()
             {
                 CodigoCliente = "02", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
             },
-            new Informativo
+            new()
             {
                 CodigoCliente = "03", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
             },
-            new Informativo
+            new()
             {
                 CodigoCliente = "04", ClienteCadastrado = true, Data = DateTime.Now, EmailCliente = "teste@example.com",
                 FaturamentoTotal = 1289.00m, MediaDiasAtendimento = 12, NomeDoCliente = "Teste Cliente 01",
                 Mes = "Janeiro", ProdutoEmDestaque = "Kimi Ab200", QuantidadeDeLitros = 23, QuantidadeDeProdutos = 1443,
                 QuantidadeNotasEmitidas = 12, Status = "Success", ValorDePeçasTrocadas = 12345.00m
-            },
+            }
         };
 
         var expectedResult = new BadRequestObjectResult("Lista com dados está vazia");

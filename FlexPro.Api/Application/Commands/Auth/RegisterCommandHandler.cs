@@ -3,47 +3,46 @@ using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace FlexPro.Api.Application.Commands.Auth
+namespace FlexPro.Api.Application.Commands.Auth;
+
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, string>
 {
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, string>
+    private readonly IJwtTokenGenerator<ApplicationUser> _jwt;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+
+    public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+        IJwtTokenGenerator<ApplicationUser> jwt)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IJwtTokenGenerator<ApplicationUser> _jwt;
+        _userManager = userManager;
+        _roleManager = roleManager;
+        _jwt = jwt;
+    }
 
+    public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    {
+        var dto = request.Register;
 
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
-            IJwtTokenGenerator<ApplicationUser> jwt)
+        var user = new ApplicationUser
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _jwt = jwt;
+            UserName = dto.Username,
+            Email = dto.Username
+        };
+
+        var result = await _userManager.CreateAsync(user, dto.Password);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new Exception($"Erro ao registrar usuário: {errors}");
         }
 
-        public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
-        {
-            var dto = request.Register;
+        if (!await _roleManager.RoleExistsAsync(dto.Role))
+            await _roleManager.CreateAsync(new IdentityRole(dto.Role));
 
-            var user = new ApplicationUser
-            {
-                UserName = dto.Username,
-                Email = dto.Username
-            };
+        await _userManager.AddToRoleAsync(user, dto.Role);
 
-            var result = await _userManager.CreateAsync(user, dto.Password);
-
-            if (!result.Succeeded)
-            {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                throw new Exception($"Erro ao registrar usuário: {errors}");
-            }
-
-            if (!await _roleManager.RoleExistsAsync(dto.Role))
-                await _roleManager.CreateAsync(new IdentityRole(dto.Role));
-
-            await _userManager.AddToRoleAsync(user, dto.Role);
-
-            return await _jwt.GenerateToken(user);
-        }
+        return await _jwt.GenerateToken(user);
     }
 }
