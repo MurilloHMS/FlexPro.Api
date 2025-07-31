@@ -17,7 +17,7 @@ public class CalcularTransportadoraHandler : IRequestHandler<CalcularDadosTransp
     public async Task<IActionResult> Handle(CalcularDadosTransportadoraCommand request,
         CancellationToken cancellationToken)
     {
-        var response = _service.CalcularAsync(request.Files);
+        var response = await _service.CalcularAsync(request.Files);
         return new OkObjectResult(response);
     }
 }

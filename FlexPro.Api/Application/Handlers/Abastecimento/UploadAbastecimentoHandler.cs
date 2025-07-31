@@ -33,7 +33,7 @@ public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCom
             {
                 var departamento = _context.Funcionarios.FirstOrDefault(f =>
                     f.Nome.ToUpper().Contains(abastecimento.NomeDoMotorista.ToUpper()));
-                abastecimento.Departamento = departamento != null ? departamento.Departamento : "Sem Departamento";
+                abastecimento.Departamento = departamento != null ? departamento.Departamento! : "Sem Departamento";
             }
 
             try

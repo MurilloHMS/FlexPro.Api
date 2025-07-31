@@ -17,6 +17,6 @@ public class GetGeralMetricsHandler : IRequestHandler<GetGeralMetricsQuery, IAct
     public async Task<IActionResult> Handle(GetGeralMetricsQuery request, CancellationToken cancellationToken)
     {
         var retorno = await _abastecimentoService.CalcularAbastecimentoGeral(request.Data);
-        return retorno != null ? new OkObjectResult(retorno) : new NotFoundResult();
+        return retorno != null! ? new OkObjectResult(retorno) : new NotFoundResult();
     }
 }

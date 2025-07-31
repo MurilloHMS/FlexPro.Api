@@ -3,7 +3,6 @@ using FlexPro.Api.Application.Commands.Cliente;
 using FlexPro.Api.Application.DTOs.Cliente;
 using FlexPro.Domain.Repositories;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Handlers.Cliente;
 

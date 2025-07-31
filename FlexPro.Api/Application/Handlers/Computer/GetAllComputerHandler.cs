@@ -22,6 +22,6 @@ public class GetAllComputerHandler : IRequestHandler<GetAllComputerQuery, IActio
     {
         var response = await _repository.GetAllAsync();
         var mappedResponse = _mapper.Map<IEnumerable<ComputerResponseDTO>>(response);
-        return response.Any() ? new OkObjectResult(response) : new NotFoundResult();
+        return response.Any() ? new OkObjectResult(mappedResponse) : new NotFoundResult();
     }
 }

@@ -23,7 +23,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
             return new BadRequestObjectResult("Nenhum arquivo enviado");
         }
 
-        List<Domain.Entities.Parceiro> parceiros = new();
+        List<Domain.Entities.Parceiro> parceiros;
         using (var stream = new MemoryStream())
         {
             await request.File.CopyToAsync(stream);
@@ -32,7 +32,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
             using (XLWorkbook wb = new(stream))
             {
                 var sheet = wb.Worksheets.FirstOrDefault();
-                parceiros = sheet.RowsUsed().Skip(1).Select(row => new Domain.Entities.Parceiro
+                parceiros = sheet!.RowsUsed().Skip(1).Select(row => new Domain.Entities.Parceiro
                 {
                     CodigoSistema = row.Cell(1).TryGetValue<string>(out var codigoSistema) ?  codigoSistema : default!,
                     Nome = row.Cell(2).TryGetValue<string>(out var nome) ?  nome : default!,
@@ -46,7 +46,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
 
         if (!parceiros.Any())
         {
-            new BadRequestObjectResult("Ocorreu um erro ao coletar os dados");
+            return new BadRequestObjectResult("Ocorreu um erro ao coletar os dados");
         }
         await _repository.IncludeParceiroByRangeAsync(parceiros);
         return new OkObjectResult(parceiros);

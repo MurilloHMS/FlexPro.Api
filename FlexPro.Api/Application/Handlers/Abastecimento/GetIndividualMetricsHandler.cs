@@ -19,7 +19,7 @@ namespace FlexPro.Api.Application.Handlers.Abastecimento
         public async Task<IActionResult> Handle(GetIndividualMetricsQuery request, CancellationToken cancellationToken)
         {
             var retorno = await _service.CalcularAbastecimentoIndividual(request.Date);
-            return retorno != null ? new OkObjectResult(retorno) : new NotFoundResult();
+            return retorno != null! ? new OkObjectResult(retorno) : new NotFoundResult();
         }
     }
 }
