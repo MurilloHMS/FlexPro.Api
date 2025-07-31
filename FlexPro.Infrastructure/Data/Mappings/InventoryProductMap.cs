@@ -10,9 +10,7 @@ public class InventoryProductMap : EntityBaseMap<Products>
     {
         base.Configure(builder);
         
-        builder.ToTable("inventory-products");
-
-        builder.HasKey(p => p.Id);
+        builder.ToTable("inventory_products");
 
         builder.Property(x => x.Nome)
             .IsRequired(true)
