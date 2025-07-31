@@ -49,7 +49,7 @@ public class AuthControllerTests
         var command = new LoginCommand("teste@exemplo.com", "1234" );
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))!
             .ReturnsAsync((string?)null);
         
         var result = await _authController.Login(command);
@@ -86,10 +86,9 @@ public class AuthControllerTests
     public async Task Register_ReturnsNotNull_WhenCredentialsAreInvalid()
     {
         var registerDto = new RegisterDTO { Password = "1234", Role = "Departamento" };
-        var expectedToken = "fake-jwt-token";
         
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))!
             .ReturnsAsync((string?)null);
         
         var result = await _authController.Register(registerDto);
@@ -98,5 +97,23 @@ public class AuthControllerTests
         Assert.IsNotNull(notFoundResult);
         Assert.AreEqual(404, notFoundResult.StatusCode);
         Assert.AreEqual("Credenciais incorretas",  notFoundResult.Value);
+    }
+
+    [TestMethod]
+    public async Task Shold_Success_When_Role_is_include()
+    {
+        var role = new UpdateUserRoleDTO(){Role = "Departamento", Username = "test@example.com"};
+        string expectedResult = "Role adicionada com sucesso";
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateUserRoleCommand>(), It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(true);
+
+        var result = await _authController.AddRole(role);
+        
+        var okResult = result as OkObjectResult;
+        Assert.IsNotNull(okResult);
+        Assert.AreEqual(200, okResult.StatusCode);
+        Assert.AreEqual(expectedResult, okResult.Value);
+
     }
 }
