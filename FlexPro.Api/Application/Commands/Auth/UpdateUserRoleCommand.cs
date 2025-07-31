@@ -1,13 +1,13 @@
-﻿using FlexPro.Api.Application.DTOs.Auth;
+﻿using FlexPro.Application.DTOs.Auth;
 using MediatR;
 
 namespace FlexPro.Api.Application.Commands.Auth
 {
     public class UpdateUserRoleCommand : IRequest<bool>
     {
-        public UpdateUserRoleDTO Dto { get; set; }
+        public UpdateUserRoleDto Dto { get; set; }
 
-        public UpdateUserRoleCommand(UpdateUserRoleDTO dto)
+        public UpdateUserRoleCommand(UpdateUserRoleDto dto)
         {
             Dto = dto;
         }

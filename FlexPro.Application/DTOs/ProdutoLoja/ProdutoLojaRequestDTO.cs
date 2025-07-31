@@ -1,16 +1,16 @@
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.DTOs.ProdutoLoja;
+namespace FlexPro.Application.DTOs.ProdutoLoja;
 
-public class ProdutoLojaRequestDTO
+public class ProdutoLojaRequestDto
 {
-    public string CodigoSistema { get; set; }
-    public string Nome { get; set; }
-    public string Descricao { get; set; }
-    public string Cor {get; set; }
-    public string Diluicao { get; set; }
-    public byte[] Imagem { get; set; }
-    public List<EmbalagemRequestDTO> Embalagems { get; set; }
-    public List<Departamento> Departamentos { get; set; }
+    public string CodigoSistema { get; set; } =  string.Empty;
+    public string Nome { get; set; } =  string.Empty;
+    public string Descricao { get; set; } =  string.Empty;
+    public string Cor {get; set; } =  string.Empty;
+    public string Diluicao { get; set; } =  string.Empty;
+    public byte[]? Imagem { get; set; }
+    public List<EmbalagemRequestDto>? Embalagems { get; set; }
+    public List<Departamento>? Departamentos { get; set; }
     
 }

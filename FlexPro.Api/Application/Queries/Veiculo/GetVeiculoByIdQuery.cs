@@ -4,7 +4,7 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Queries.Veiculo
 {
-    public class GetVeiculoByIdQuery : IRequest<VeiculoDTO>
+    public class GetVeiculoByIdQuery : IRequest<VeiculoDto>
     {
         public int Id { get; set; }
     }

@@ -1,8 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
-using FlexPro.Api.Application.DTOs.Auth;
-using FlexPro.Api.Application.DTOs.Cliente;
+using FlexPro.Application.DTOs.Cliente;
 using FlexPro.Domain.Enums;
 using FlexPro.Test.Setup;
 using Newtonsoft.Json;
@@ -23,7 +22,7 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
     public async Task Post_Cliente_Should_Return_Created()
     {
         // Arrange
-        var dto = new ClienteRequestDTO
+        var dto = new ClienteRequestDto
         {
             Nome = "Cliente Teste",
             Email = "teste@cliente.com",
@@ -49,7 +48,7 @@ public class ClienteControllerTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Post_Cliente_Should_Return_BadRequest_With_Email_Invalid()
     {
-        var dto = new ClienteRequestDTO
+        var dto = new ClienteRequestDto
         {
             Nome = "Cliente teste",
             Email = "Emailinvalido.com",

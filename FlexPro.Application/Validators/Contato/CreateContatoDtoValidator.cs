@@ -1,9 +1,9 @@
-using FlexPro.Api.Application.DTOs.Contato;
+using FlexPro.Application.DTOs.Contato;
 using FluentValidation;
 
 namespace FlexPro.Application.Validators.Contato;
 
-public class CreateContatoDtoValidator : AbstractValidator<ContatoRequestDTO>
+public class CreateContatoDtoValidator : AbstractValidator<ContatoRequestDto>
 {
     public CreateContatoDtoValidator()
     {

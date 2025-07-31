@@ -1,12 +1,12 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.Parceiro;
 using FlexPro.Api.Application.Queries.Parceiro;
+using FlexPro.Application.DTOs.Parceiro;
 using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Parceiro;
 
-public class GetAllParceiroHandler : IRequestHandler<GetAllParceiroQuery,  IEnumerable<ParceiroResponseDTO>>
+public class GetAllParceiroHandler : IRequestHandler<GetAllParceiroQuery,  IEnumerable<ParceiroResponseDto>>
 {
     private IMapper _mapper;
     private IParceiroRepository _repository;
@@ -17,10 +17,10 @@ public class GetAllParceiroHandler : IRequestHandler<GetAllParceiroQuery,  IEnum
         _repository = repository;
     }
 
-    public async Task<IEnumerable<ParceiroResponseDTO>> Handle(GetAllParceiroQuery request,
+    public async Task<IEnumerable<ParceiroResponseDto>> Handle(GetAllParceiroQuery request,
         CancellationToken cancellationToken)
     {
         var entityList = await _repository.GetAllAsync();
-        return _mapper.Map<IEnumerable<ParceiroResponseDTO>>(entityList);
+        return _mapper.Map<IEnumerable<ParceiroResponseDto>>(entityList);
     }
 }

@@ -1,6 +1,6 @@
 using FlexPro.Api.Application.Commands.Auth;
-using FlexPro.Api.Application.DTOs.Auth;
 using FlexPro.Api.Controllers;
+using FlexPro.Application.DTOs.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -63,7 +63,7 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Register_ReturnsOk_WhenCredentialsAreValid()
     {
-        var registerDto = new RegisterDTO { Password = "1234", Role = "Departamento", Username = "teste@exemplo.com" };
+        var registerDto = new RegisterDto { Password = "1234", Role = "Departamento", Username = "teste@exemplo.com" };
         var expectedToken = "fake-jwt-token";
         
         _mediatorMock
@@ -85,7 +85,7 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Register_ReturnsNotNull_WhenCredentialsAreInvalid()
     {
-        var registerDto = new RegisterDTO { Password = "1234", Role = "Departamento" };
+        var registerDto = new RegisterDto { Password = "1234", Role = "Departamento" };
         
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))!
@@ -102,7 +102,7 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Shold_Success_When_Role_is_include()
     {
-        var role = new UpdateUserRoleDTO(){Role = "Departamento", Username = "test@example.com"};
+        var role = new UpdateUserRoleDto(){Role = "Departamento", Username = "test@example.com"};
         string expectedResult = "Role adicionada com sucesso";
         
         _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateUserRoleCommand>(), It.IsAny<CancellationToken>()))

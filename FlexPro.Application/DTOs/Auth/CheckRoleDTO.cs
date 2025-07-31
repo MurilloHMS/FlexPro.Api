@@ -1,8 +1,8 @@
-﻿namespace FlexPro.Api.Application.DTOs.Auth
+﻿namespace FlexPro.Application.DTOs.Auth
 {
-    public class CheckRoleDTO
+    public class CheckRoleDto
     {
-        public string Username { get; set; }
-        public string Role { get; set; }
+        public string Username { get; set; } =  string.Empty;
+        public string Role { get; set; } =  string.Empty;
     }
 }

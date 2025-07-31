@@ -1,12 +1,12 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.Cliente;
 using FlexPro.Api.Application.Queries.Cliente;
+using FlexPro.Application.DTOs.Cliente;
 using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Cliente;
 
-public class GetAllClienteHandler : IRequestHandler<GetAllClienteQuery, IEnumerable<ClienteResponseDTO>>
+public class GetAllClienteHandler : IRequestHandler<GetAllClienteQuery, IEnumerable<ClienteResponseDto>>
 {
     private readonly IClienteRepository _clienteRepository;
     private readonly IMapper _mapper;
@@ -17,10 +17,10 @@ public class GetAllClienteHandler : IRequestHandler<GetAllClienteQuery, IEnumera
         _clienteRepository = repository;
     }
 
-    public async Task<IEnumerable<ClienteResponseDTO>> Handle(GetAllClienteQuery request,
+    public async Task<IEnumerable<ClienteResponseDto>> Handle(GetAllClienteQuery request,
         CancellationToken cancellationToken)
     {
         var clientes = await  _clienteRepository.GetAllAsync();
-        return _mapper.Map<IEnumerable<ClienteResponseDTO>>(clientes);
+        return _mapper.Map<IEnumerable<ClienteResponseDto>>(clientes);
     }
 }

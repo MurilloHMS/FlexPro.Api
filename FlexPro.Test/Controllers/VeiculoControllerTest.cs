@@ -27,10 +27,10 @@ namespace FlexPro.Test.Controllers
         [Fact]
         public async Task GetAll_ShouldReturnOkWithList()
         {
-            var veiculos = new List<VeiculoDTO>
+            var veiculos = new List<VeiculoDto>
             {
-                new VeiculoDTO { Nome = "Carro 1", Placa = "AAA-1234", Marca = "Ford" },
-                new VeiculoDTO { Nome = "Carro 2", Placa = "BBB-5678", Marca = "Chevrolet" }
+                new VeiculoDto { Nome = "Carro 1", Placa = "AAA-1234", Marca = "Ford" },
+                new VeiculoDto { Nome = "Carro 2", Placa = "BBB-5678", Marca = "Chevrolet" }
             };
 
             _mediatorMock
@@ -46,7 +46,7 @@ namespace FlexPro.Test.Controllers
         [Fact]
         public async Task GetById_ShouldReturnOkWhenFound()
         {
-            var dto = new VeiculoDTO { Nome = "Carro", Placa = "AAA-1234", Marca = "Fiat" };
+            var dto = new VeiculoDto { Nome = "Carro", Placa = "AAA-1234", Marca = "Fiat" };
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<GetVeiculoByIdQuery>(), It.IsAny<CancellationToken>()))
@@ -55,14 +55,14 @@ namespace FlexPro.Test.Controllers
             var result = await _controller.GetById(1);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var value = Assert.IsType<VeiculoDTO>(okResult.Value);
+            var value = Assert.IsType<VeiculoDto>(okResult.Value);
             Assert.Equal("Carro", value.Nome);
         }
 
         [Fact]
         public async Task Create_ShouldReturnCreatedAtAction()
         {
-            var command = new VeiculoDTO()
+            var command = new VeiculoDto()
             {
                 Nome = "Novo Carro",
                 Placa = "XYZ-9876",

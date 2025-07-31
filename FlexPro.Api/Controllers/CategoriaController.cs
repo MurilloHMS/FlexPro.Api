@@ -1,5 +1,6 @@
 using FlexPro.Api.Application.Commands.Categoria;
 using FlexPro.Api.Application.DTOs.Categoria;
+using FlexPro.Application.DTOs.Categoria;
 using FlexPro.Domain.Entities;
 using FlexPro.Domain.Repositories;
 using FlexPro.Infrastructure.Data;
@@ -38,7 +39,7 @@ public class CategoriaController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> PostCategoria(CategoriaRequestDTO category)
+    public async Task<IActionResult> PostCategoria(CategoriaRequestDto category)
     {
         var response = await _mediator.Send(new CreateCategoriaCommand(category));
         return response;

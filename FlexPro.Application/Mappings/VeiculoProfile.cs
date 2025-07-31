@@ -9,7 +9,7 @@ namespace FlexPro.Application.Mappings
     {
         public VeiculoProfile()
         {
-            CreateMap<Veiculo, VeiculoDTO>().ReverseMap();
+            CreateMap<Veiculo, VeiculoDto>().ReverseMap();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FlexPro.Api.Application.DTOs.Auth;
+﻿using FlexPro.Application.DTOs.Auth;
 using FluentValidation;
 
 namespace FlexPro.Application.Validators.Auth

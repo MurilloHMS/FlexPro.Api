@@ -1,12 +1,12 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.Contato;
 using FlexPro.Api.Application.Queries.Contato;
+using FlexPro.Application.DTOs.Contato;
 using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Contato;
 
-public class GetAllContatoHandler : IRequestHandler<GetAllContatoQuery, IEnumerable<ContatoResponseDTO>>
+public class GetAllContatoHandler : IRequestHandler<GetAllContatoQuery, IEnumerable<ContatoResponseDto>>
 {
     private readonly IContatoRepository _repository;
     private readonly IMapper _mapper;
@@ -17,10 +17,10 @@ public class GetAllContatoHandler : IRequestHandler<GetAllContatoQuery, IEnumera
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ContatoResponseDTO>> Handle(GetAllContatoQuery request,
+    public async Task<IEnumerable<ContatoResponseDto>> Handle(GetAllContatoQuery request,
         CancellationToken cancellationToken)
     {
         var contatos = await _repository.GetAllAsync();
-        return _mapper.Map<IEnumerable<ContatoResponseDTO>>(contatos);
+        return _mapper.Map<IEnumerable<ContatoResponseDto>>(contatos);
     }
 }

@@ -1,5 +1,5 @@
 using FlexPro.Api.Application.Commands.Informativo;
-using FlexPro.Api.Application.DTOs.Informativo;
+using FlexPro.Application.DTOs.Informativo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +38,7 @@ public class InformativoController : ControllerBase
     }
 
     [HttpPost("calcular")]
-    public async Task<IActionResult> GenerateMetrics([FromBody]InformativoRequestDTO dados)
+    public async Task<IActionResult> GenerateMetrics([FromBody]InformativoRequestDto dados)
     {
         var response = await _mediator.Send(new CalcularDadosInformativoCommand(dados));
         return response;

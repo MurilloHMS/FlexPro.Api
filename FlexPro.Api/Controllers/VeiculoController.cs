@@ -37,7 +37,7 @@ namespace FlexPro.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IResult> Create([FromBody] VeiculoDTO dto)
+        public async Task<IResult> Create([FromBody] VeiculoDto dto)
         {
             var command = new FlexPro.Application.UseCases.Vehicles.Create.Command(dto);
             var result = await _mediator.Send(command);

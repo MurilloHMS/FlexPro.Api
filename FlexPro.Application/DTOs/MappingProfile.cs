@@ -8,7 +8,7 @@ namespace FlexPro.Application.DTOs
     {
         public MappingProfile()
         {
-            CreateMap<Veiculo, VeiculoDTO>().ReverseMap();
+            CreateMap<Veiculo, VeiculoDto>().ReverseMap();
         }
     }
 }

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Veiculo
 {
-    public class GetVeiculoByIdHandler : IRequestHandler<GetVeiculoByIdQuery, VeiculoDTO>
+    public class GetVeiculoByIdHandler : IRequestHandler<GetVeiculoByIdQuery, VeiculoDto>
     {
         private readonly IVeiculoRepository _repo;
         private readonly IMapper _mapper;
@@ -18,10 +18,10 @@ namespace FlexPro.Api.Application.Handlers.Veiculo
             _mapper = mapper;
         }
 
-        public async Task<VeiculoDTO> Handle(GetVeiculoByIdQuery request, CancellationToken cancellationToken)
+        public async Task<VeiculoDto> Handle(GetVeiculoByIdQuery request, CancellationToken cancellationToken)
         {
             var entity = await _repo.GetByIdAsync(request.Id);
-            return _mapper.Map<VeiculoDTO>(entity);
+            return _mapper.Map<VeiculoDto>(entity);
         }
     }
 }

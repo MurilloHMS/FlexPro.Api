@@ -1,6 +1,6 @@
 using FlexPro.Api.Application.Commands.Cliente;
-using FlexPro.Api.Application.DTOs.Cliente;
 using FlexPro.Api.Application.Queries.Cliente;
+using FlexPro.Application.DTOs.Cliente;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,21 +18,21 @@ public class ClienteController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] ClienteRequestDTO dto)
+    public async Task<IActionResult> Create([FromBody] ClienteRequestDto dto)
     {
         var result = await _mediator.Send(new CreateClienteCommand(dto));
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id,[FromBody] ClienteRequestDTO dto)
+    public async Task<IActionResult> Update(int id,[FromBody] ClienteRequestDto dto)
     {
         await _mediator.Send(new UpdateClienteCommand(id, dto));
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(ClienteRequestDTO cliente)
+    public async Task<IActionResult> Delete(ClienteRequestDto cliente)
     {
         await _mediator.Send(new DeleteClienteCommand(cliente));
         return NoContent();
@@ -48,7 +48,7 @@ public class ClienteController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        IEnumerable<ClienteResponseDTO> response = await _mediator.Send(new GetAllClienteQuery());
+        IEnumerable<ClienteResponseDto> response = await _mediator.Send(new GetAllClienteQuery());
         return response != null ? Ok(response) : NotFound();
     }
 }

@@ -1,5 +1,5 @@
 using System.Net;
-using FlexPro.Api.Application.DTOs.Contato;
+using FlexPro.Application.DTOs.Contato;
 using FlexPro.Domain.Enums;
 using FlexPro.Test.Setup;
 
@@ -18,7 +18,7 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Post_Contato_Should_Return_Created()
     {
-        var dto = new ContatoRequestDTO()
+        var dto = new ContatoRequestDto()
         {
             Nome = "Contato Teste",
             Email = "Teste@gmail.com",
@@ -42,7 +42,7 @@ public class ContatoControllerTest : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Post_Contato_Should_Return_BadRequest_With_Email_Invalid()
     {
-        var dto = new ContatoRequestDTO()
+        var dto = new ContatoRequestDto()
         {
             Nome = "Contato Teste",
             Email = "email invalido",

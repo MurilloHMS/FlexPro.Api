@@ -1,5 +1,5 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.ProdutoLoja;
+using FlexPro.Application.DTOs.ProdutoLoja;
 using FlexPro.Domain.Entities;
 
 namespace FlexPro.Api.Application.Mappings;
@@ -9,14 +9,14 @@ public class ProdutoLojaProfile :  Profile
     public ProdutoLojaProfile()
     {
         // Request DTO → Entity
-        CreateMap<ProdutoLojaRequestDTO, ProdutoLoja>();
-        CreateMap<EmbalagemRequestDTO, Embalagem>();
+        CreateMap<ProdutoLojaRequestDto, ProdutoLoja>();
+        CreateMap<EmbalagemRequestDto, Embalagem>();
 
         // Entity → Response DTO
-        CreateMap<ProdutoLoja, ProdutoLojaResponseDTO>();
-        CreateMap<Embalagem, EmbalagemResponseDTO>();
+        CreateMap<ProdutoLoja, ProdutoLojaResponseDto>();
+        CreateMap<Embalagem, EmbalagemResponseDto>();
 
-        CreateMap<DepartamentoRequestDTO, Departamento>();
-        CreateMap<Departamento, DepartamentoResponseDTO>();
+        CreateMap<DepartamentoRequestDto, Departamento>();
+        CreateMap<Departamento, DepartamentoResponseDto>();
     }
 }

@@ -1,13 +1,13 @@
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.DTOs.Computer;
+namespace FlexPro.Application.DTOs.Computer;
 
-public class ComputerRequestDTO
+public class ComputerRequestDto
 {
-    public string Nome { get; set; }
+    public string Nome { get; set; } =  string.Empty;
     public bool Interno { get; set; }
-    public string Marca { get; set; }
+    public string Marca { get; set; } =  string.Empty;
     
-    public virtual ICollection<AcessoRemoto> AcessosRemotos { get; set; }
-    public virtual Especificacoes Especificacoes { get; set; }
+    public virtual ICollection<AcessoRemoto>? AcessosRemotos { get; set; }
+    public virtual Especificacoes? Especificacoes { get; set; }
 }

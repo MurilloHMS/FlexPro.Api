@@ -1,5 +1,5 @@
 using System.Net.Http.Json;
-using FlexPro.Api.Application.DTOs.Auth;
+using FlexPro.Application.DTOs.Auth;
 
 namespace FlexPro.Test.Setup;
 

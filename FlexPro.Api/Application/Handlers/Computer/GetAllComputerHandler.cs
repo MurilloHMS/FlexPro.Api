@@ -1,6 +1,6 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.Computer;
 using FlexPro.Api.Application.Queries.Computer;
+using FlexPro.Application.DTOs.Computer;
 using FlexPro.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@ public class GetAllComputerHandler : IRequestHandler<GetAllComputerQuery, IActio
     public async Task<IActionResult> Handle(GetAllComputerQuery request, CancellationToken cancellationToken)
     {
         var response = await _repository.GetAllAsync();
-        var mappedResponse = _mapper.Map<IEnumerable<ComputerResponseDTO>>(response);
+        var mappedResponse = _mapper.Map<IEnumerable<ComputerResponseDto>>(response);
         return response.Any() ? new OkObjectResult(mappedResponse) : new NotFoundResult();
     }
 }
