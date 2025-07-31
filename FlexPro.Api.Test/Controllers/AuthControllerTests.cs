@@ -105,7 +105,7 @@ public class AuthControllerTests
         var role = new UpdateUserRoleDTO(){Role = "Departamento", Username = "test@example.com"};
         string expectedResult = "Role adicionada com sucesso";
         
-        _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateUserRoleCommand>(), It.IsAny<CancellationToken>()))!
+        _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateUserRoleCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
         var result = await _authController.AddRole(role);

@@ -4,4 +4,4 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Commands.Parceiro;
 
-public record UpdateParceiroCommand(ParceiroRequestDTO dto, int id) :  IRequest<IActionResult> { }
+public record UpdateParceiroCommand(ParceiroRequestDTO Dto, int Id) :  IRequest<IActionResult> { }

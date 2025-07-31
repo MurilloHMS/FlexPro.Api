@@ -38,11 +38,11 @@ namespace FlexPro.Infrastructure.Services
                                 Data = row.Cell(2).TryGetValue<string>(out var dataString) && 
                                        DateTime.TryParseExact(dataString, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var dataFormatada)
                                     ? dataFormatada : default,
-                                CodigoCliente = row.Cell(3).TryGetValue<string>(out var codigoCliente) ? codigoCliente : default,
-                                NomeDoCliente = row.Cell(4).TryGetValue<string>(out var nomeCliente) ? nomeCliente : default,
-                                CodigoProduto = row.Cell(6).TryGetValue<string>(out var CodigoProduto) ? CodigoProduto : default,
+                                CodigoCliente = row.Cell(3).TryGetValue<string>(out var codigoCliente) ? codigoCliente : default!,
+                                NomeDoCliente = row.Cell(4).TryGetValue<string>(out var nomeCliente) ? nomeCliente : default!,
+                                CodigoProduto = row.Cell(6).TryGetValue<string>(out var codigoProduto) ? codigoProduto : default!,
                                 TipoDeUnidade = row.Cell(7).TryGetValue<char>(out var tipoDeUnidade) ? tipoDeUnidade : default,
-                                NomeDoProduto = row.Cell(8).TryGetValue<string>(out var nomeProduto) ? nomeProduto : default,
+                                NomeDoProduto = row.Cell(8).TryGetValue<string>(out var nomeProduto) ? nomeProduto : default!,
                                 Quantidade = row.Cell(9).TryGetValue<double>(out var quantidade) ? quantidade : default,
                                 ValorTotalComImpostos = row.Cell(10).TryGetValue<decimal>(out var valorTotal) ? valorTotal : default
                             }).ToList();
@@ -51,9 +51,9 @@ namespace FlexPro.Infrastructure.Services
                     }
                 }
 
-                return dados ?? new List<InformativoNFe>();
+                return dados;
 
-            }catch(Exception ex)
+            }catch(Exception )
             {
                 return new List<InformativoNFe>();
             }
@@ -78,7 +78,7 @@ namespace FlexPro.Infrastructure.Services
                             .Select(row => new InformativoOS
                             {
                                 NumOs = row.Cell(1).TryGetValue<int>(out var numeroOs) ? numeroOs : default,
-                                CodigoCliente = row.Cell(2).TryGetValue<string>(out var codigoCliente) ? codigoCliente : default,
+                                CodigoCliente = row.Cell(2).TryGetValue<string>(out var codigoCliente) ? codigoCliente : default!,
                                 DataDeAbertura = row.Cell(4).TryGetValue<DateTime>(out var dataAbertura) ? dataAbertura : default,
                                 DataDeFechamento = row.Cell(5).TryGetValue<DateTime>(out var dataFechamento) ? dataFechamento : default,
                                 DiasDaSemana = row.Cell(6).TryGetValue<int>(out var diasSemana) ? diasSemana : default
@@ -88,7 +88,7 @@ namespace FlexPro.Infrastructure.Services
                     }
                 }
 
-                return dados ?? new List<InformativoOS>();
+                return dados;
             }
             catch (Exception)
             {
@@ -114,7 +114,7 @@ namespace FlexPro.Infrastructure.Services
                             .Skip(3)
                             .Select(row => new InformativoPecasTrocadas
                             {
-                                CodigoCliente = row.Cell(1).TryGetValue<string>(out var codigoCliente) ? codigoCliente : default,
+                                CodigoCliente = row.Cell(1).TryGetValue<string>(out var codigoCliente) ? codigoCliente : default!,
                                 CustoTotal = row.Cell(3).TryGetValue<decimal>(out var custoTotal) ? custoTotal : default
                             }).ToList();
 
@@ -122,7 +122,7 @@ namespace FlexPro.Infrastructure.Services
                     }
                 }
 
-                return dados ?? new List<InformativoPecasTrocadas>();
+                return dados;
             }
             catch (Exception)
             {
@@ -153,9 +153,9 @@ namespace FlexPro.Infrastructure.Services
 
                 foreach (var cliente in parceiros)
                 {
-                    nfeGrouped.TryGetValue(cliente.CodigoSistema, out var clienteNfeInfo);
-                    osGrouped.TryGetValue(cliente.CodigoSistema, out var clienteOsInfo);
-                    pecasGrouped.TryGetValue(cliente.CodigoSistema, out var clientePecasInfo);
+                    nfeGrouped.TryGetValue(cliente.CodigoSistema!, out var clienteNfeInfo);
+                    osGrouped.TryGetValue(cliente.CodigoSistema!, out var clienteOsInfo);
+                    pecasGrouped.TryGetValue(cliente.CodigoSistema!, out var clientePecasInfo);
 
                     if (clienteNfeInfo == null || !clienteNfeInfo.Any())
                         continue;
@@ -171,7 +171,7 @@ namespace FlexPro.Infrastructure.Services
 
                     var informativo = new Informativo
                     {
-                        CodigoCliente = cliente.CodigoSistema,
+                        CodigoCliente = cliente.CodigoSistema!,
                         NomeDoCliente = cliente.Nome,
                         Data = data,
                         Mes = month ?? data.ToString("MMMM", CultureInfo.InvariantCulture),
@@ -179,12 +179,12 @@ namespace FlexPro.Infrastructure.Services
                         QuantidadeDeLitros = clienteNfeInfo.Sum(x => x.Quantidade),
                         QuantidadeNotasEmitidas = clienteNfeInfo.Select(x => x.NumeroNFe).Distinct().Count(),
                         QuantidadeDeVisitas = clienteOsInfo?.Count ?? 0,
-                        MediaDiasAtendimento = clienteOsInfo != null && clienteOsInfo.Any() ? (int)clienteOsInfo.Sum(x => x.DiasDaSemana) : 0,
+                        MediaDiasAtendimento = clienteOsInfo != null && clienteOsInfo.Any() ? clienteOsInfo.Sum(x => x.DiasDaSemana) : 0,
                         ProdutoEmDestaque = produtoEmDestaque,
                         FaturamentoTotal = clienteNfeInfo.Sum(x => x.ValorTotalComImpostos),
                         ValorDePeçasTrocadas = clientePecasInfo?.Sum(x => x.CustoTotal) ?? 0,
                         ClienteCadastrado = true,
-                        EmailCliente = cliente.Email
+                        EmailCliente = cliente.Email!
                     };
 
                     informativos.Add(informativo);

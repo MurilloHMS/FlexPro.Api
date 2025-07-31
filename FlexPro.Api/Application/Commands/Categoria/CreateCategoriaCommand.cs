@@ -4,4 +4,4 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Commands.Categoria;
 
-public record CreateCategoriaCommand(CategoriaRequestDTO dto) : IRequest<IActionResult>;
+public record CreateCategoriaCommand(CategoriaRequestDTO Dto) : IRequest<IActionResult>;

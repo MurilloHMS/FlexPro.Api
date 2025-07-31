@@ -2,20 +2,17 @@
 using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-
 namespace FlexPro.Api.Application.Commands.Auth
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJwtTokenGenerator<ApplicationUser> _jwt;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginCommandHandler(UserManager<ApplicationUser> userManager, IJwtTokenGenerator<ApplicationUser> jwt, IHttpContextAccessor httpContextAccessor)
+        public LoginCommandHandler(UserManager<ApplicationUser> userManager, IJwtTokenGenerator<ApplicationUser> jwt)
         {
             _userManager = userManager;
             _jwt = jwt;
-            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -23,7 +20,7 @@ namespace FlexPro.Api.Application.Commands.Auth
         {
             var user = await _userManager.FindByNameAsync(request.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
-                return null;
+                return null!;
 
             
             var token = await _jwt.GenerateToken(user);

@@ -1,8 +1,6 @@
-﻿using FlexPro.Api.Application.DTOs.Auth;
-using FlexPro.Infrastructure.Data;
+﻿using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Org.BouncyCastle.Crypto;
 
 namespace FlexPro.Api.Application.Commands.Auth
 {

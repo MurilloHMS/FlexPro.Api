@@ -18,7 +18,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
     public async Task<IActionResult> Handle(CreateParceiroListBySheetCommand request,
         CancellationToken cancellationToken)
     {
-        if (request.file == null && request.file.Length == 0)
+        if (request.File == null && request.File.Length == 0)
         {
             return new BadRequestObjectResult("Nenhum arquivo enviado");
         }
@@ -26,7 +26,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
         List<Domain.Entities.Parceiro> parceiros = new();
         using (var stream = new MemoryStream())
         {
-            await request.file.CopyToAsync(stream);
+            await request.File.CopyToAsync(stream);
             stream.Position = 0;
 
             using (XLWorkbook wb = new(stream))

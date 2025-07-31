@@ -17,10 +17,10 @@ public class UploadDadosPecasTrocadasHandler :  IRequestHandler<UploadDadosPecas
 
     public async Task<IActionResult> Handle(UploadDadosPecasTrocadasCommand request, CancellationToken cancellationToken)
     {
-        if (request.file ==null || request.file.Length == 0) 
+        if (request.File ==null || request.File.Length == 0) 
             return new BadRequestObjectResult("Arquivo inválido ou vazio");
 
-        IEnumerable<InformativoPecasTrocadas> dados = await _service.ReadPecasTrocadasData(request.file);
+        IEnumerable<InformativoPecasTrocadas> dados = await _service.ReadPecasTrocadasData(request.File);
         return dados.Any()
             ? new OkObjectResult(dados)
             : new BadRequestObjectResult("Não foi possivel obter os dados do arquivo");

@@ -17,10 +17,10 @@ public class UploadDadosNfeHandler :  IRequestHandler<UploadDadosNfeCommand, IAc
 
     public async Task<IActionResult> Handle(UploadDadosNfeCommand request, CancellationToken cancellationToken)
     {
-        if (request.file == null || request.file.Length == 0)
+        if (request.File == null || request.File.Length == 0)
             return new BadRequestObjectResult("Não foi possível obter os dados do arquivo");
 
-        IEnumerable<InformativoNFe> dados = await _service.ReadNfeData(request.file);
+        IEnumerable<InformativoNFe> dados = await _service.ReadNfeData(request.File);
         return dados.Any() ? new OkObjectResult(dados) : new BadRequestObjectResult("Não foi possivel retornar os dados do arquivo");
     }
 }

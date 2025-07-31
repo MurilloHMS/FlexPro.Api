@@ -4,4 +4,4 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Commands.Parceiro;
 
-public record CreateParceiroCommand(ParceiroRequestDTO dto) : IRequest<IActionResult> { }
+public record CreateParceiroCommand(ParceiroRequestDTO Dto) : IRequest<IActionResult> { }

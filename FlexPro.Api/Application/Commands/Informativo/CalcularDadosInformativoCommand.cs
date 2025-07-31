@@ -4,4 +4,4 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Commands.Informativo;
 
-public record CalcularDadosInformativoCommand(InformativoRequestDTO informativoRequest) : IRequest<IActionResult>;
+public record CalcularDadosInformativoCommand(InformativoRequestDTO InformativoRequest) : IRequest<IActionResult>;

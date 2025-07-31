@@ -18,7 +18,7 @@ public class DeleteClienteHandler : IRequestHandler<DeleteClienteCommand>
 
     public async Task Handle(DeleteClienteCommand request, CancellationToken cancellationToken)
     {
-        var cliente = _mapper.Map<Domain.Entities.Cliente>(request.cliente);
+        var cliente = _mapper.Map<Domain.Entities.Cliente>(request.Cliente);
         await _repository.DeleteAsync(cliente);
     }
 }
