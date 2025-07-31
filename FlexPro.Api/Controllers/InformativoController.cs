@@ -15,7 +15,7 @@ public class InformativoController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [HttpPost("upload/nfe")]
     public async Task<IActionResult> UploadNfeData(IFormFile file)
     {
@@ -27,18 +27,18 @@ public class InformativoController : ControllerBase
     public async Task<IActionResult> UploadOsData(IFormFile file)
     {
         var response = await _mediator.Send(new UploadDadosOsCommand(file));
-        return response;      
+        return response;
     }
 
     [HttpPost("upload/pecasTrocadas")]
     public async Task<IActionResult> UploadPecasTrocadas(IFormFile file)
     {
         var response = await _mediator.Send(new UploadDadosPecasTrocadasCommand(file));
-        return response;  
+        return response;
     }
 
     [HttpPost("calcular")]
-    public async Task<IActionResult> GenerateMetrics([FromBody]InformativoRequestDto dados)
+    public async Task<IActionResult> GenerateMetrics([FromBody] InformativoRequestDto dados)
     {
         var response = await _mediator.Send(new CalcularDadosInformativoCommand(dados));
         return response;

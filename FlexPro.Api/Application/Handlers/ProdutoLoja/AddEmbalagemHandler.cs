@@ -24,15 +24,15 @@ public class AddEmbalagemHandler : IRequestHandler<AddEmbalagemCommand, IActionR
 
         if (produto == null)
             return new NotFoundObjectResult("Produto no encontrado");
-        
-        var novasEmbalagems =  _mapper.Map<List<Embalagem>>(request.Embalagens);
+
+        var novasEmbalagems = _mapper.Map<List<Embalagem>>(request.Embalagens);
 
         foreach (var embalagem in novasEmbalagems)
         {
             embalagem.ProdutoLojaId = produto.Id;
             produto.Embalagems.Add(embalagem);
         }
-        
+
         await _repository.InsertOrUpdateAsync(produto);
         return new OkObjectResult("Embalagens adicionadas com sucesso");
     }

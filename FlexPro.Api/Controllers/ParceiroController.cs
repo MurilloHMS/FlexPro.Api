@@ -16,12 +16,14 @@ public class ParceiroController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [HttpPost("upload")]
     public async Task<IActionResult> Upload(IFormFile file)
     {
         var request = await _mediator.Send(new CreateParceiroListBySheetCommand(file));
-        return request != null ? Ok("Parceiros criados com sucesso") : BadRequest("Ocorreu um erro ao criar a lista de parceiros");
+        return request != null
+            ? Ok("Parceiros criados com sucesso")
+            : BadRequest("Ocorreu um erro ao criar a lista de parceiros");
     }
 
     [HttpPost]

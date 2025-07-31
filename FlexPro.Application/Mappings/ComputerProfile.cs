@@ -2,7 +2,7 @@ using AutoMapper;
 using FlexPro.Application.DTOs.Computer;
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Mappings;
+namespace FlexPro.Application.Mappings;
 
 public class ComputerProfile : Profile
 {

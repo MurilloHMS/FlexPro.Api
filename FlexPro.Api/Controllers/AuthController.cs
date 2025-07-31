@@ -22,14 +22,14 @@ namespace FlexPro.Api.Controllers
         public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
             var token = await _mediator.Send(command);
-            return token != null ? Ok(new {token}) : NotFound("Usuário ou senha incorretos");
+            return token != null ? Ok(new { token }) : NotFound("Usuário ou senha incorretos");
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
-            var token = await _mediator.Send(new RegisterCommand { Register = dto});
-            return token != null ? Ok(new {token}) : NotFound("Credenciais incorretas");
+            var token = await _mediator.Send(new RegisterCommand { Register = dto });
+            return token != null ? Ok(new { token }) : NotFound("Credenciais incorretas");
         }
 
         [HttpPost("AddRole")]

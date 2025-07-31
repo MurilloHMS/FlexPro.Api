@@ -20,6 +20,7 @@ namespace FlexPro.Api.Application.Commands.Auth
             {
                 throw new Exception("User not found");
             }
+
             var roles = await _userManager.GetRolesAsync(user);
             return roles.ToList();
         }

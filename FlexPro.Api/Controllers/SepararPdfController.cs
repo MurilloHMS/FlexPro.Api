@@ -11,9 +11,12 @@ namespace FlexPro.Api.Controllers
     public class SepararPdfController : ControllerBase
     {
         [HttpPost("upload")]
-        public async Task<ActionResult<List<SepararPDF>>> Upload(IFormFile file)
+        public async Task<ActionResult<List<SepararPdf>>> Upload(IFormFile file)
         {
-            if (file is null || file.Length is 0) { return BadRequest("Nenhum arquivo ou arquivo inválido enviado"); }
+            if (file is null || file.Length is 0)
+            {
+                return BadRequest("Nenhum arquivo ou arquivo inválido enviado");
+            }
 
             var inputPdfpath = Path.Combine(Path.GetTempPath(), "input.pdf");
             using (var stream = new FileStream(inputPdfpath, FileMode.Create))
@@ -22,7 +25,7 @@ namespace FlexPro.Api.Controllers
             }
 
             var paginas = SepararPdfService.GetPdfByPage(inputPdfpath);
-            if(paginas is null || paginas.Count is 0)
+            if (paginas is null || paginas.Count is 0)
             {
                 return BadRequest("Não é possivel extrair as paginas do pdf informado");
             }
@@ -31,9 +34,9 @@ namespace FlexPro.Api.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<ActionResult> Save(List<SepararPDF> paginasSeparadas)
+        public async Task<ActionResult> Save(List<SepararPdf> paginasSeparadas)
         {
-            if(paginasSeparadas is not null && paginasSeparadas.Any())
+            if (paginasSeparadas is not null && paginasSeparadas.Any())
             {
                 var outputFolder = Path.Combine(Path.GetTempPath(), "Separados");
                 if (!Directory.Exists(outputFolder))
@@ -45,8 +48,8 @@ namespace FlexPro.Api.Controllers
                 SepararPdfService.SeparatedPdfByPage(inputPdfpath, outputFolder, paginasSeparadas);
 
                 var zipFilePath = Path.Combine(Path.GetTempPath(), "PDF_Separados.zip");
-                if(System.IO.File.Exists(zipFilePath))
-                   System.IO.File.Delete(zipFilePath);
+                if (System.IO.File.Exists(zipFilePath))
+                    System.IO.File.Delete(zipFilePath);
 
                 ZipFile.CreateFromDirectory(outputFolder, zipFilePath);
                 var zipBytes = await System.IO.File.ReadAllBytesAsync(zipFilePath);
@@ -56,6 +59,7 @@ namespace FlexPro.Api.Controllers
 
                 return File(zipBytes, "application/zip", "PDF_Separados.zip");
             }
+
             return BadRequest();
         }
     }

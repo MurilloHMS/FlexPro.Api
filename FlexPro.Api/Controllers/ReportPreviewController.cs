@@ -14,7 +14,8 @@ namespace FlexPro.Api.Controllers
         private readonly IAbastecimentoRepository _abastecimentoRepository;
         private readonly IReportService _reportService;
 
-        public ReportPreviewController(AbastecimentoService abastecimentoService, IAbastecimentoRepository abastecimentoRepository,IReportService reportService)
+        public ReportPreviewController(AbastecimentoService abastecimentoService,
+            IAbastecimentoRepository abastecimentoRepository, IReportService reportService)
         {
             _reportService = reportService;
             _abastecimentoService = abastecimentoService;
@@ -28,13 +29,13 @@ namespace FlexPro.Api.Controllers
             report.ShowInCompanion();
             return Ok("Report preview generated successfully.");
         }
+
         [HttpGet("fuel-supply")]
-        public async Task<IActionResult> GetFuelSupplyReport([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        public async Task<IActionResult> GetFuelSupplyReport([FromQuery] DateTime startDate,
+            [FromQuery] DateTime endDate)
         {
             var pdf = await _reportService.GenerateFuelSupplyReportAsync(startDate.ToUniversalTime());
             return File(pdf, "application/pdf", "FuelSupplyReport.pdf");
         }
-
-        
     }
 }

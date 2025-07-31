@@ -25,7 +25,7 @@ public class ClienteController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id,[FromBody] ClienteRequestDto dto)
+    public async Task<IActionResult> Update(int id, [FromBody] ClienteRequestDto dto)
     {
         await _mediator.Send(new UpdateClienteCommand(id, dto));
         return NoContent();

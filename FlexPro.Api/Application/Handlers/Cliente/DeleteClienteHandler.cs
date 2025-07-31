@@ -9,7 +9,7 @@ public class DeleteClienteHandler : IRequestHandler<DeleteClienteCommand>
 {
     private IClienteRepository _repository;
     private readonly IMapper _mapper;
-    
+
     public DeleteClienteHandler(IClienteRepository repository, IMapper mapper)
     {
         _repository = repository;

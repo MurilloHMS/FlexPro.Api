@@ -21,10 +21,10 @@ public class AddDepartamentoHandler : IRequestHandler<AddDepartamentoCommand, IA
     public async Task<IActionResult> Handle(AddDepartamentoCommand request, CancellationToken cancellationToken)
     {
         var produto = await _repository.GetByIdAsync(request.ProdutoLojaId);
-        
+
         if (produto == null)
             return new NotFoundObjectResult("Produto no encontrado");
-        
+
         var novosDepartamentos = _mapper.Map<List<Departamento>>(request.Departamentos);
         foreach (var departamento in novosDepartamentos)
         {

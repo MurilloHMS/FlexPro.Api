@@ -12,9 +12,10 @@ public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCom
     private readonly AbastecimentoService _service;
     private readonly AppDbContext _context;
     private readonly IAbastecimentoRepository _repository;
-    
-    
-    public UploadAbastecimentoHandler(AppDbContext context, AbastecimentoService service, IAbastecimentoRepository repository)
+
+
+    public UploadAbastecimentoHandler(AppDbContext context, AbastecimentoService service,
+        IAbastecimentoRepository repository)
     {
         _context = context;
         _service = service;
@@ -45,6 +46,7 @@ public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCom
                 return new BadRequestObjectResult($"Ocorreu um erro ao salvar os dados de abastecimento {e.Message}");
             }
         }
+
         return new OkObjectResult(dadosAbastecimento);
     }
 }

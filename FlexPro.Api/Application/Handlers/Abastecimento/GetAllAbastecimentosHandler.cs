@@ -1,5 +1,4 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs;
 using FlexPro.Api.Application.Queries.Abastecimento;
 using FlexPro.Application.DTOs;
 using FlexPro.Domain.Repositories;
@@ -11,7 +10,7 @@ public class GetAllAbastecimentosHandler : IRequestHandler<GetAllAbastecimentoQu
 {
     private readonly IAbastecimentoRepository _repo;
     private readonly IMapper _mapper;
-    
+
     public GetAllAbastecimentosHandler(IAbastecimentoRepository repo, IMapper mapper)
     {
         _repo = repo;

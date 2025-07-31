@@ -39,13 +39,13 @@ namespace FlexPro.Api.Controllers
         public async Task<ActionResult<Funcionario>> CreateEmploye(Funcionario employee)
         {
             await _repository.SaveOrUpdate(employee);
-            return CreatedAtAction(nameof(GetFuncionario), new {id = employee.Id}, employee);
+            return CreatedAtAction(nameof(GetFuncionario), new { id = employee.Id }, employee);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateEmployee(int id,  Funcionario employee)
+        public async Task<ActionResult> UpdateEmployee(int id, Funcionario employee)
         {
-            if(id != employee.Id)
+            if (id != employee.Id)
             {
                 return BadRequest();
             }
@@ -65,6 +65,7 @@ namespace FlexPro.Api.Controllers
                     throw;
                 }
             }
+
             return NoContent();
         }
 
@@ -76,6 +77,7 @@ namespace FlexPro.Api.Controllers
             {
                 return NotFound();
             }
+
             await _repository.DeleteAsync(employee);
             return NoContent();
         }

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Parceiro;
 
-public class GetAllParceiroHandler : IRequestHandler<GetAllParceiroQuery,  IEnumerable<ParceiroResponseDto>>
+public class GetAllParceiroHandler : IRequestHandler<GetAllParceiroQuery, IEnumerable<ParceiroResponseDto>>
 {
     private IMapper _mapper;
     private IParceiroRepository _repository;

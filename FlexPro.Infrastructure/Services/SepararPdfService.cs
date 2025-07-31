@@ -10,12 +10,12 @@ namespace FlexPro.Infrastructure.Services
 {
     public class SepararPdfService
     {
-        public static List<SepararPDF> GetPdfByPage(string inputPdfPath)
+        public static List<SepararPdf> GetPdfByPage(string inputPdfPath)
         {
             if (!File.Exists(inputPdfPath))
-                return new List<SepararPDF>();
+                return new List<SepararPdf>();
 
-            var files = new List<SepararPDF>();
+            var files = new List<SepararPdf>();
 
             using (var document = UglyToad.PdfPig.PdfDocument.Open(inputPdfPath))
             {
@@ -25,7 +25,7 @@ namespace FlexPro.Infrastructure.Services
                     string textPagina = page.Text;
                     string nomeFuncionario = ExtrairNomeFuncionario(textPagina);
 
-                    files.Add(new SepararPDF
+                    files.Add(new SepararPdf
                     {
                         Nome = !string.IsNullOrEmpty(nomeFuncionario) ? nomeFuncionario : $"Pagina {pageIndex + 1}"
                     });
@@ -36,7 +36,7 @@ namespace FlexPro.Infrastructure.Services
             return files;
         }
 
-        public static void SeparatedPdfByPage(string inputPdfPath, string outputFolder, List<SepararPDF> lista)
+        public static void SeparatedPdfByPage(string inputPdfPath, string outputFolder, List<SepararPdf> lista)
         {
             if (!File.Exists(inputPdfPath) || lista == null || lista.Count == 0)
                 return;

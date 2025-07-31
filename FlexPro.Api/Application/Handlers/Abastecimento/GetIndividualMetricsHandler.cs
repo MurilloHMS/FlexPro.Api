@@ -9,13 +9,13 @@ namespace FlexPro.Api.Application.Handlers.Abastecimento
     {
         private readonly AbastecimentoService _service;
 
-        
+
         public GetIndividualMetricsHandler(AbastecimentoService service)
         {
             _service = service;
         }
 
-        
+
         public async Task<IActionResult> Handle(GetIndividualMetricsQuery request, CancellationToken cancellationToken)
         {
             var retorno = await _service.CalcularAbastecimentoIndividual(request.Date);

@@ -60,6 +60,5 @@ namespace FlexPro.Api.Controllers
             await _mediator.Send(new DeleteVeiculoCommand { Id = id });
             return NoContent();
         }
-
     }
 }

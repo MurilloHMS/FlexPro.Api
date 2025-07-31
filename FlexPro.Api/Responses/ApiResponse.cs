@@ -14,6 +14,4 @@ public class ApiResponse<T>
         this.Message = Message;
         this.Data = Data;
     }
-    
-    
 }

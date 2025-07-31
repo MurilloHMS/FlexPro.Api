@@ -39,13 +39,13 @@ namespace FlexPro.Api.Controllers
         public async Task<ActionResult> PostReceita(Receita receipt)
         {
             await _repository.SaveOrUpdate(receipt);
-            return CreatedAtAction(nameof(GetReceita), new {id = receipt.Id}, receipt);
+            return CreatedAtAction(nameof(GetReceita), new { id = receipt.Id }, receipt);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutReceita(int id,  Receita receipt)
+        public async Task<ActionResult> PutReceita(int id, Receita receipt)
         {
-            if(id != receipt.Id)
+            if (id != receipt.Id)
             {
                 return BadRequest();
             }
@@ -54,14 +54,14 @@ namespace FlexPro.Api.Controllers
             {
                 await _repository.SaveOrUpdate(receipt);
             }
-            catch(DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
                 if (await _repository.GetById(id) == null)
                 {
                     return NotFound();
                 }
-             
             }
+
             return NoContent();
         }
 

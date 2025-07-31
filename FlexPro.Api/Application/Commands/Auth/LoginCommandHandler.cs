@@ -2,6 +2,7 @@
 using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+
 namespace FlexPro.Api.Application.Commands.Auth
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
@@ -22,7 +23,7 @@ namespace FlexPro.Api.Application.Commands.Auth
             if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
                 return null!;
 
-            
+
             var token = await _jwt.GenerateToken(user);
             return token;
         }

@@ -52,7 +52,10 @@ namespace FlexPro.Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> PutRevisao(int id, Revisao revisao)
         {
-            if (id != revisao.Id) { return BadRequest(); }
+            if (id != revisao.Id)
+            {
+                return BadRequest();
+            }
 
             try
             {
@@ -69,6 +72,7 @@ namespace FlexPro.Api.Controllers
                     throw;
                 }
             }
+
             return NoContent();
         }
 

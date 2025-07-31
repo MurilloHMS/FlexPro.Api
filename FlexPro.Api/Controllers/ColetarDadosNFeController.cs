@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using LoadOptions = System.Xml.Linq.LoadOptions;
 
 namespace FlexPro.Api.Controllers;
+
 // TODO: Migrate this to Mediator Pattern
 [Route("api/[controller]")]
 [ApiController]
@@ -45,7 +46,7 @@ public class ColetarDadosNFeController : ControllerBase
         {
             return BadRequest("Nenhuma informação valida nos arquivos");
         }
-        
+
         var memoryStream = new MemoryStream();
         using (var workbook = new XLWorkbook())
         {
@@ -64,7 +65,7 @@ public class ColetarDadosNFeController : ControllerBase
             foreach (var linha in dadosDaNotaFiscal)
             {
                 worksheet.Cell(novaLinha, 1).Value = linha.Fornecedor;
-                worksheet.Cell(novaLinha, 2).Value = int.TryParse(linha.NumeroNota,out var numNFe) ? numNFe : default;
+                worksheet.Cell(novaLinha, 2).Value = int.TryParse(linha.NumeroNota, out var numNFe) ? numNFe : default;
                 worksheet.Cell(novaLinha, 3).Value = linha.DataNota;
                 worksheet.Cell(novaLinha, 4).Value = linha.Produto;
                 worksheet.Cell(novaLinha, 5).Value = linha.ValorUnitario;
@@ -73,14 +74,15 @@ public class ColetarDadosNFeController : ControllerBase
 
                 novaLinha++;
             }
-            
+
             workbook.SaveAs(memoryStream);
         }
-        
+
         memoryStream.Seek(0, SeekOrigin.Begin);
-        
-        return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"DadosNFe-{DateTime.Now:dd-MM-yyyy}.xlsx");
-    }   
+
+        return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            $"DadosNFe-{DateTime.Now:dd-MM-yyyy}.xlsx");
+    }
 
     private async Task<List<DadosNotasFiscais>> ProcessarXML(Stream stream)
     {
@@ -93,7 +95,6 @@ public class ColetarDadosNFeController : ControllerBase
             var prodTag = xmlDoc.Descendants(ns + "prod");
             if (prodTag.Any())
             {
-
                 foreach (var item in prodTag)
                 {
                     var dados = new DadosNotasFiscais();

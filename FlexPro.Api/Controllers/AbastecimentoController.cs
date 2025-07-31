@@ -13,7 +13,7 @@ public class AbastecimentoController : ControllerBase
 
     public AbastecimentoController(IMediator mediator)
     {
-        _mediator = mediator;           
+        _mediator = mediator;
     }
 
     [HttpGet]
@@ -29,21 +29,21 @@ public class AbastecimentoController : ControllerBase
         var pdf = await _mediator.Send(new FuelSuppyReportGeneratorQuery(date));
         return File(pdf, "application/pdf", "Relatório de Abastecimento.pdf");
     }
-    
+
     [HttpGet("Calcular/Individual/{data}")]
     public async Task<IActionResult> GetIndividualMetrics(DateTime data)
     {
         var retorno = await _mediator.Send(new GetIndividualMetricsQuery(data));
         return retorno;
     }
-    
+
     [HttpGet("Calcular/Setor/{data}")]
     public async Task<IActionResult> GetSetorMetrics(DateTime data)
     {
         var retorno = await _mediator.Send(new GetSetorMetricsQuery(data));
         return retorno;
     }
-    
+
     [HttpGet("Calcular/Geral/{data}")]
     public async Task<IActionResult> GetGeralMetrics(DateTime data)
     {

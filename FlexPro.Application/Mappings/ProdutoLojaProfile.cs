@@ -2,7 +2,7 @@ using AutoMapper;
 using FlexPro.Application.DTOs.ProdutoLoja;
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Mappings;
+namespace FlexPro.Application.Mappings;
 
 public class ProdutoLojaProfile :  Profile
 {

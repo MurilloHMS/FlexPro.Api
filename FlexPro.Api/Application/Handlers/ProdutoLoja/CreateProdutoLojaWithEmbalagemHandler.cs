@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Handlers.ProdutoLoja;
 
-public class CreateProdutoLojaWithEmbalagemHandler : IRequestHandler<CreateProdutoLojaWithEmbalagemCommand, IActionResult>
+public class
+    CreateProdutoLojaWithEmbalagemHandler : IRequestHandler<CreateProdutoLojaWithEmbalagemCommand, IActionResult>
 {
     private readonly IMapper _mapper;
     private readonly IProdutoLojaRepository _repository;
@@ -17,7 +18,8 @@ public class CreateProdutoLojaWithEmbalagemHandler : IRequestHandler<CreateProdu
         _mapper = mapper;
     }
 
-    public async Task<IActionResult> Handle(CreateProdutoLojaWithEmbalagemCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Handle(CreateProdutoLojaWithEmbalagemCommand request,
+        CancellationToken cancellationToken)
     {
         var entity = _mapper.Map<Domain.Entities.ProdutoLoja>(request.Dto);
 
@@ -28,7 +30,7 @@ public class CreateProdutoLojaWithEmbalagemHandler : IRequestHandler<CreateProdu
                 embalagem.ProdutoLoja = entity;
             }
         }
-        
+
         await _repository.InsertOrUpdateAsync(entity);
         return new OkObjectResult("Produto Loja adicionado com sucesso");
     }

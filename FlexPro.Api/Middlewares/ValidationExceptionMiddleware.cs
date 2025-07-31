@@ -17,7 +17,8 @@
             try
             {
                 await _next(context);
-            }catch(FluentValidation.ValidationException ex)
+            }
+            catch (FluentValidation.ValidationException ex)
             {
                 _logger.LogWarning("Erro de validação: {Message}", ex.Message);
                 context.Response.StatusCode = 400;

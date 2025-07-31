@@ -20,12 +20,13 @@ var builder = WebApplication.CreateBuilder(args);
 Env.Load();
 builder.Configuration.AddEnvironmentVariables();
 
-var config =  builder.Configuration;
+var config = builder.Configuration;
 var env = builder.Environment;
 var connectionStringName = env.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
-var connectionString = config[connectionStringName] ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
+var connectionString = config[connectionStringName] ??
+                       throw new InvalidOperationException($"Connection string: {connectionStringName}");
 
-builder.Services.AddDbContext<AppDbContext>(options => 
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseLazyLoadingProxies().UseNpgsql(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -47,10 +48,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(FlexP
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<FlexPro.Api.Program>();
-builder.Services.Configure<IISServerOptions>(options =>
-{
-    options.MaxRequestBodySize = null;
-});
+builder.Services.Configure<IISServerOptions>(options => { options.MaxRequestBodySize = null; });
 
 // Notification Hub
 builder.Services.AddSignalR();
@@ -144,5 +142,7 @@ app.Run();
 
 namespace FlexPro.Api
 {
-    public partial class Program { }
+    public partial class Program
+    {
+    }
 }

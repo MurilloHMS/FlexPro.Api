@@ -17,7 +17,7 @@ public class SendInformativoHandler : IRequestHandler<SendInformativoCommand, IA
     public async Task<IActionResult> Handle(SendInformativoCommand request, CancellationToken cancellationToken)
     {
         if (!request.Informativos.Any()) return new BadRequestObjectResult("Lista com dados está vazia");
-        
+
         await _emailService.EnviarInformativos(informativos: request.Informativos);
         return new OkObjectResult("Informativos enviados com sucesso");
     }

@@ -30,5 +30,4 @@ public class ComputerController : ControllerBase
         var response = await _mediator.Send(new GetAllComputerQuery());
         return response;
     }
-    
 }

@@ -31,6 +31,7 @@ public class ProdutoController : ControllerBase
         var response = await _mediator.Send(new AddEmbalagemCommand(id, dto));
         return response;
     }
+
     [AllowAnonymous]
     [HttpPost("ProdutoLoja/{id}/Departamentos")]
     public async Task<IActionResult> PostDepartamentos(int id, List<DepartamentoRequestDto> dto)
@@ -38,12 +39,12 @@ public class ProdutoController : ControllerBase
         var response = await _mediator.Send(new AddDepartamentoCommand(id, dto));
         return response;
     }
-    
+
     [AllowAnonymous]
     [HttpGet("ProdutoLoja")]
     public async Task<IActionResult> GetAll()
     {
         var response = await _mediator.Send(new GetAllProductsQuery());
-        return response.Any() ?  Ok(response) : NotFound();
+        return response.Any() ? Ok(response) : NotFound();
     }
 }

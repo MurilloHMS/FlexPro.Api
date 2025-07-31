@@ -6,19 +6,20 @@ namespace FlexPro.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ICMSController : ControllerBase
+public class IcmsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public ICMSController(IMediator mediator)
+    public IcmsController(IMediator mediator)
     {
         _mediator = mediator;
     }
-    
+
     [HttpPost("calcular")]
-    public async Task<IActionResult> CalcularICMS(List<IFormFile> files)
+    public async Task<IActionResult> CalcularIcms(List<IFormFile> files)
     {
         var memoryStream = await _mediator.Send(new CalculoIcmsCommand(files));
-        return File(memoryStream,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"ICMS-{DateTime.Now:dd-MM-yyyy}.xlsx");
+        return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            $"ICMS-{DateTime.Now:dd-MM-yyyy}.xlsx");
     }
 }

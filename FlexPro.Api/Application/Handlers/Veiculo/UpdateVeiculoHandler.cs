@@ -22,6 +22,4 @@ namespace FlexPro.Api.Application.Handlers.Veiculo
             await _repo.InsertOrUpdateAsync(entity, x => x.Id.Equals(request.Id));
         }
     }
-
 }
-

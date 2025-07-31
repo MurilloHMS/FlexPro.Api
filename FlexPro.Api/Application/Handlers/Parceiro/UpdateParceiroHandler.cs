@@ -21,7 +21,7 @@ public class UpdateParceiroHandler : IRequestHandler<UpdateParceiroCommand, IAct
     {
         var entity = _mapper.Map<Domain.Entities.Parceiro>(request.Dto);
         entity.Id = request.Id;
-        await  _parceiroRepository.InsertOrUpdateAsync(entity, x => x.Id == request.Id);
+        await _parceiroRepository.InsertOrUpdateAsync(entity, x => x.Id == request.Id);
         return new OkObjectResult("Parceiro Updated");
     }
 }

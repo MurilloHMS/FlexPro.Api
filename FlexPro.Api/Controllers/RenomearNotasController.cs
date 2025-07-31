@@ -79,7 +79,9 @@ public class RenomearNotasController : ControllerBase
                         .Skip(1)
                         .Select(row => new DadosNota
                         {
-                            Identificador = row.Cell(1).TryGetValue<string>(out var identificador) ? identificador : default,
+                            Identificador = row.Cell(1).TryGetValue<string>(out var identificador)
+                                ? identificador
+                                : default,
                             NumeroNFe = row.Cell(2).TryGetValue<string>(out var numeroNFe) ? numeroNFe : default
                         }).ToList();
 

@@ -12,12 +12,14 @@ namespace FlexPro.Api.Application.Commands.Auth
         private readonly IJwtTokenGenerator<ApplicationUser> _jwt;
 
 
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenGenerator<ApplicationUser> jwt)
+        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,
+            IJwtTokenGenerator<ApplicationUser> jwt)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _jwt = jwt;
         }
+
         public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             var dto = request.Register;

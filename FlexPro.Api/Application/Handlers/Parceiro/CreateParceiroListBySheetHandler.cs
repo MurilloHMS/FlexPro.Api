@@ -34,8 +34,8 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
                 var sheet = wb.Worksheets.FirstOrDefault();
                 parceiros = sheet!.RowsUsed().Skip(1).Select(row => new Domain.Entities.Parceiro
                 {
-                    CodigoSistema = row.Cell(1).TryGetValue<string>(out var codigoSistema) ?  codigoSistema : default!,
-                    Nome = row.Cell(2).TryGetValue<string>(out var nome) ?  nome : default!,
+                    CodigoSistema = row.Cell(1).TryGetValue<string>(out var codigoSistema) ? codigoSistema : default!,
+                    Nome = row.Cell(2).TryGetValue<string>(out var nome) ? nome : default!,
                     Email = row.Cell(3).TryGetValue<string>(out var email) ? email : default!,
                     RazaoSocial = nome,
                     Ativo = true,
@@ -48,6 +48,7 @@ public class CreateParceiroListBySheetHandler : IRequestHandler<CreateParceiroLi
         {
             return new BadRequestObjectResult("Ocorreu um erro ao coletar os dados");
         }
+
         await _repository.IncludeParceiroByRangeAsync(parceiros);
         return new OkObjectResult(parceiros);
     }

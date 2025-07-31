@@ -24,7 +24,7 @@ public class AuthControllerTests
     public async Task Login_ReturnOk_WithToken_WhenCredentialsAreValid()
     {
         var command = new LoginCommand("teste@exemplo.com", "1234" );
-        var expectedToken = "fake-jwt-token";
+        const string expectedToken = "fake-jwt-token";
         
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
@@ -64,7 +64,7 @@ public class AuthControllerTests
     public async Task Register_ReturnsOk_WhenCredentialsAreValid()
     {
         var registerDto = new RegisterDto { Password = "1234", Role = "Departamento", Username = "teste@exemplo.com" };
-        var expectedToken = "fake-jwt-token";
+        const string expectedToken = "fake-jwt-token";
         
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
@@ -103,7 +103,7 @@ public class AuthControllerTests
     public async Task Shold_Success_When_Role_is_include()
     {
         var role = new UpdateUserRoleDto(){Role = "Departamento", Username = "test@example.com"};
-        string expectedResult = "Role adicionada com sucesso";
+        const string expectedResult = "Role adicionada com sucesso";
         
         _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateUserRoleCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
