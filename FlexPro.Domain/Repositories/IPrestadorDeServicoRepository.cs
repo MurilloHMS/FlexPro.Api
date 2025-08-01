@@ -1,10 +1,8 @@
-﻿
-using FlexPro.Domain.Entities;
+﻿using FlexPro.Domain.Entities;
 
-namespace FlexPro.Domain.Repositories
+namespace FlexPro.Domain.Repositories;
+
+public interface IPrestadorDeServicoRepository : IRepository<PrestadorDeServico>
 {
-    public interface IPrestadorDeServicoRepository : IRepository<PrestadorDeServico>
-    {
-        Task DeleteById(int id);
-    }
+    Task DeleteById(int id);
 }

@@ -19,7 +19,7 @@ public class CreateParceiroHandler : IRequestHandler<CreateParceiroCommand, IAct
 
     public async Task<IActionResult> Handle(CreateParceiroCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Domain.Entities.Parceiro>(request.dto);
+        var entity = _mapper.Map<Domain.Entities.Parceiro>(request.Dto);
         await _parceiroRepository.InsertOrUpdateAsync(entity);
         return new OkObjectResult("Parceiro criado com sucesso");
     }

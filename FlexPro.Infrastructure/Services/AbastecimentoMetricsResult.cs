@@ -1,8 +1,7 @@
-﻿namespace FlexPro.Infrastructure.Services
+﻿namespace FlexPro.Infrastructure.Services;
+
+public class AbastecimentoMetricsResult
 {
-    public class AbastecimentoMetricsResult
-    {
-        public string MetricasGeral { get; set; }
-        public Dictionary<string, string> MetricasPorDepartamento { get; set; } = new Dictionary<string, string>();
-    }
+    public string MetricasGeral { get; set; } = string.Empty;
+    public Dictionary<string, string> MetricasPorDepartamento { get; set; } = new();
 }

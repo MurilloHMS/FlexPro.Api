@@ -1,15 +1,14 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.Cliente;
-using FlexPro.Api.Application.DTOs.Parceiro;
+using FlexPro.Application.DTOs.Parceiro;
 using FlexPro.Domain.Entities;
 
-namespace FlexPro.Api.Application.Mappings;
+namespace FlexPro.Application.Mappings;
 
 public class ParceiroProfile : Profile
 {
     public ParceiroProfile()
     {
-        CreateMap<ParceiroRequestDTO, Parceiro>();
-        CreateMap<Parceiro, ParceiroResponseDTO>();
+        CreateMap<ParceiroRequestDto, Parceiro>();
+        CreateMap<Parceiro, ParceiroResponseDto>();
     }
 }

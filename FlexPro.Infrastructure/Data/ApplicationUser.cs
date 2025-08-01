@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace FlexPro.Infrastructure.Data
+namespace FlexPro.Infrastructure.Data;
+
+public class ApplicationUser : IdentityUser
 {
-    public class ApplicationUser : IdentityUser 
-    {
-        public string? Departamento { get; set; }
-    }
+    public string? Departamento { get; set; }
 }

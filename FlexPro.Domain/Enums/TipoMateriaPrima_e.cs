@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum TipoMateriaPrima_e
+public enum TipoMateriaPrimaE
 {
     MaoDeObra,
     Produto,

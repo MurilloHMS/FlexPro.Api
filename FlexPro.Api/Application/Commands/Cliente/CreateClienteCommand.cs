@@ -1,7 +1,6 @@
-using FlexPro.Api.Application.DTOs.Cliente;
+using FlexPro.Application.DTOs.Cliente;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Commands.Cliente;
 
-public record CreateClienteCommand(ClienteRequestDTO Dto) : IRequest<ClienteResponseDTO>;
+public record CreateClienteCommand(ClienteRequestDto Dto) : IRequest<ClienteResponseDto>;

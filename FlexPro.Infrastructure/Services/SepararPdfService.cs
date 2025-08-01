@@ -1,102 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using FlexPro.Domain.Models;
-using PdfSharp.Pdf;
+﻿using FlexPro.Domain.Models;
 using PdfSharp.Pdf.IO;
 using UglyToad.PdfPig;
 
-namespace FlexPro.Infrastructure.Services
+namespace FlexPro.Infrastructure.Services;
+
+public class SepararPdfService
 {
-    public class SepararPdfService
+    public static List<SepararPdf> GetPdfByPage(string inputPdfPath)
     {
-        public static List<SepararPDF> GetPdfByPage(string inputPdfPath)
+        if (!File.Exists(inputPdfPath))
+            return new List<SepararPdf>();
+
+        var files = new List<SepararPdf>();
+
+        using (var document = PdfDocument.Open(inputPdfPath))
         {
-            if (!File.Exists(inputPdfPath))
-                return new List<SepararPDF>();
-
-            var files = new List<SepararPDF>();
-
-            using (var document = UglyToad.PdfPig.PdfDocument.Open(inputPdfPath))
+            var pageIndex = 0;
+            foreach (var page in document.GetPages())
             {
-                int pageIndex = 0;
-                foreach(var page in document.GetPages())
+                var textPagina = page.Text;
+                var nomeFuncionario = ExtrairNomeFuncionario(textPagina);
+
+                files.Add(new SepararPdf
                 {
-                    string textPagina = page.Text;
-                    string nomeFuncionario = ExtrairNomeFuncionario(textPagina);
+                    Nome = !string.IsNullOrEmpty(nomeFuncionario) ? nomeFuncionario : $"Pagina {pageIndex + 1}"
+                });
 
-                    files.Add(new SepararPDF
-                    {
-                        Nome = !string.IsNullOrEmpty(nomeFuncionario) ? nomeFuncionario : $"Pagina {pageIndex + 1}"
-                    });
-
-                    pageIndex++;
-                }
+                pageIndex++;
             }
-            return files;
         }
 
-        public static void SeparatedPdfByPage(string inputPdfPath, string outputFolder, List<SepararPDF> lista)
+        return files;
+    }
+
+    public static void SeparatedPdfByPage(string inputPdfPath, string outputFolder, List<SepararPdf>? lista)
+    {
+        if (!File.Exists(inputPdfPath) || lista == null || lista.Count == 0)
+            return;
+
+        Directory.CreateDirectory(outputFolder);
+
+        using (var inputDocument = PdfReader.Open(inputPdfPath, PdfDocumentOpenMode.Import))
         {
-            if (!File.Exists(inputPdfPath) || lista == null || lista.Count == 0)
-                return;
-
-            Directory.CreateDirectory(outputFolder);
-
-            using (var inputDocument = PdfReader.Open(inputPdfPath, PdfDocumentOpenMode.Import))
-            {
-                for (int pageNumber = 0; pageNumber < inputDocument.PageCount; pageNumber++)
+            for (var pageNumber = 0; pageNumber < inputDocument.PageCount; pageNumber++)
+                using (var outputDocument = new PdfSharp.Pdf.PdfDocument())
                 {
-                    using (var outputDocument = new PdfSharp.Pdf.PdfDocument())
-                    {
-                        outputDocument.AddPage(inputDocument.Pages[pageNumber]);
+                    outputDocument.AddPage(inputDocument.Pages[pageNumber]);
 
-                        string nomeArquivo = SanitizeFileName(lista[pageNumber].Nome);
-                        string outputFilePath = Path.Combine(outputFolder, $"{nomeArquivo}.pdf");
+                    var nomeArquivo = SanitizeFileName(lista[pageNumber].Nome);
+                    var outputFilePath = Path.Combine(outputFolder, $"{nomeArquivo}.pdf");
 
-                        outputDocument.Save(outputFilePath);
-                    }
+                    outputDocument.Save(outputFilePath);
                 }
-            }
         }
+    }
 
-        private static string ExtrairNomeFuncionario(string text)
+    private static string ExtrairNomeFuncionario(string text)
+    {
+        var key = "FL";
+        var indexName = text.IndexOf(key, StringComparison.OrdinalIgnoreCase);
+
+        if (indexName != -1)
         {
-            string key = "FL";
-            int indexName = text.IndexOf(key, StringComparison.OrdinalIgnoreCase);
+            var start = indexName + key.Length;
+            var restante = text.Substring(start).Trim();
+            var parts = restante.Split(' ');
 
-            if(indexName != -1)
+            var nameParts = new List<string>();
+            var foundName = false;
+            foreach (var part in parts)
             {
-                int start = indexName + key.Length;
-                string restante = text.Substring(start).Trim();
-                string[] parts = restante.Split(' ');
+                if (!foundName && int.TryParse(part, out _))
+                    continue;
 
-                List<string> nameParts = new List<string>();
-                bool foundName = false;
-                foreach(string part in parts)
-                {
-                    if (!foundName && int.TryParse(part, out _))
-                        continue;
+                foundName = true;
 
-                    foundName = true;
+                if (int.TryParse(part, out _))
+                    break;
 
-                    if (int.TryParse(part, out _))
-                        break;
-
-                    nameParts.Add(part);
-                }
-                return string.Join(' ', nameParts).Trim();
+                nameParts.Add(part);
             }
-            return string.Empty;
+
+            return string.Join(' ', nameParts).Trim();
         }
 
-        private static string SanitizeFileName(string fileName)
-        {
-            foreach (char c in Path.GetInvalidFileNameChars())
-            {
-                fileName = fileName.Replace(c.ToString(), "_");
-            }
-            return fileName;
-        }
+        return string.Empty;
+    }
+
+    private static string SanitizeFileName(string fileName)
+    {
+        foreach (var c in Path.GetInvalidFileNameChars()) fileName = fileName.Replace(c.ToString(), "_");
+        return fileName;
     }
 }

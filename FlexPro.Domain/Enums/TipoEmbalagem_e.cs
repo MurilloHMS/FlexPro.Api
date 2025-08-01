@@ -1,19 +1,19 @@
 namespace FlexPro.Domain.Enums;
 
-public enum TipoEmbalagem_e
+public enum TipoEmbalagemE
 {
-    UN,
-    KG,
+    Un,
+    Kg,
     G,
-    ML,
-    CX,
-    PCT,
-    FD,
-    BB,
-    SC,
-    PL,
-    RL,
-    FR,
-    TN,
-    GAL
+    Ml,
+    Cx,
+    Pct,
+    Fd,
+    Bb,
+    Sc,
+    Pl,
+    Rl,
+    Fr,
+    Tn,
+    Gal
 }

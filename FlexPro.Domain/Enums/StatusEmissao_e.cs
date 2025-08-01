@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum StatusEmissao_e
+public enum StatusEmissaoE
 {
     Pendente,
     Processando,

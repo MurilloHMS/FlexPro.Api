@@ -1,12 +1,11 @@
 using FlexPro.Api.Application.Commands.Informativo;
-using FlexPro.Domain.Models;
 using FlexPro.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexPro.Api.Application.Handlers.Informativo;
 
-public class UploadDadosPecasTrocadasHandler :  IRequestHandler<UploadDadosPecasTrocadasCommand, IActionResult>
+public class UploadDadosPecasTrocadasHandler : IRequestHandler<UploadDadosPecasTrocadasCommand, IActionResult>
 {
     private readonly InformativoService _service;
 
@@ -15,12 +14,13 @@ public class UploadDadosPecasTrocadasHandler :  IRequestHandler<UploadDadosPecas
         _service = service;
     }
 
-    public async Task<IActionResult> Handle(UploadDadosPecasTrocadasCommand request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Handle(UploadDadosPecasTrocadasCommand request,
+        CancellationToken cancellationToken)
     {
-        if (request.file ==null || request.file.Length == 0) 
+        if (request.File.Length == 0)
             return new BadRequestObjectResult("Arquivo inválido ou vazio");
 
-        IEnumerable<InformativoPecasTrocadas> dados = await _service.ReadPecasTrocadasData(request.file);
+        var dados = await _service.ReadPecasTrocadasData(request.File);
         return dados.Any()
             ? new OkObjectResult(dados)
             : new BadRequestObjectResult("Não foi possivel obter os dados do arquivo");

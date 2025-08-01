@@ -22,7 +22,7 @@ public class CreateComputerHandler : IRequestHandler<CreateComputerCommand, IAct
     {
         try
         {
-            var entity = _mapper.Map<Computador>(request.dto);
+            var entity = _mapper.Map<Computador>(request.Dto);
             await _repository.InsertOrUpdateAsync(entity);
             return new OkObjectResult("Computador criado com sucesso");
         }

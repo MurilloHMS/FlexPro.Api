@@ -1,7 +1,6 @@
-﻿namespace FlexPro.Domain.Repositories
+﻿namespace FlexPro.Domain.Repositories;
+
+public interface IReportService
 {
-    public interface IReportService
-    {
-        Task<byte[]> GenerateFuelSupplyReportAsync(DateTime date);
-    }
+    Task<byte[]> GenerateFuelSupplyReportAsync(DateTime date);
 }

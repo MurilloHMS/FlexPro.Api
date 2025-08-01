@@ -22,7 +22,7 @@ public class EmailController : ControllerBase
         var result = await _mediator.Send(new SendEmailCommand(emailData));
         return result;
     }
-    
+
     [HttpPost("send/informativos")]
     public async Task<IActionResult> SendInformativosAsync(IEnumerable<Informativo> informativos)
     {

@@ -9,8 +9,8 @@ namespace FlexPro.Api.Application.Handlers.ProdutoLoja;
 
 public class AddDepartamentoHandler : IRequestHandler<AddDepartamentoCommand, IActionResult>
 {
-    private readonly IProdutoLojaRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IProdutoLojaRepository _repository;
 
     public AddDepartamentoHandler(IProdutoLojaRepository repository, IMapper mapper)
     {
@@ -20,16 +20,16 @@ public class AddDepartamentoHandler : IRequestHandler<AddDepartamentoCommand, IA
 
     public async Task<IActionResult> Handle(AddDepartamentoCommand request, CancellationToken cancellationToken)
     {
-        var produto = await _repository.GetByIdAsync(request.produtoLojaId);
-        
+        var produto = await _repository.GetByIdAsync(request.ProdutoLojaId);
+
         if (produto == null)
             return new NotFoundObjectResult("Produto no encontrado");
-        
-        var novosDepartamentos = _mapper.Map<List<Departamento>>(request.departamentos);
+
+        var novosDepartamentos = _mapper.Map<List<Departamento>>(request.Departamentos);
         foreach (var departamento in novosDepartamentos)
         {
             departamento.ProdutoLojaId = produto.Id;
-            produto.Departamentos.Add(departamento);
+            produto.Departamentos?.Add(departamento);
         }
 
         await _repository.InsertOrUpdateAsync(produto);

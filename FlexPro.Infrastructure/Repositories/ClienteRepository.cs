@@ -8,31 +8,27 @@ namespace FlexPro.Infrastructure.Repositories;
 public class ClienteRepository(AppDbContext context) : Repository<Cliente>(context), IClienteRepository
 {
     private readonly DbSet<Cliente> _dbSet = context.Set<Cliente>();
-    
+
 
     public async Task<Cliente> GetByEmail(string email)
     {
-        Cliente cliente = _dbSet.FirstOrDefault(x => x.Email == email);
+        var cliente = await _dbSet.FirstOrDefaultAsync(x => x.Email == email);
         return cliente!;
     }
 
     public async Task<Cliente> GetByName(string nome)
     {
-        Cliente cliente = _dbSet.FirstOrDefault(x => x.Nome == nome);
+        var cliente = await _dbSet.FirstOrDefaultAsync(x => x.Nome == nome);
         return cliente!;
     }
 
     public async Task UpdateOrInsert(Cliente cliente)
     {
-        Cliente clienteEncontrado = await _dbSet.FirstOrDefaultAsync(x => x.Id == cliente.Id);
+        var clienteEncontrado = await _dbSet.FirstOrDefaultAsync(x => x.Id == cliente.Id);
         if (clienteEncontrado != null)
-        {
             context.Entry(clienteEncontrado).CurrentValues.SetValues(cliente);
-        }
         else
-        {
             context.Cliente.Add(cliente);
-        }
         await context.SaveChangesAsync();
     }
 

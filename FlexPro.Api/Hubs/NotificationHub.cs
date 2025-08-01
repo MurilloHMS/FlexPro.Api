@@ -4,5 +4,4 @@ namespace FlexPro.Api.Hubs;
 
 public class NotificationHub : Hub
 {
-    
 }

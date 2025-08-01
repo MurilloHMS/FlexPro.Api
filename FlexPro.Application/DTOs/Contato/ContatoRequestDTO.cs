@@ -1,15 +1,15 @@
 using FlexPro.Domain.Enums;
 
-namespace FlexPro.Api.Application.DTOs.Contato;
+namespace FlexPro.Application.DTOs.Contato;
 
-public class ContatoRequestDTO
+public class ContatoRequestDto
 {
-    public string Nome { get; set; }
-    public string Email { get; set; }
-    public TipoContato_e TipoContato { get; set; }
-    public string? outro { get; set; }
-    public string Mensagem { get; set; }
-    public string NomeEmpresa { get; set; }
-    public StatusContato_e StatusContato { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public TipoContatoE TipoContato { get; set; }
+    public string? Outro { get; set; }
+    public string Mensagem { get; set; } = string.Empty;
+    public string NomeEmpresa { get; set; } = string.Empty;
+    public StatusContatoE StatusContato { get; set; }
     public DateTime DataSolicitadoContato { get; set; }
 }

@@ -19,7 +19,7 @@ public class CreateCategoriaHandler : IRequestHandler<CreateCategoriaCommand, IA
 
     public async Task<IActionResult> Handle(CreateCategoriaCommand request, CancellationToken cancellationToken)
     {
-        var entity = _mapper.Map<Domain.Entities.Categoria>(request.dto);
+        var entity = _mapper.Map<Domain.Entities.Categoria>(request.Dto);
         await _categoriaRepository.SaveOrUpdate(entity);
         return new OkObjectResult("Categoria criada com sucesso");
     }

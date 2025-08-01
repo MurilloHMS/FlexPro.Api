@@ -4,5 +4,5 @@ public enum TipoAcessoRemoto
 {
     Anydesk,
     TeamViewer,
-    UltraVNC
+    UltraVnc
 }

@@ -1,8 +1,8 @@
-namespace FlexPro.Api.Application.DTOs.ProdutoLoja;
+namespace FlexPro.Application.DTOs.ProdutoLoja;
 
-public class DepartamentoResponseDTO
+public class DepartamentoResponseDto
 {
     public int Id { get; set; }
-    public string Nome { get; set; }
+    public string Nome { get; set; } = string.Empty;
     public int ProdutoLojaId { get; set; }
 }

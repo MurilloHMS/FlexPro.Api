@@ -6,6 +6,6 @@ namespace FlexPro.Domain.Repositories;
 public interface IIcmsService
 {
     Task<Stream> CalcularAsync(List<IFormFile> files);
-    Task<Stream> CriarPlanilha(List<ICMS> dadosICMS);
-    Task<ICMS> ProcessarXML(Stream stream);
+    Task<Stream> CriarPlanilha(List<Icms?> dadosIcms);
+    Task<Icms?> ProcessarXml(Stream stream);
 }

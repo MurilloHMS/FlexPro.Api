@@ -9,12 +9,13 @@ namespace FlexPro.Api.Application.Handlers.Abastecimento;
 
 public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCommand, IActionResult>
 {
-    private readonly AbastecimentoService _service;
     private readonly AppDbContext _context;
     private readonly IAbastecimentoRepository _repository;
-    
-    
-    public UploadAbastecimentoHandler(AppDbContext context, AbastecimentoService service, IAbastecimentoRepository repository)
+    private readonly AbastecimentoService _service;
+
+
+    public UploadAbastecimentoHandler(AppDbContext context, AbastecimentoService service,
+        IAbastecimentoRepository repository)
     {
         _context = context;
         _service = service;
@@ -23,17 +24,17 @@ public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCom
 
     public async Task<IActionResult> Handle(UploadAbastecimentoCommand request, CancellationToken cancellationToken)
     {
-        if (request.File == null || request.File.Length == 0) return new BadRequestObjectResult("Arquivo inválido");
+        if (request.File.Length == 0) return new BadRequestObjectResult("Arquivo inválido");
 
-        List<Domain.Entities.Abastecimento> dadosAbastecimento = await _service.ColetarDadosAbastecimento(request.File);
+        var dadosAbastecimento = await _service.ColetarDadosAbastecimento(request.File);
 
-        if (dadosAbastecimento != null && dadosAbastecimento.Any())
+        if (dadosAbastecimento.Any())
         {
             foreach (var abastecimento in dadosAbastecimento)
             {
                 var departamento = _context.Funcionarios.FirstOrDefault(f =>
-                    f.Nome.ToUpper().Contains(abastecimento.NomeDoMotorista.ToUpper()));
-                abastecimento.Departamento = departamento != null ? departamento.Departamento : "Sem Departamento";
+                    abastecimento.NomeDoMotorista != null && f.Nome.ToUpper().Contains(abastecimento.NomeDoMotorista.ToUpper()));
+                abastecimento.Departamento = departamento != null ? departamento.Departamento! : "Sem Departamento";
             }
 
             try
@@ -45,6 +46,7 @@ public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCom
                 return new BadRequestObjectResult($"Ocorreu um erro ao salvar os dados de abastecimento {e.Message}");
             }
         }
+
         return new OkObjectResult(dadosAbastecimento);
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FlexPro.Infrastructure.Data.Mappings;
 
-public abstract class EntityBaseMap<T> : IEntityTypeConfiguration<T> where T : Entity 
+public abstract class EntityBaseMap<T> : IEntityTypeConfiguration<T> where T : Entity
 {
     public virtual void Configure(EntityTypeBuilder<T> builder)
     {

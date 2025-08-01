@@ -12,6 +12,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF;
 using QuestPDF.Infrastructure;
 using Serilog;
 using Serilog.Formatting.Json;
@@ -20,12 +21,13 @@ var builder = WebApplication.CreateBuilder(args);
 Env.Load();
 builder.Configuration.AddEnvironmentVariables();
 
-var config =  builder.Configuration;
+var config = builder.Configuration;
 var env = builder.Environment;
 var connectionStringName = env.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
-var connectionString = config[connectionStringName] ?? throw new InvalidOperationException($"Connection string: {connectionStringName}");
+var connectionString = config[connectionStringName] ??
+                       throw new InvalidOperationException($"Connection string: {connectionStringName}");
 
-builder.Services.AddDbContext<AppDbContext>(options => 
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseLazyLoadingProxies().UseNpgsql(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -47,16 +49,13 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(FlexP
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<FlexPro.Api.Program>();
-builder.Services.Configure<IISServerOptions>(options =>
-{
-    options.MaxRequestBodySize = null;
-});
+builder.Services.Configure<IISServerOptions>(options => { options.MaxRequestBodySize = null; });
 
 // Notification Hub
 builder.Services.AddSignalR();
 
 //Registros das licenças
-QuestPDF.Settings.License = LicenseType.Community;
+Settings.License = LicenseType.Community;
 
 //authorization
 builder.Services.AddAuthorization(options =>
@@ -74,14 +73,14 @@ builder.Services.AddControllers()
     });
 
 // logs
-builder.Host.UseSerilog((context, ServiceCollectionServiceExtensions, LoggerConfiguration) =>
+builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
-    LoggerConfiguration
+    loggerConfiguration
         .ReadFrom.Configuration(context.Configuration)
         .Enrich.FromLogContext()
         .WriteTo.Console()
-        .WriteTo.Http(requestUri: context.Configuration["SEQ_URL"] ?? "http://seq:5342",
-            queueLimitBytes: null,
+        .WriteTo.Http(context.Configuration["SEQ_URL"] ?? "http://seq:5342",
+            null,
             textFormatter: new JsonFormatter()
         );
 });
@@ -120,13 +119,11 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
-if (builder.Environment.IsDevelopment())
-{
-    app.UseMiddleware<DebugAuthMiddleware>();
-}
+if (builder.Environment.IsDevelopment()) app.UseMiddleware<DebugAuthMiddleware>();
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
 
+#pragma warning disable ASP0014
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
@@ -139,10 +136,13 @@ app.UseEndpoints(endpoints =>
         return Task.CompletedTask;
     });
 });
+#pragma warning restore ASP0014
 
 app.Run();
 
 namespace FlexPro.Api
 {
-    public partial class Program { }
+    public class Program
+    {
+    }
 }

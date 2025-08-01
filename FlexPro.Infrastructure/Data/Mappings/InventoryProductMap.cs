@@ -9,25 +9,24 @@ public class InventoryProductMap : EntityBaseMap<Products>
     public override void Configure(EntityTypeBuilder<Products> builder)
     {
         base.Configure(builder);
-        
-        builder.ToTable("inventory-products");
 
-        builder.HasKey(p => p.Id);
+        builder.ToTable("inventory_products");
 
         builder.Property(x => x.Nome)
-            .IsRequired(true)
+            .IsRequired()
             .HasMaxLength(200)
             .HasColumnType("TEXT")
             .HasColumnName("name");
-        
+
         builder.Property(x => x.SystemCode)
-            .IsRequired(true)
+            .IsRequired()
             .HasMaxLength(8)
             .HasColumnType("TEXT")
             .HasColumnName("system_code");
-        
+
         builder.Property(x => x.MinimumStock)
             .IsRequired(false)
-            .HasColumnName("minimum_stock");
+            .HasColumnName("minimum_stock")
+            .HasColumnType("int");
     }
 }

@@ -7,8 +7,8 @@ namespace FlexPro.Api.Application.Handlers.Cliente;
 
 public class UpdateClienteHandler : IRequestHandler<UpdateClienteCommand>
 {
-    private readonly IClienteRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IClienteRepository _repository;
 
     public UpdateClienteHandler(IClienteRepository repository, IMapper mapper)
     {

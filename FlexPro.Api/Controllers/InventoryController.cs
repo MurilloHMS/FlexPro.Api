@@ -13,6 +13,4 @@ public class InventoryController
     {
         _mediator = mediator;
     }
-    
-    
 }

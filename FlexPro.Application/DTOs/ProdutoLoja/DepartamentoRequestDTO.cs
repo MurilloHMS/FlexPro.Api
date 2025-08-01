@@ -1,6 +1,6 @@
-namespace FlexPro.Api.Application.DTOs.ProdutoLoja;
+namespace FlexPro.Application.DTOs.ProdutoLoja;
 
-public class DepartamentoRequestDTO
+public class DepartamentoRequestDto
 {
-    public string Nome { get; set; }
+    public string Nome { get; set; } = string.Empty;
 }

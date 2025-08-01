@@ -1,15 +1,15 @@
 using AutoMapper;
-using FlexPro.Api.Application.DTOs.Cliente;
 using FlexPro.Api.Application.Queries.Cliente;
+using FlexPro.Application.DTOs.Cliente;
 using FlexPro.Domain.Repositories;
 using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.Cliente;
 
-public class GetClienteByIdHandler : IRequestHandler<GetClienteByIdQuery, ClienteResponseDTO>
+public class GetClienteByIdHandler : IRequestHandler<GetClienteByIdQuery, ClienteResponseDto>
 {
-    private readonly IClienteRepository _repository;
     private readonly IMapper _mapper;
+    private readonly IClienteRepository _repository;
 
     public GetClienteByIdHandler(IClienteRepository repository, IMapper mapper)
     {
@@ -17,9 +17,9 @@ public class GetClienteByIdHandler : IRequestHandler<GetClienteByIdQuery, Client
         _mapper = mapper;
     }
 
-    public async Task<ClienteResponseDTO> Handle(GetClienteByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ClienteResponseDto> Handle(GetClienteByIdQuery request, CancellationToken cancellationToken)
     {
         var cliente = await _repository.GetByIdAsync(request.Id);
-        return _mapper.Map<ClienteResponseDTO>(cliente);
+        return _mapper.Map<ClienteResponseDto>(cliente);
     }
 }

@@ -7,7 +7,7 @@ namespace FlexPro.Api.Application.Handlers.Abastecimento;
 public class FuelSupplyGeneratorHandler : IRequestHandler<FuelSuppyReportGeneratorQuery, byte[]>
 {
     private readonly IReportService _reportService;
-    
+
     public FuelSupplyGeneratorHandler(IReportService service)
     {
         _reportService = service;

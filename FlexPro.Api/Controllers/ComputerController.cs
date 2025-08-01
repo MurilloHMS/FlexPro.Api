@@ -1,6 +1,6 @@
 using FlexPro.Api.Application.Commands.Computer;
-using FlexPro.Api.Application.DTOs.Computer;
 using FlexPro.Api.Application.Queries.Computer;
+using FlexPro.Application.DTOs.Computer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +18,7 @@ public class ComputerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostComputerAsync([FromBody] ComputerRequestDTO dto)
+    public async Task<IActionResult> PostComputerAsync([FromBody] ComputerRequestDto dto)
     {
         var response = await _mediator.Send(new CreateComputerCommand(dto));
         return response;
@@ -30,5 +30,4 @@ public class ComputerController : ControllerBase
         var response = await _mediator.Send(new GetAllComputerQuery());
         return response;
     }
-    
 }

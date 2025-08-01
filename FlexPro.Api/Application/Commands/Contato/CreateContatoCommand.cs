@@ -1,6 +1,6 @@
-using FlexPro.Api.Application.DTOs.Contato;
+using FlexPro.Application.DTOs.Contato;
 using MediatR;
 
 namespace FlexPro.Api.Application.Commands.Contato;
 
-public record CreateContatoCommand(ContatoRequestDTO Dto) : IRequest<ContatoResponseDTO>;
+public record CreateContatoCommand(ContatoRequestDto Dto) : IRequest<ContatoResponseDto>;

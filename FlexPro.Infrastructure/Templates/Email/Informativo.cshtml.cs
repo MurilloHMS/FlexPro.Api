@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FlexPro.Infrastructure.Templates.Email
+namespace FlexPro.Infrastructure.Templates.Email;
+
+public class InformativoModel : PageModel
 {
-    public class InformativoModel : PageModel
+    public void OnGet()
     {
-        public void OnGet()
-        {
-        }
     }
 }

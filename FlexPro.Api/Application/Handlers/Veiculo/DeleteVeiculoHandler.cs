@@ -2,21 +2,21 @@
 using FlexPro.Domain.Repositories;
 using MediatR;
 
-namespace FlexPro.Api.Application.Handlers.Veiculo
+namespace FlexPro.Api.Application.Handlers.Veiculo;
+
+public class DeleteVeiculoHandler : IRequestHandler<DeleteVeiculoCommand>
 {
-    public class DeleteVeiculoHandler : IRequestHandler<DeleteVeiculoCommand>
+    private readonly IVeiculoRepository _repo;
+
+    public DeleteVeiculoHandler(IVeiculoRepository repo)
     {
-        private readonly IVeiculoRepository _repo;
+        _repo = repo;
+    }
 
-        public DeleteVeiculoHandler(IVeiculoRepository repo)
-        {
-            _repo = repo;
-        }
-
-        public async Task Handle(DeleteVeiculoCommand request, CancellationToken cancellationToken)
-        {
-            var entity = await _repo.GetByIdAsync(request.Id);
-            _repo.DeleteAsync(entity);
-        }
+    public async Task Handle(DeleteVeiculoCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _repo.GetByIdAsync(request.Id);
+        if (entity != null)
+                await _repo.DeleteAsync(entity);
     }
 }

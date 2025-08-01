@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum StatusContato_e
+public enum StatusContatoE
 {
     NaoContatado,
     TentativaDeContato,

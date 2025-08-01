@@ -5,12 +5,12 @@ using MediatR;
 
 namespace FlexPro.Api.Application.Handlers.ProdutoLoja;
 
-public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery,  IEnumerable<Domain.Entities.ProdutoLoja>>
+public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<Domain.Entities.ProdutoLoja>>
 {
-    private readonly IMapper  _mapper;
+    private readonly IMapper _mapper;
     private readonly IProdutoLojaRepository _repository;
 
-    public GetAllProductsHandler(IMapper mapper,  IProdutoLojaRepository repository)
+    public GetAllProductsHandler(IMapper mapper, IProdutoLojaRepository repository)
     {
         _mapper = mapper;
         _repository = repository;

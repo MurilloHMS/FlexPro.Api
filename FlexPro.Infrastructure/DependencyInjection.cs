@@ -27,8 +27,8 @@ public static class DependencyInjection
         services.AddScoped<IComputadorRepository, ComputadorRepository>();
         services.AddScoped<InventoryRepository>();
         services.AddScoped<InventoryService>();
-        
-        
+
+
         return services;
     }
 }

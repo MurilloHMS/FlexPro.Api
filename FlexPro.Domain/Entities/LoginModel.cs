@@ -1,8 +1,7 @@
-﻿namespace FlexPro.Domain.Entities
+﻿namespace FlexPro.Domain.Entities;
+
+public class LoginModel
 {
-    public class LoginModel
-    {
-        public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }

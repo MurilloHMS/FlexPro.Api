@@ -5,6 +5,7 @@ namespace FlexPro.Infrastructure.Repositories;
 
 public class InventoryRepository : Repository<InventoryMovement>
 {
-    public InventoryRepository(AppDbContext context) : base(context) { }
-    
+    public InventoryRepository(AppDbContext context) : base(context)
+    {
+    }
 }

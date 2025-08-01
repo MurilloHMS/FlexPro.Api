@@ -8,7 +8,7 @@ namespace FlexPro.Api.Extensions;
 
 public static class AuthenticationExtensions
 {
-   public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration config)
     {
         var key = Encoding.UTF8.GetBytes(config["JWT:Secret"]!);
 
