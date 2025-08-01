@@ -1,10 +1,8 @@
 using FlexPro.Api.Controllers;
 using FlexPro.Application.DTOs;
-using FlexPro.Application.UseCases.Vehicles.GetById;
 using FlexPro.Domain.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace FlexPro.Api.Test.Controllers;
