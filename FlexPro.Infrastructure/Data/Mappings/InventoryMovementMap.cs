@@ -20,8 +20,7 @@ public class InventoryMovementMap : EntityBaseMap<InventoryMovement>
 
         builder.Property(x => x.Data)
             .HasColumnName("date")
-            .IsRequired(false)
-            .HasColumnType("date");
+            .IsRequired(false);
 
         builder.Property(x => x.Quantity)
             .HasColumnName("quantity")

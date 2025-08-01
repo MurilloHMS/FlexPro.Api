@@ -10,7 +10,7 @@ public class VehicleMap : EntityBaseMap<Veiculo>
     {
         base.Configure(builder);
 
-        builder.ToTable("Veiculos");
+        builder.ToTable("Veiculo");
 
         builder.HasKey(x => x.Id);
     }
