@@ -1,7 +1,6 @@
 ﻿using FlexPro.Api.Application.Commands.Veiculo;
 using FlexPro.Api.Application.Queries.Veiculo;
 using FlexPro.Application.DTOs;
-using FlexPro.Application.UseCases.Vehicles.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,18 +20,21 @@ public class VeiculoController : ControllerBase
     [HttpGet]
     public async Task<IResult> GetAll()
     {
-        var command = new Command();
+        var command = new FlexPro.Application.UseCases.Vehicles.GetAll.Command();
         var result = await _mediator.Send(command);
         return result.IsSuccess
             ? Results.Ok(result.Value)
-            : Results.BadRequest(result.Error);
+            : Results.NotFound(result.Error);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetById(int id)
+    public async Task<IResult> GetById(int id)
     {
-        var result = await _mediator.Send(new GetVeiculoByIdQuery { Id = id });
-        return result == null! ? NotFound() : Ok(result);
+        var command = new FlexPro.Application.UseCases.Vehicles.GetById.Command(id);
+        var result = await _mediator.Send(command);
+        return  result.IsSuccess
+            ? Results.Ok(result.Value)
+            : Results.NotFound(result.Error);
     }
 
     [HttpPost]
