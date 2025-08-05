@@ -59,4 +59,38 @@ public class VehicleControllerTests
         Assert.IsNotNull(notFoundResult);
         Assert.AreEqual(error, notFoundResult.Value);
     }
+
+    [TestMethod]
+    public async Task Shold_ReturnsOk_When_Vehicle_Are_Valid()
+    {
+        var vehicle = new VeiculoDto { Placa = "ABC1234", Nome = "Uno" };
+        var response = new FlexPro.Application.UseCases.Vehicles.GetById.Response(vehicle);
+        var expectedResult = Result.Success(response);
+
+        _mediatorMock.Setup(m => m.Send(It.IsAny<FlexPro.Application.UseCases.Vehicles.GetById.Command>(),
+            It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
+        
+        var actionResult = await _controller.GetById(vehicle.Id);
+        Assert.IsInstanceOfType(actionResult, typeof(Ok<FlexPro.Application.UseCases.Vehicles.GetById.Response>));
+        var okResult = actionResult as Ok<FlexPro.Application.UseCases.Vehicles.GetById.Response>;
+        Assert.IsNotNull(okResult);
+        Assert.AreEqual(response, okResult.Value);
+        Assert.AreEqual(200, okResult.StatusCode);
+    }
+
+    [TestMethod]
+    public async Task Shold_ReturnsNotFound_When_Vehicle_Are_Not_Valid()
+    {
+        var error = new Error("404", "Vehicle not found");
+        var expectedResult = Result.Failure<FlexPro.Application.UseCases.Vehicles.GetById.Response>(error);
+        
+        _mediatorMock.Setup(m => m.Send(It.IsAny<FlexPro.Application.UseCases.Vehicles.GetById.Command>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedResult);
+
+        var actionResult = await _controller.GetById(2);
+        Assert.IsInstanceOfType(actionResult, typeof(NotFound<Error>));
+        var notFoundResult = actionResult as NotFound<Error>;
+        Assert.IsNotNull(notFoundResult);
+        Assert.AreEqual(error, notFoundResult.Value);
+    }
 }
