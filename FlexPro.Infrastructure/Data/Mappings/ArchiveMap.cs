@@ -31,12 +31,10 @@ public class ArchiveMap : EntityBaseMap<Arquivo>
 
         builder.Property(x => x.CreatedAt)
             .HasColumnName("created_at")
-            .HasColumnType("datetime")
             .IsRequired();
 
         builder.Property(x => x.UpdatedAt)
             .HasColumnName("updated_at")
-            .HasColumnType("datetime")
             .IsRequired();
 
         builder.Property(x => x.IsActive)
