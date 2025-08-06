@@ -1,4 +1,5 @@
-﻿using FlexPro.Domain.Repositories;
+﻿using FlexPro.Domain.Entities;
+using FlexPro.Domain.Repositories;
 using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

@@ -1,3 +1,4 @@
+using FlexPro.Domain.Entities;
 using FlexPro.Domain.Repositories;
 using FlexPro.Infrastructure.Data;
 using FlexPro.Infrastructure.Repositories;

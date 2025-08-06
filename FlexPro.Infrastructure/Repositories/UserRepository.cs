@@ -3,7 +3,7 @@ using FlexPro.Domain.Repositories;
 
 namespace FlexPro.Infrastructure.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository() : IUserRepository
 {
     private readonly List<LoginModel> _users = new();
 

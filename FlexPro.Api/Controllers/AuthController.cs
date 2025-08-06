@@ -1,5 +1,7 @@
 ﻿using FlexPro.Api.Application.Commands.Auth;
 using FlexPro.Application.DTOs.Auth;
+using FlexPro.Application.UseCases.Users.Create;
+using FlexPro.Application.UseCases.Users.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +28,12 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto dto)
+    public async Task<IResult> Register([FromBody] RegisterDto dto)
     {
-        var token = await _mediator.Send(new RegisterCommand { Register = dto });
-        return token != null ? Ok(new { token }) : NotFound("Credenciais incorretas");
+        var token = await _mediator.Send(new CreateUserCommand(dto));
+        return token != null 
+            ? Results.Ok(new { token }) 
+            : Results.NotFound("Credenciais incorretas");
     }
 
     [HttpPost("AddRole")]
@@ -44,5 +48,15 @@ public class AuthController : ControllerBase
     {
         var roles = await _mediator.Send(new CheckUserRoleCommand(dto));
         return Ok(new { roles });
+    }
+
+    [HttpGet("get-all-users")]
+    [Authorize(Roles = "Admin,Developer")]
+    public async Task<IResult> GetUsers()
+    {
+        var result = await _mediator.Send(new GetAllUsersQuery());
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
+            : Results.NotFound(result.Error);
     }
 }
