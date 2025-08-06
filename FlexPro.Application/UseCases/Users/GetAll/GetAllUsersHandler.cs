@@ -1,7 +1,6 @@
-using AutoMapper;
 using FlexPro.Application.DTOs.Auth;
 using FlexPro.Domain.Abstractions;
-using FlexPro.Infrastructure.Data;
+using FlexPro.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

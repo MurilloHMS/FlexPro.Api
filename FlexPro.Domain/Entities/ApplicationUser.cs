@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace FlexPro.Infrastructure.Data;
+namespace FlexPro.Domain.Entities;
 
 public class ApplicationUser : IdentityUser
 {
