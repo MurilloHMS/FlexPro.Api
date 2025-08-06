@@ -1,5 +1,6 @@
 ﻿using FlexPro.Api.Application.Commands.Auth;
 using FlexPro.Application.DTOs.Auth;
+using FlexPro.Application.UseCases.Users.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,5 +45,15 @@ public class AuthController : ControllerBase
     {
         var roles = await _mediator.Send(new CheckUserRoleCommand(dto));
         return Ok(new { roles });
+    }
+
+    [HttpGet("get-all-users")]
+    [Authorize(Roles = "Admin,Developer")]
+    public async Task<IResult> GetUsers()
+    {
+        var result = await _mediator.Send(new GetAllUsersQuery());
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
+            : Results.NotFound(result.Error);
     }
 }
