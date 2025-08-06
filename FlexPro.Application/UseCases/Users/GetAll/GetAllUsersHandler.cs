@@ -20,6 +20,7 @@ public sealed class GetAllUsersHandler(UserManager<ApplicationUser> userManager)
             userDtos.Add(new  UserDto
             {
                 Id = user.Id,
+                Username = user.UserName!,
                 Email = user.Email!,
                 Roles = roles.ToList()
             });

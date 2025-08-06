@@ -49,14 +49,14 @@ public class AuthController : ControllerBase
         var roles = await _mediator.Send(new CheckUserRoleCommand(dto));
         return Ok(new { roles });
     }
-
+    
     [HttpGet("get-all-users")]
     [Authorize(Roles = "Admin,Developer")]
     public async Task<IResult> GetUsers()
     {
         var result = await _mediator.Send(new GetAllUsersQuery());
         return result.IsSuccess
-            ? Results.Ok(result.Value)
+            ? Results.Ok(result.Value.UserResponse)
             : Results.NotFound(result.Error);
     }
 }
