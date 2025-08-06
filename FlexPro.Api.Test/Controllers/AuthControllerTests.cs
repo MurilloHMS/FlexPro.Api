@@ -1,9 +1,13 @@
 using FlexPro.Api.Application.Commands.Auth;
 using FlexPro.Api.Controllers;
 using FlexPro.Application.DTOs.Auth;
+using FlexPro.Application.UseCases.Users.Create;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Sprache;
 
 namespace FlexPro.Api.Test.Controllers;
 
@@ -64,39 +68,46 @@ public class AuthControllerTests
     public async Task Register_ReturnsOk_WhenCredentialsAreValid()
     {
         var registerDto = new RegisterDto { Password = "1234", Role = "Departamento", Username = "teste@exemplo.com" };
-        const string expectedToken = "fake-jwt-token";
+        var expectedToken = "fake-jwt-token";
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedToken);
 
         var result = await _authController.Register(registerDto);
+        
+        Assert.IsTrue(result.GetType().IsGenericType && result.GetType().GetGenericTypeDefinition() == typeof(Ok<>));
+        var valueProp = result.GetType().GetProperty("Value");
+        Assert.IsNotNull(valueProp);
 
-        var okResult = result as OkObjectResult;
-        Assert.IsNotNull(okResult);
-        Assert.AreEqual(200, okResult.StatusCode);
-        var tokenProperty = okResult.Value!.GetType().GetProperty("token");
-        Assert.IsNotNull(tokenProperty);
-        var actualToken = tokenProperty.GetValue(okResult.Value!) as string;
+        var value = valueProp.GetValue(result);
+        Assert.IsNotNull(value);
+
+        var tokenProp = value.GetType().GetProperty("token");
+        Assert.IsNotNull(tokenProp);
+
+        var actualToken = tokenProp.GetValue(value) as string;
         Assert.AreEqual(expectedToken, actualToken);
     }
 
+    
     [TestMethod]
     public async Task Register_ReturnsNotNull_WhenCredentialsAreInvalid()
     {
         var registerDto = new RegisterDto { Password = "1234", Role = "Departamento" };
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<RegisterCommand>(), It.IsAny<CancellationToken>()))!
+            .Setup(m => m.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))!
             .ReturnsAsync((string?)null);
 
         var result = await _authController.Register(registerDto);
 
-        var notFoundResult = result as NotFoundObjectResult;
+        var notFoundResult = result as NotFound<string>;
         Assert.IsNotNull(notFoundResult);
         Assert.AreEqual(404, notFoundResult.StatusCode);
         Assert.AreEqual("Credenciais incorretas", notFoundResult.Value);
     }
+
 
     [TestMethod]
     public async Task Shold_Success_When_Role_is_include()
