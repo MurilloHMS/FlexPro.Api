@@ -12,7 +12,7 @@ public sealed class GetVehicleByIdHandler(IVeiculoRepository repository, IMapper
     {
         var vehicle = await repository.GetByIdAsync(request.Id);
         return vehicle != null
-            ? Result.Success(new GetVehicleByIdResponse(mapper.Map<VeiculoDto>(vehicle)))
+            ? Result.Success(new GetVehicleByIdResponse(mapper.Map<VehicleDto>(vehicle)))
             : Result.Failure<GetVehicleByIdResponse>(new Error("404", "Veiculo não encontrado"));
     }
 }

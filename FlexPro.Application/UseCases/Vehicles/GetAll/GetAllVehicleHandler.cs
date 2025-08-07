@@ -13,6 +13,6 @@ public sealed class GetAllVehicleHandler(IVeiculoRepository repository, IMapper 
         var vehicle = await repository.GetAllAsync();
         return !vehicle.Any()
             ? Result.Failure<GetAllVehicleResponse>(new Error("404", "Vehicle not found"))
-            : Result.Success(new GetAllVehicleResponse(mapper.Map<IEnumerable<VeiculoDto>>(vehicle)));
+            : Result.Success(new GetAllVehicleResponse(mapper.Map<IEnumerable<VehicleDto>>(vehicle)));
     }
 }

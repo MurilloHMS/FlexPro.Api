@@ -41,7 +41,7 @@ public class VeiculoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IResult> Create([FromBody] VeiculoDto dto)
+    public async Task<IResult> Create([FromBody] VehicleDto dto)
     {
         var command = new CreateVehicleCommand(dto);
         var result = await _mediator.Send(command);
@@ -51,7 +51,7 @@ public class VeiculoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, [FromBody] VeiculoDto dto)
+    public async Task<ActionResult> Update(int id, [FromBody] VehicleDto dto)
     {
         if (id != dto.Id) return BadRequest();
         await _mediator.Send(new UpdateVehicleCommand(dto));

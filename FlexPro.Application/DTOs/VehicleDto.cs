@@ -1,6 +1,6 @@
 ﻿namespace FlexPro.Application.DTOs;
 
-public class VeiculoDto
+public class VehicleDto
 {
     public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;

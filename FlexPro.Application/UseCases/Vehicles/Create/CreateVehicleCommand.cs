@@ -4,4 +4,4 @@ using MediatR;
 
 namespace FlexPro.Application.UseCases.Vehicles.Create;
 
-public sealed record CreateVehicleCommand(VeiculoDto Dto) : IRequest<Result<CreateVehicleResponse>>;
+public sealed record CreateVehicleCommand(VehicleDto Dto) : IRequest<Result<CreateVehicleResponse>>;

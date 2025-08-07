@@ -3,4 +3,4 @@ using MediatR;
 
 namespace FlexPro.Application.UseCases.Vehicles.Update;
 
-public sealed record UpdateVehicleCommand(VeiculoDto Dto): IRequest;
+public sealed record UpdateVehicleCommand(VehicleDto Dto): IRequest;

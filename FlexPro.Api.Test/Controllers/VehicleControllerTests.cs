@@ -25,10 +25,10 @@ public class VehicleControllerTests
     [TestMethod]
     public async Task Shold_ReturnsOK_When_VehicleList_Are_Valid()
     {
-        var veiculos = new List<VeiculoDto>
+        var veiculos = new List<VehicleDto>
         {
-            new VeiculoDto { Placa = "ABC1234", Nome = "Uno" },
-            new VeiculoDto { Placa = "XYZ5678", Nome = "Gol" }
+            new VehicleDto { Placa = "ABC1234", Nome = "Uno" },
+            new VehicleDto { Placa = "XYZ5678", Nome = "Gol" }
         };
 
         var response = new GetAllVehicleResponse(veiculos);
@@ -65,7 +65,7 @@ public class VehicleControllerTests
     [TestMethod]
     public async Task Shold_ReturnsOk_When_Vehicle_Are_Valid()
     {
-        var vehicle = new VeiculoDto { Placa = "ABC1234", Nome = "Uno" };
+        var vehicle = new VehicleDto { Placa = "ABC1234", Nome = "Uno" };
         var response = new GetVehicleByIdResponse(vehicle);
         var expectedResult = Result.Success(response);
 
