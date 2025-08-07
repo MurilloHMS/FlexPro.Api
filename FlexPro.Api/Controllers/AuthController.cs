@@ -1,5 +1,6 @@
 ﻿using FlexPro.Api.Application.Commands.Auth;
 using FlexPro.Application.DTOs.Auth;
+using FlexPro.Application.UseCases.Auth;
 using FlexPro.Application.UseCases.Users.Create;
 using FlexPro.Application.UseCases.Users.GetAll;
 using MediatR;
@@ -21,10 +22,12 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginCommand command)
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
     {
-        var token = await _mediator.Send(command);
-        return token != null ? Ok(new { token }) : NotFound("Usuário ou senha incorretos");
+        var token = await _mediator.Send(new AuthenticateLoginCommand(loginRequest));
+        return token != null 
+            ? Ok(token) 
+            : NotFound("Usuário ou senha incorretos");
     }
 
     [HttpPost("register")]
