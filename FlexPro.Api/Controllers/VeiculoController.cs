@@ -6,6 +6,7 @@ using FlexPro.Application.UseCases.Vehicles.DeleteById;
 using FlexPro.Application.UseCases.Vehicles.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 
 namespace FlexPro.Api.Controllers;
 
@@ -21,13 +22,13 @@ public class VeiculoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IResult> GetAll()
+    public async Task<IActionResult> GetAll()
     {
         var command = new GetAllVehicleQuery();
         var result = await _mediator.Send(command);
         return result.IsSuccess
-            ? Results.Ok(result.Value.Veiculos)
-            : Results.NotFound(result.Error);
+            ? Ok(result.Value)
+            : NotFound(result.Error);
     }
 
     [HttpGet("{id}")]

@@ -5,6 +5,7 @@ using FlexPro.Application.UseCases.Vehicles.GetById;
 using FlexPro.Domain.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace FlexPro.Api.Test.Controllers;
@@ -23,7 +24,7 @@ public class VehicleControllerTests
     }
 
     [TestMethod]
-    public async Task Shold_ReturnsOK_When_VehicleList_Are_Valid()
+    public async Task Should_ReturnOk_When_VehicleList_Is_Valid()
     {
         var veiculos = new List<VehicleDto>
         {
@@ -34,31 +35,37 @@ public class VehicleControllerTests
         var response = new GetAllVehicleResponse(veiculos);
         var result = Result.Success(response);
 
-        _mediatorMock.Setup(m => m.Send(
-            It.IsAny<GetAllVehicleQuery>(),
-            It.IsAny<CancellationToken>())).ReturnsAsync(result);
-        
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetAllVehicleQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(result);
+
         var actionResult = await _controller.GetAll();
-        
-        Assert.IsInstanceOfType(actionResult, typeof(Ok<GetAllVehicleResponse>));
-        var okResult = actionResult as Ok<GetAllVehicleResponse>;
+
+        var okResult = actionResult as OkObjectResult;
         Assert.IsNotNull(okResult);
+        Assert.AreEqual(200, okResult.StatusCode);
+        Assert.IsInstanceOfType(okResult.Value, typeof(GetAllVehicleResponse));
         Assert.AreEqual(response, okResult.Value);
     }
 
+
     [TestMethod]
-    public async Task Shold_ReturnsNotFound_When_VehicleList_Are_Not_Valid()
+    public async Task Should_ReturnNotFound_When_VehicleList_Is_Invalid()
     {
         var error = new Error("404", "Vehicle not found");
         var expectedResult = Result.Failure<GetAllVehicleResponse>(error);
-        
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllVehicleQuery>(),
-            It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
-        
+
+        _mediatorMock
+            .Setup(m => m.Send(It.IsAny<GetAllVehicleQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedResult);
+
         var actionResult = await _controller.GetAll();
-        Assert.IsInstanceOfType(actionResult, typeof(NotFound<Error>));
-        var notFoundResult = actionResult as NotFound<Error>;
+
+        var notFoundResult = actionResult as NotFoundObjectResult;
         Assert.IsNotNull(notFoundResult);
+        Assert.AreEqual(404, notFoundResult.StatusCode);
+        
+        Assert.IsInstanceOfType(notFoundResult.Value, typeof(Error));
         Assert.AreEqual(error, notFoundResult.Value);
     }
 
@@ -73,10 +80,10 @@ public class VehicleControllerTests
             It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
         
         var actionResult = await _controller.GetById(vehicle.Id);
-        Assert.IsInstanceOfType(actionResult, typeof(Ok<GetVehicleByIdResponse>));
-        var okResult = actionResult as Ok<GetVehicleByIdResponse>;
+        Assert.IsInstanceOfType(actionResult, typeof(Ok<VehicleDto>));
+        var okResult = actionResult as Ok<VehicleDto>;
         Assert.IsNotNull(okResult);
-        Assert.AreEqual(response, okResult.Value);
+        Assert.AreEqual(response.Dto, okResult.Value);
         Assert.AreEqual(200, okResult.StatusCode);
     }
 
