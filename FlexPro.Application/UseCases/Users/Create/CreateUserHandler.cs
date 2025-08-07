@@ -15,7 +15,7 @@ public class CreateUserHandler(
         var user = new ApplicationUser()
         {
             UserName = request.Dto.Username,
-            Email = request.Dto.Username
+            Email = request.Dto.Email
         };
         
         var result = await userManager.CreateAsync(user, request.Dto.Password);
