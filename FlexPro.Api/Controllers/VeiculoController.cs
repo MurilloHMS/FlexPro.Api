@@ -26,7 +26,7 @@ public class VeiculoController : ControllerBase
         var command = new GetAllVehicleQuery();
         var result = await _mediator.Send(command);
         return result.IsSuccess
-            ? Results.Ok(result.Value)
+            ? Results.Ok(result.Value.Veiculos)
             : Results.NotFound(result.Error);
     }
 
@@ -36,7 +36,7 @@ public class VeiculoController : ControllerBase
         var command = new GetVehicleByIdQuery(id);
         var result = await _mediator.Send(command);
         return  result.IsSuccess
-            ? Results.Ok(result.Value)
+            ? Results.Ok(result.Value.Dto)
             : Results.NotFound(result.Error);
     }
 
