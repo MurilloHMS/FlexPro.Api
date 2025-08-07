@@ -1,9 +1,9 @@
-﻿using FlexPro.Api.Application.Commands.Veiculo;
-using FlexPro.Application.DTOs;
+﻿using FlexPro.Application.DTOs;
 using FlexPro.Application.UseCases.Vehicles.Create;
 using FlexPro.Application.UseCases.Vehicles.GetAll;
 using FlexPro.Application.UseCases.Vehicles.GetById;
 using FlexPro.Application.UseCases.Vehicles.DeleteById;
+using FlexPro.Application.UseCases.Vehicles.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,10 +51,10 @@ public class VeiculoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, [FromBody] UpdateVeiculoCommand command)
+    public async Task<ActionResult> Update(int id, [FromBody] VeiculoDto dto)
     {
-        if (id != command.Id) return BadRequest();
-        await _mediator.Send(command);
+        if (id != dto.Id) return BadRequest();
+        await _mediator.Send(new UpdateVehicleCommand(dto));
         return NoContent();
     }
 
