@@ -3,4 +3,4 @@ using MediatR;
 
 namespace FlexPro.Application.UseCases.Vehicles.GetAll;
 
-public sealed record Command : IRequest<Result<Response>>;
+public sealed record GetAllVehicleCommand : IRequest<Result<GetAllVehicleResponse>>;

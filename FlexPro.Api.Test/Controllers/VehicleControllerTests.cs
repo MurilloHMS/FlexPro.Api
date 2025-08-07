@@ -1,5 +1,6 @@
 using FlexPro.Api.Controllers;
 using FlexPro.Application.DTOs;
+using FlexPro.Application.UseCases.Vehicles.GetAll;
 using FlexPro.Domain.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -29,17 +30,17 @@ public class VehicleControllerTests
             new VeiculoDto { Placa = "XYZ5678", Nome = "Gol" }
         };
 
-        var response = new FlexPro.Application.UseCases.Vehicles.GetAll.Response(veiculos);
+        var response = new GetAllVehicleResponse(veiculos);
         var result = Result.Success(response);
 
         _mediatorMock.Setup(m => m.Send(
-            It.IsAny<FlexPro.Application.UseCases.Vehicles.GetAll.Command>(),
+            It.IsAny<GetAllVehicleCommand>(),
             It.IsAny<CancellationToken>())).ReturnsAsync(result);
         
         var actionResult = await _controller.GetAll();
         
-        Assert.IsInstanceOfType(actionResult, typeof(Ok<FlexPro.Application.UseCases.Vehicles.GetAll.Response>));
-        var okResult = actionResult as Ok<FlexPro.Application.UseCases.Vehicles.GetAll.Response>;
+        Assert.IsInstanceOfType(actionResult, typeof(Ok<GetAllVehicleResponse>));
+        var okResult = actionResult as Ok<GetAllVehicleResponse>;
         Assert.IsNotNull(okResult);
         Assert.AreEqual(response, okResult.Value);
     }
@@ -48,9 +49,9 @@ public class VehicleControllerTests
     public async Task Shold_ReturnsNotFound_When_VehicleList_Are_Not_Valid()
     {
         var error = new Error("404", "Vehicle not found");
-        var expectedResult = Result.Failure<FlexPro.Application.UseCases.Vehicles.GetAll.Response>(error);
+        var expectedResult = Result.Failure<GetAllVehicleResponse>(error);
         
-        _mediatorMock.Setup(m => m.Send(It.IsAny<FlexPro.Application.UseCases.Vehicles.GetAll.Command>(),
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllVehicleCommand>(),
             It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
         
         var actionResult = await _controller.GetAll();
