@@ -3,6 +3,7 @@ using FlexPro.Application.DTOs;
 using FlexPro.Application.UseCases.Vehicles.Create;
 using FlexPro.Application.UseCases.Vehicles.GetAll;
 using FlexPro.Application.UseCases.Vehicles.GetById;
+using FlexPro.Application.UseCases.Vehicles.DeleteById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,7 +61,7 @@ public class VeiculoController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        await _mediator.Send(new DeleteVeiculoCommand { Id = id });
+        await _mediator.Send(new DeleteVehicleByIdCommand(id));
         return NoContent();
     }
 }
