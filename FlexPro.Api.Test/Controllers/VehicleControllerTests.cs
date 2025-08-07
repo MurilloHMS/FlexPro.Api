@@ -35,7 +35,7 @@ public class VehicleControllerTests
         var result = Result.Success(response);
 
         _mediatorMock.Setup(m => m.Send(
-            It.IsAny<GetAllVehicleCommand>(),
+            It.IsAny<GetAllVehicleQuery>(),
             It.IsAny<CancellationToken>())).ReturnsAsync(result);
         
         var actionResult = await _controller.GetAll();
@@ -52,7 +52,7 @@ public class VehicleControllerTests
         var error = new Error("404", "Vehicle not found");
         var expectedResult = Result.Failure<GetAllVehicleResponse>(error);
         
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllVehicleCommand>(),
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetAllVehicleQuery>(),
             It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
         
         var actionResult = await _controller.GetAll();
@@ -69,7 +69,7 @@ public class VehicleControllerTests
         var response = new GetVehicleByIdResponse(vehicle);
         var expectedResult = Result.Success(response);
 
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetVehicleByIdCommand>(),
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetVehicleByIdQuery>(),
             It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
         
         var actionResult = await _controller.GetById(vehicle.Id);
@@ -86,7 +86,7 @@ public class VehicleControllerTests
         var error = new Error("404", "Vehicle not found");
         var expectedResult = Result.Failure<GetVehicleByIdResponse>(error);
         
-        _mediatorMock.Setup(m => m.Send(It.IsAny<GetVehicleByIdCommand>(), It.IsAny<CancellationToken>()))
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetVehicleByIdQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedResult);
 
         var actionResult = await _controller.GetById(2);

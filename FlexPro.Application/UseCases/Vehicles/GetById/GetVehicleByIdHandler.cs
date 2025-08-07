@@ -6,9 +6,9 @@ using MediatR;
 
 namespace FlexPro.Application.UseCases.Vehicles.GetById;
 
-public sealed class GetVehicleByIdHandler(IVeiculoRepository repository, IMapper mapper) :  IRequestHandler<GetVehicleByIdCommand, Result<GetVehicleByIdResponse>>
+public sealed class GetVehicleByIdHandler(IVeiculoRepository repository, IMapper mapper) :  IRequestHandler<GetVehicleByIdQuery, Result<GetVehicleByIdResponse>>
 {
-    public async Task<Result<GetVehicleByIdResponse>> Handle(GetVehicleByIdCommand request, CancellationToken cancellationToken)
+    public async Task<Result<GetVehicleByIdResponse>> Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
     {
         var vehicle = await repository.GetByIdAsync(request.Id);
         return vehicle != null

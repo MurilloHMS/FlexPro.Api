@@ -23,7 +23,7 @@ public class VeiculoController : ControllerBase
     [HttpGet]
     public async Task<IResult> GetAll()
     {
-        var command = new GetAllVehicleCommand();
+        var command = new GetAllVehicleQuery();
         var result = await _mediator.Send(command);
         return result.IsSuccess
             ? Results.Ok(result.Value)
@@ -33,7 +33,7 @@ public class VeiculoController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IResult> GetById(int id)
     {
-        var command = new GetVehicleByIdCommand(id);
+        var command = new GetVehicleByIdQuery(id);
         var result = await _mediator.Send(command);
         return  result.IsSuccess
             ? Results.Ok(result.Value)
