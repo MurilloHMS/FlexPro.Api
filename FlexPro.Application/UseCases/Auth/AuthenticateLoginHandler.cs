@@ -18,6 +18,7 @@ public sealed class AuthenticateLoginHandler(
             return null;
 
         var token = await jwtTokenGenerator.GenerateToken(user);
-        return new LoginResponse { Token = token};
+        LoginResponse response  = token;
+        return response;
     }
 }

@@ -27,7 +27,7 @@ public class AuthControllerTests
     public async Task Login_ReturnOk_WithToken_WhenCredentialsAreValid()
     {
         var command = new LoginRequest { Username = "teste@exemplo.com", Password = "1234" };
-        var expectedToken = new LoginResponse { Token = "fake-jwt-token" };
+        LoginResponse expectedToken ="fake-jwt-token" ;
 
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<AuthenticateLoginCommand>(), It.IsAny<CancellationToken>()))
