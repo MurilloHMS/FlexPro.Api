@@ -3,6 +3,7 @@ using FlexPro.Application.DTOs.Auth;
 using FlexPro.Application.UseCases.Auth;
 using FlexPro.Application.UseCases.Users.Create;
 using FlexPro.Application.UseCases.Users.GetAll;
+using FlexPro.Application.UseCases.Users.Update;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -61,5 +62,15 @@ public class AuthController : ControllerBase
         return result.IsSuccess
             ? Results.Ok(result.Value.UserResponse)
             : Results.NotFound(result.Error);
+    }
+
+    [HttpGet("update")]
+    [Authorize(Roles = "Admin,Developer")]
+    public async Task<IActionResult> UpdateRoles([FromBody] UserDto dto)
+    {
+        var result = await _mediator.Send(new UpdateUserCommand(dto));
+        return result != null
+            ? Ok(result)
+            : BadRequest(result);
     }
 }
