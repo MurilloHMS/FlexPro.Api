@@ -64,7 +64,7 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Register_ReturnsOk_WhenCredentialsAreValid()
     {
-        var registerDto = new RegisterDto { Password = "1234", Role = "Departamento", Username = "teste@exemplo.com" };
+        var registerDto = new RegisterDto { Password = "1234", Roles = ["Departamento","Departamento"], Username = "teste@exemplo.com" };
         var expectedToken = "fake-jwt-token";
 
         _mediatorMock
@@ -91,7 +91,7 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Register_ReturnsNotNull_WhenCredentialsAreInvalid()
     {
-        var registerDto = new RegisterDto { Password = "1234", Role = "Departamento" };
+        var registerDto = new RegisterDto { Password = "1234",Roles = ["Departamento","Departamento"] };
 
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
