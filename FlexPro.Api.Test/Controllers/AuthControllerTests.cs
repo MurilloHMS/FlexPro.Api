@@ -50,7 +50,7 @@ public class AuthControllerTests
         var command = new LoginRequest{Username = "teste@exemplo.com", Password = "1234"};
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<LoginRequest>(), It.IsAny<CancellationToken>()))!
+            .Setup(m => m.Send(It.IsAny<LoginRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((string?)null);
 
         var result = await _authController.Login(command);
@@ -94,7 +94,7 @@ public class AuthControllerTests
         var registerDto = new RegisterDto { Password = "1234", Role = "Departamento" };
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))!
+            .Setup(m => m.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((string?)null);
 
         var result = await _authController.Register(registerDto);
