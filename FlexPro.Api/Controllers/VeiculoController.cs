@@ -2,6 +2,7 @@
 using FlexPro.Application.DTOs;
 using FlexPro.Application.UseCases.Vehicles.Create;
 using FlexPro.Application.UseCases.Vehicles.GetAll;
+using FlexPro.Application.UseCases.Vehicles.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +32,7 @@ public class VeiculoController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IResult> GetById(int id)
     {
-        var command = new FlexPro.Application.UseCases.Vehicles.GetById.Command(id);
+        var command = new GetVehicleByIdCommand(id);
         var result = await _mediator.Send(command);
         return  result.IsSuccess
             ? Results.Ok(result.Value)

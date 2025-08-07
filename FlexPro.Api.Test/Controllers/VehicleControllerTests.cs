@@ -1,6 +1,7 @@
 using FlexPro.Api.Controllers;
 using FlexPro.Application.DTOs;
 using FlexPro.Application.UseCases.Vehicles.GetAll;
+using FlexPro.Application.UseCases.Vehicles.GetById;
 using FlexPro.Domain.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -65,15 +66,15 @@ public class VehicleControllerTests
     public async Task Shold_ReturnsOk_When_Vehicle_Are_Valid()
     {
         var vehicle = new VeiculoDto { Placa = "ABC1234", Nome = "Uno" };
-        var response = new FlexPro.Application.UseCases.Vehicles.GetById.Response(vehicle);
+        var response = new GetVehicleByIdResponse(vehicle);
         var expectedResult = Result.Success(response);
 
-        _mediatorMock.Setup(m => m.Send(It.IsAny<FlexPro.Application.UseCases.Vehicles.GetById.Command>(),
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetVehicleByIdCommand>(),
             It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
         
         var actionResult = await _controller.GetById(vehicle.Id);
-        Assert.IsInstanceOfType(actionResult, typeof(Ok<FlexPro.Application.UseCases.Vehicles.GetById.Response>));
-        var okResult = actionResult as Ok<FlexPro.Application.UseCases.Vehicles.GetById.Response>;
+        Assert.IsInstanceOfType(actionResult, typeof(Ok<GetVehicleByIdResponse>));
+        var okResult = actionResult as Ok<GetVehicleByIdResponse>;
         Assert.IsNotNull(okResult);
         Assert.AreEqual(response, okResult.Value);
         Assert.AreEqual(200, okResult.StatusCode);
@@ -83,9 +84,9 @@ public class VehicleControllerTests
     public async Task Shold_ReturnsNotFound_When_Vehicle_Are_Not_Valid()
     {
         var error = new Error("404", "Vehicle not found");
-        var expectedResult = Result.Failure<FlexPro.Application.UseCases.Vehicles.GetById.Response>(error);
+        var expectedResult = Result.Failure<GetVehicleByIdResponse>(error);
         
-        _mediatorMock.Setup(m => m.Send(It.IsAny<FlexPro.Application.UseCases.Vehicles.GetById.Command>(), It.IsAny<CancellationToken>()))
+        _mediatorMock.Setup(m => m.Send(It.IsAny<GetVehicleByIdCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedResult);
 
         var actionResult = await _controller.GetById(2);
