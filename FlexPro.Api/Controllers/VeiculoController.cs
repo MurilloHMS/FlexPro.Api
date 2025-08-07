@@ -1,6 +1,6 @@
 ﻿using FlexPro.Api.Application.Commands.Veiculo;
-using FlexPro.Api.Application.Queries.Veiculo;
 using FlexPro.Application.DTOs;
+using FlexPro.Application.UseCases.Vehicles.Create;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,7 +40,7 @@ public class VeiculoController : ControllerBase
     [HttpPost]
     public async Task<IResult> Create([FromBody] VeiculoDto dto)
     {
-        var command = new FlexPro.Application.UseCases.Vehicles.Create.Command(dto);
+        var command = new CreateVehicleCommand(dto);
         var result = await _mediator.Send(command);
         return result.IsSuccess
             ? Results.Ok(result.Value)
