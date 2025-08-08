@@ -8,12 +8,14 @@ public class UpdateUserHandler(RoleManager<IdentityRole> roleManager, UserManage
 {
     public async Task<string?> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = new ApplicationUser()
-        {
-            Id = request.Dto.Id,
-            Email = request.Dto.Email,
-            UserName = request.Dto.Username
-        };
+        var user = await userManager.FindByIdAsync(request.Dto.Id);
+        if (user == null)
+            throw new Exception("User not found");
+        
+        
+        user.Email = request.Dto.Email;
+        user.UserName = request.Dto.Username;
+        
         var result = await userManager.UpdateAsync(user);
         
         if (!result.Succeeded)
