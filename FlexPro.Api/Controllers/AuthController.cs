@@ -4,6 +4,7 @@ using FlexPro.Application.UseCases.Auth;
 using FlexPro.Application.UseCases.Users.Create;
 using FlexPro.Application.UseCases.Users.GetAll;
 using FlexPro.Application.UseCases.Users.Update;
+using FlexPro.Application.UseCases.Users.UpdatePassword;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +70,16 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> UpdateRoles([FromBody] UserDto dto)
     {
         var result = await _mediator.Send(new UpdateUserCommand(dto));
+        return result != null
+            ? Ok(result)
+            : BadRequest(result);
+    }
+
+    [HttpGet("update-password")]
+    [Authorize]
+    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto)
+    {
+        var result = await _mediator.Send(new UpdatePasswordCommand(dto));
         return result != null
             ? Ok(result)
             : BadRequest(result);
