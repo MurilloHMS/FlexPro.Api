@@ -97,7 +97,7 @@ namespace FlexPro.Infrastructure.Migrations
                 column: "id");
 
             migrationBuilder.CreateTable(
-                name: "Entidades",
+                name: "Entidade",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -120,7 +120,7 @@ namespace FlexPro.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Entidades", x => x.id);
+                    table.PrimaryKey("PK_Entidade", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,7 +222,7 @@ namespace FlexPro.Infrastructure.Migrations
                 table: "Revisao");
 
             migrationBuilder.DropTable(
-                name: "Entidades");
+                name: "Entidade");
 
             migrationBuilder.DropTable(
                 name: "inventory-products");
