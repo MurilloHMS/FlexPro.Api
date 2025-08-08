@@ -48,7 +48,7 @@ public class AuthController : ControllerBase
         return result ? Ok("Role adicionada com sucesso") : BadRequest("Falha ao adicionar role");
     }
 
-    [HttpPost("get-roles")]
+    [HttpGet("get-roles")]
     public async Task<IActionResult> GetRoles([FromBody] CheckRoleDto dto)
     {
         var roles = await _mediator.Send(new CheckUserRoleCommand(dto));
@@ -65,7 +65,7 @@ public class AuthController : ControllerBase
             : Results.NotFound(result.Error);
     }
 
-    [HttpGet("update")]
+    [HttpPut("update")]
     [Authorize(Roles = "Admin,Developer")]
     public async Task<IActionResult> UpdateRoles([FromBody] UserDto dto)
     {
@@ -75,7 +75,7 @@ public class AuthController : ControllerBase
             : BadRequest(result);
     }
 
-    [HttpGet("update-password")]
+    [HttpPut("update-password")]
     [Authorize]
     public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto)
     {
