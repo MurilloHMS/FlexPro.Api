@@ -8,6 +8,6 @@ public class VeiculoProfile : Profile
 {
     public VeiculoProfile()
     {
-        CreateMap<Veiculo, VeiculoDto>().ReverseMap();
+        CreateMap<Veiculo, VehicleDto>().ReverseMap();
     }
 }

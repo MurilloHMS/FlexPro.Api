@@ -1,7 +1,10 @@
 ﻿using FlexPro.Api.Application.Commands.Auth;
 using FlexPro.Application.DTOs.Auth;
+using FlexPro.Application.UseCases.Auth;
 using FlexPro.Application.UseCases.Users.Create;
 using FlexPro.Application.UseCases.Users.GetAll;
+using FlexPro.Application.UseCases.Users.Update;
+using FlexPro.Application.UseCases.Users.UpdatePassword;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +24,12 @@ public class AuthController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginCommand command)
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
     {
-        var token = await _mediator.Send(command);
-        return token != null ? Ok(new { token }) : NotFound("Usuário ou senha incorretos");
+        var token = await _mediator.Send(new AuthenticateLoginCommand(loginRequest));
+        return token != null 
+            ? Ok(token) 
+            : NotFound("Usuário ou senha incorretos");
     }
 
     [HttpPost("register")]
@@ -43,7 +48,7 @@ public class AuthController : ControllerBase
         return result ? Ok("Role adicionada com sucesso") : BadRequest("Falha ao adicionar role");
     }
 
-    [HttpPost("get-roles")]
+    [HttpGet("get-roles")]
     public async Task<IActionResult> GetRoles([FromBody] CheckRoleDto dto)
     {
         var roles = await _mediator.Send(new CheckUserRoleCommand(dto));
@@ -58,5 +63,25 @@ public class AuthController : ControllerBase
         return result.IsSuccess
             ? Results.Ok(result.Value.UserResponse)
             : Results.NotFound(result.Error);
+    }
+
+    [HttpPut("update")]
+    [Authorize(Roles = "Admin,Developer")]
+    public async Task<IActionResult> UpdateRoles([FromBody] UserDto dto)
+    {
+        var result = await _mediator.Send(new UpdateUserCommand(dto));
+        return result != null
+            ? Ok(result)
+            : BadRequest(result);
+    }
+
+    [HttpPut("update-password")]
+    [Authorize]
+    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDto dto)
+    {
+        var result = await _mediator.Send(new UpdatePasswordCommand(dto));
+        return result != null
+            ? Ok(result)
+            : BadRequest(result);
     }
 }

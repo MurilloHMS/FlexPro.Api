@@ -17,13 +17,12 @@ public class CalculoTransportadoraService : ICalculoTransportadoraService
             var ns = xmlDoc.Root?.GetDefaultNamespace();
 
             var vPrest = xmlDoc.Descendants(ns! + "vPrest").FirstOrDefault();
-            var vTPrest = 0m;
 
             if (vPrest != null)
             {
                 var vTPrestString = vPrest.Element(ns! + "vTPrest")?.Value;
 
-                vTPrest = !string.IsNullOrEmpty(vTPrestString) && decimal.TryParse(vTPrestString, NumberStyles.Any,
+                var vTPrest = !string.IsNullOrEmpty(vTPrestString) && decimal.TryParse(vTPrestString, NumberStyles.Any,
                     CultureInfo.InvariantCulture, out var vTPrestValue)
                     ? vTPrestValue
                     : 0m;

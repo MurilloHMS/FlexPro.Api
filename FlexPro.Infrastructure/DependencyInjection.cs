@@ -1,6 +1,5 @@
 using FlexPro.Domain.Entities;
 using FlexPro.Domain.Repositories;
-using FlexPro.Infrastructure.Data;
 using FlexPro.Infrastructure.Repositories;
 using FlexPro.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;

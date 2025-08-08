@@ -1,13 +1,12 @@
 using FlexPro.Api.Application.Commands.Auth;
 using FlexPro.Api.Controllers;
 using FlexPro.Application.DTOs.Auth;
+using FlexPro.Application.UseCases.Auth;
 using FlexPro.Application.UseCases.Users.Create;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Sprache;
 
 namespace FlexPro.Api.Test.Controllers;
 
@@ -27,11 +26,11 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Login_ReturnOk_WithToken_WhenCredentialsAreValid()
     {
-        var command = new LoginCommand("teste@exemplo.com", "1234");
-        const string expectedToken = "fake-jwt-token";
+        var command = new LoginRequest { Username = "teste@exemplo.com", Password = "1234" };
+        LoginResponse expectedToken ="fake-jwt-token" ;
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.Send(It.IsAny<AuthenticateLoginCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedToken);
 
         var result = await _authController.Login(command);
@@ -40,20 +39,18 @@ public class AuthControllerTests
         Assert.IsNotNull(okResult);
         Assert.AreEqual(200, okResult.StatusCode);
 
-        var tokenProperty = okResult.Value!.GetType().GetProperty("token");
-        Assert.IsNotNull(tokenProperty);
-
-        var actualToken = tokenProperty.GetValue(okResult.Value!) as string;
-        Assert.AreEqual(expectedToken, actualToken);
+        var actualToken = okResult.Value as LoginResponse;
+        Assert.IsNotNull(actualToken);
+        Assert.AreEqual(expectedToken.Token, actualToken.Token);
     }
 
     [TestMethod]
     public async Task Login_ReturnsNotFound_WhenCredentialsAreInvalid()
     {
-        var command = new LoginCommand("teste@exemplo.com", "1234");
+        var command = new LoginRequest{Username = "teste@exemplo.com", Password = "1234"};
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))!
+            .Setup(m => m.Send(It.IsAny<LoginRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((string?)null);
 
         var result = await _authController.Login(command);
@@ -67,7 +64,7 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Register_ReturnsOk_WhenCredentialsAreValid()
     {
-        var registerDto = new RegisterDto { Password = "1234", Role = "Departamento", Username = "teste@exemplo.com" };
+        var registerDto = new RegisterDto { Password = "1234", Roles = ["Departamento","Departamento"], Username = "teste@exemplo.com" };
         var expectedToken = "fake-jwt-token";
 
         _mediatorMock
@@ -94,10 +91,10 @@ public class AuthControllerTests
     [TestMethod]
     public async Task Register_ReturnsNotNull_WhenCredentialsAreInvalid()
     {
-        var registerDto = new RegisterDto { Password = "1234", Role = "Departamento" };
+        var registerDto = new RegisterDto { Password = "1234",Roles = ["Departamento","Departamento"] };
 
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))!
+            .Setup(m => m.Send(It.IsAny<CreateUserCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((string?)null);
 
         var result = await _authController.Register(registerDto);

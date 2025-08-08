@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace FlexPro.Application.Validators.Veiculo;
 
-public class UpdateVeiculoCommandValidator : AbstractValidator<VeiculoDto>
+public class UpdateVeiculoCommandValidator : AbstractValidator<VehicleDto>
 {
     public UpdateVeiculoCommandValidator()
     {

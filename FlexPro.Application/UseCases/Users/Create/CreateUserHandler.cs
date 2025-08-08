@@ -15,7 +15,7 @@ public class CreateUserHandler(
         var user = new ApplicationUser()
         {
             UserName = request.Dto.Username,
-            Email = request.Dto.Username
+            Email = request.Dto.Email
         };
         
         var result = await userManager.CreateAsync(user, request.Dto.Password);
@@ -26,10 +26,15 @@ public class CreateUserHandler(
             throw new Exception($"Erro ao registrar usuário: {errors}");
         }
 
-        if (!await roleManager.RoleExistsAsync(request.Dto.Role))
-            await roleManager.CreateAsync(new IdentityRole(request.Dto.Role));
-        
-        await userManager.AddToRoleAsync(user, request.Dto.Role);
+        if (request.Dto.Roles != null)
+        {
+            foreach (var role in request.Dto.Roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
+            await userManager.AddToRolesAsync(user, request.Dto.Roles);
+        }
         return await jwtTokenGenerator.GenerateToken(user);
     }
 }

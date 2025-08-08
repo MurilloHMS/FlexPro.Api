@@ -10,10 +10,10 @@ public class RevisaoRepository(AppDbContext context) : Repository<Revisao>(conte
     private readonly DbSet<Revisao> _dbSet = context.Set<Revisao>();
 
 
-    public async Task<Revisao> GetByName(string name)
+    public async Task<Revisao?> GetByName(string name)
     {
         var revisao = await _dbSet.FirstOrDefaultAsync(x => x.Motorista == name);
-        return revisao ?? null;
+        return revisao;
     }
 
     public async Task<IEnumerable<Revisao>> GetByVehicleId(int vehicleId)

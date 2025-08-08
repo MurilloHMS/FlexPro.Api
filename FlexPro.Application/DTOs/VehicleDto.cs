@@ -1,8 +1,6 @@
-﻿using MediatR;
+﻿namespace FlexPro.Application.DTOs;
 
-namespace FlexPro.Api.Application.Commands.Veiculo;
-
-public class UpdateVeiculoCommand : IRequest
+public class VehicleDto
 {
     public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;

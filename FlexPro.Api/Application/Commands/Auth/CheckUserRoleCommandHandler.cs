@@ -1,5 +1,4 @@
 ﻿using FlexPro.Domain.Entities;
-using FlexPro.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

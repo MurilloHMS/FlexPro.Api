@@ -3,4 +3,4 @@ using MediatR;
 
 namespace FlexPro.Application.UseCases.Vehicles.GetById;
 
-public sealed record Command(int Id) : IRequest<Result<Response>>;
+public sealed record GetVehicleByIdQuery(int Id) : IRequest<Result<GetVehicleByIdResponse>>;

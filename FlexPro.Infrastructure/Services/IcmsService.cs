@@ -101,7 +101,7 @@ public class IcmsService : IIcmsService
 
             return dados;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return null;
         }

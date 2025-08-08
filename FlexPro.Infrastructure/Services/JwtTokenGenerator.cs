@@ -23,7 +23,8 @@ public class JwtTokenGenerator : IJwtTokenGenerator<ApplicationUser>
         var claims = new List<Claim>
         {
             new(ClaimTypes.Name, user.UserName!),
-            new(ClaimTypes.NameIdentifier, user.Id)
+            new(ClaimTypes.NameIdentifier, user.Id),
+            new (ClaimTypes.Email, user.Email!)
         };
 
         if (!string.IsNullOrWhiteSpace(user.Departamento))

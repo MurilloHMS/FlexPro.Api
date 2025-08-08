@@ -1,8 +1,12 @@
-﻿using FlexPro.Api.Application.Commands.Veiculo;
-using FlexPro.Api.Application.Queries.Veiculo;
-using FlexPro.Application.DTOs;
+﻿using FlexPro.Application.DTOs;
+using FlexPro.Application.UseCases.Vehicles.Create;
+using FlexPro.Application.UseCases.Vehicles.GetAll;
+using FlexPro.Application.UseCases.Vehicles.GetById;
+using FlexPro.Application.UseCases.Vehicles.DeleteById;
+using FlexPro.Application.UseCases.Vehicles.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 
 namespace FlexPro.Api.Controllers;
 
@@ -18,29 +22,29 @@ public class VeiculoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IResult> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var command = new FlexPro.Application.UseCases.Vehicles.GetAll.Command();
+        var command = new GetAllVehicleQuery();
         var result = await _mediator.Send(command);
         return result.IsSuccess
-            ? Results.Ok(result.Value)
-            : Results.NotFound(result.Error);
+            ? Ok(result.Value)
+            : NotFound(result.Error);
     }
 
     [HttpGet("{id}")]
     public async Task<IResult> GetById(int id)
     {
-        var command = new FlexPro.Application.UseCases.Vehicles.GetById.Command(id);
+        var command = new GetVehicleByIdQuery(id);
         var result = await _mediator.Send(command);
         return  result.IsSuccess
-            ? Results.Ok(result.Value)
+            ? Results.Ok(result.Value.Dto)
             : Results.NotFound(result.Error);
     }
 
     [HttpPost]
-    public async Task<IResult> Create([FromBody] VeiculoDto dto)
+    public async Task<IResult> Create([FromBody] VehicleDto dto)
     {
-        var command = new FlexPro.Application.UseCases.Vehicles.Create.Command(dto);
+        var command = new CreateVehicleCommand(dto);
         var result = await _mediator.Send(command);
         return result.IsSuccess
             ? Results.Ok(result.Value)
@@ -48,17 +52,17 @@ public class VeiculoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, [FromBody] UpdateVeiculoCommand command)
+    public async Task<ActionResult> Update(int id, [FromBody] VehicleDto dto)
     {
-        if (id != command.Id) return BadRequest();
-        await _mediator.Send(command);
+        if (id != dto.Id) return BadRequest();
+        await _mediator.Send(new UpdateVehicleCommand(dto));
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        await _mediator.Send(new DeleteVeiculoCommand { Id = id });
+        await _mediator.Send(new DeleteVehicleByIdCommand(id));
         return NoContent();
     }
 }
