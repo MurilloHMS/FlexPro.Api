@@ -29,7 +29,17 @@ public class UpdateUserHandler(RoleManager<IdentityRole> roleManager, UserManage
                 if (!await roleManager.RoleExistsAsync(role))
                     await roleManager.CreateAsync(new IdentityRole(role));
             }
-            await userManager.AddToRolesAsync(user, request.Dto.Roles);
+            
+            var currentRoles =  await userManager.GetRolesAsync(user);
+            
+            var rolesToRemove = currentRoles.Except(request.Dto.Roles);
+            if(rolesToRemove.Any())
+                await userManager.RemoveFromRolesAsync(user, rolesToRemove);
+            
+            var rolesToAdd = request.Dto.Roles.Except(currentRoles);
+            if(rolesToAdd.Any())
+                await userManager.AddToRolesAsync(user, rolesToAdd);
+            
             return "Roles Atualizado com sucesso";
         }
 
