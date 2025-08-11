@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Models;
 
-public class Icms
+public class NfeIcmsInfo
 {
     public decimal VIcms { get; set; }
     public string? NNf { get; set; } = string.Empty;
