@@ -13,14 +13,14 @@ namespace FlexPro.Api.Test.Controllers;
 [TestClass]
 public class VehicleControllerTests
 {
-    private VeiculoController _controller = null!;
+    private VehicleController _controller = null!;
     private Mock<IMediator> _mediatorMock = null!;
 
     [TestInitialize]
     public void Setup()
     {
         _mediatorMock = new Mock<IMediator>();
-        _controller = new VeiculoController(_mediatorMock.Object);
+        _controller = new VehicleController(_mediatorMock.Object);
     }
 
     [TestMethod]

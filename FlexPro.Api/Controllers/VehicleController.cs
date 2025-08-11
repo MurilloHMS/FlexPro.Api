@@ -6,28 +6,20 @@ using FlexPro.Application.UseCases.Vehicles.DeleteById;
 using FlexPro.Application.UseCases.Vehicles.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
 
 namespace FlexPro.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class VeiculoController : ControllerBase
+public class VehicleController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public VeiculoController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var command = new GetAllVehicleQuery();
-        var result = await _mediator.Send(command);
+        var result = await mediator.Send(command);
         return result.IsSuccess
-            ? Ok(result.Value)
+            ? Ok(result.Value.Veiculos)
             : NotFound(result.Error);
     }
 
@@ -35,7 +27,7 @@ public class VeiculoController : ControllerBase
     public async Task<IResult> GetById(int id)
     {
         var command = new GetVehicleByIdQuery(id);
-        var result = await _mediator.Send(command);
+        var result = await mediator.Send(command);
         return  result.IsSuccess
             ? Results.Ok(result.Value.Dto)
             : Results.NotFound(result.Error);
@@ -45,7 +37,7 @@ public class VeiculoController : ControllerBase
     public async Task<IResult> Create([FromBody] VehicleDto dto)
     {
         var command = new CreateVehicleCommand(dto);
-        var result = await _mediator.Send(command);
+        var result = await mediator.Send(command);
         return result.IsSuccess
             ? Results.Ok(result.Value)
             : Results.BadRequest(result.Error);
@@ -55,14 +47,14 @@ public class VeiculoController : ControllerBase
     public async Task<ActionResult> Update(int id, [FromBody] VehicleDto dto)
     {
         if (id != dto.Id) return BadRequest();
-        await _mediator.Send(new UpdateVehicleCommand(dto));
+        await mediator.Send(new UpdateVehicleCommand(dto));
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
-        await _mediator.Send(new DeleteVehicleByIdCommand(id));
+        await mediator.Send(new DeleteVehicleByIdCommand(id));
         return NoContent();
     }
 }
