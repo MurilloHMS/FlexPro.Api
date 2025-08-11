@@ -1,8 +1,9 @@
-﻿namespace FlexPro.Application.DTOs;
+﻿using FlexPro.Domain.Abstractions;
 
-public class VehicleDto
+namespace FlexPro.Domain.Entities;
+
+public class Vehicle : Entity
 {
-    public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;
     public string Placa { get; set; } = string.Empty;
     public string Marca { get; set; } = string.Empty;
@@ -10,4 +11,9 @@ public class VehicleDto
     public double? ConsumoUrbanoGasolina { get; set; }
     public double? ConsumoRodoviarioAlcool { get; set; }
     public double? ConsumoRodoviarioGasolina { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Nome}, {Marca} - {Placa}";
+    }
 }

@@ -10,7 +10,7 @@ public sealed class CreateVehicleHandler(IVeiculoRepository repository, IMapper 
 {
     public async Task<Result<CreateVehicleResponse>> Handle(CreateVehicleCommand request, CancellationToken cancellationToken)
     {
-        var entity = mapper.Map<Veiculo>(request.Dto);
+        var entity = mapper.Map<Vehicle>(request.ResponseDto);
         await repository.InsertOrUpdateAsync(entity);
         return Result.Success(new CreateVehicleResponse("Veiculo criado com sucesso!"));
     }

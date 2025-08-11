@@ -1,4 +1,5 @@
 ﻿using FlexPro.Application.DTOs;
+using FlexPro.Application.DTOs.Vehicle;
 using FlexPro.Application.UseCases.Vehicles.Create;
 using FlexPro.Application.UseCases.Vehicles.GetAll;
 using FlexPro.Application.UseCases.Vehicles.GetById;
@@ -29,14 +30,14 @@ public class VehicleController(IMediator mediator) : ControllerBase
         var command = new GetVehicleByIdQuery(id);
         var result = await mediator.Send(command);
         return  result.IsSuccess
-            ? Results.Ok(result.Value.Dto)
+            ? Results.Ok(result.Value.ResponseDto)
             : Results.NotFound(result.Error);
     }
 
     [HttpPost]
-    public async Task<IResult> Create([FromBody] VehicleDto dto)
+    public async Task<IResult> Create([FromBody] VehicleRequestDto requestDto)
     {
-        var command = new CreateVehicleCommand(dto);
+        var command = new CreateVehicleCommand(requestDto);
         var result = await mediator.Send(command);
         return result.IsSuccess
             ? Results.Ok(result.Value)
@@ -44,10 +45,10 @@ public class VehicleController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update(int id, [FromBody] VehicleDto dto)
+    public async Task<ActionResult> Update(int id, [FromBody] VehicleResponseDto responseDto)
     {
-        if (id != dto.Id) return BadRequest();
-        await mediator.Send(new UpdateVehicleCommand(dto));
+        if (id != responseDto.Id) return BadRequest();
+        await mediator.Send(new UpdateVehicleCommand(responseDto));
         return NoContent();
     }
 

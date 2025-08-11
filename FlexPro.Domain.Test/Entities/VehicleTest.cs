@@ -8,7 +8,7 @@ public class VehicleTest
     [TestMethod]
     public void Should_Not_Fail_When_ToString_is_Correct()
     {
-        var vehicle = new Veiculo
+        var vehicle = new Vehicle
         {
             Nome = "Civic",
             Placa = "XYZ-1234",
@@ -23,7 +23,7 @@ public class VehicleTest
     [TestMethod]
     public void Should_Not_Fail_When_Vehicle_Has_Default_Values()
     {
-        var vehicle = new Veiculo();
+        var vehicle = new Vehicle();
 
         Assert.AreEqual(string.Empty, vehicle.Nome);
         Assert.AreEqual(string.Empty, vehicle.Placa);
@@ -37,7 +37,7 @@ public class VehicleTest
     [TestMethod]
     public void Should_Fail_When_Name_is_Null()
     {
-        var vehicle = new Veiculo();
+        var vehicle = new Vehicle();
         vehicle.Nome = null!;
     }
 }

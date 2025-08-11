@@ -18,5 +18,5 @@ public class Revisao : Entity
 
     // Propriedades de navegação
     public virtual PrestadorDeServico? Local { get; set; }
-    public virtual Veiculo? Veiculo { get; set; }
+    public virtual Vehicle? Veiculo { get; set; }
 }

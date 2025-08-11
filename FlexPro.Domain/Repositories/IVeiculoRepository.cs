@@ -2,7 +2,7 @@
 
 namespace FlexPro.Domain.Repositories;
 
-public interface IVeiculoRepository : IRepository<Veiculo>
+public interface IVeiculoRepository : IRepository<Vehicle>
 {
-    Task<Veiculo?> GetByNameAsync(string name);
+    Task<Vehicle?> GetByNameAsync(string name);
 }
