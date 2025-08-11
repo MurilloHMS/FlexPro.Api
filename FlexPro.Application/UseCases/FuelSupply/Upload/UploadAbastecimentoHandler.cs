@@ -1,11 +1,10 @@
-using FlexPro.Api.Application.Commands.Abastecimento;
 using FlexPro.Domain.Repositories;
 using FlexPro.Infrastructure.Data;
 using FlexPro.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexPro.Api.Application.Handlers.Abastecimento;
+namespace FlexPro.Application.UseCases.FuelSupply.Upload;
 
 public class UploadAbastecimentoHandler : IRequestHandler<UploadAbastecimentoCommand, IActionResult>
 {

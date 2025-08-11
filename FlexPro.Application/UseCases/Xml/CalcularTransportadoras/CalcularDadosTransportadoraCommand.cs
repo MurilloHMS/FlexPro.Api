@@ -1,7 +1,8 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexPro.Api.Application.Commands.CalculoTransportadora;
+namespace FlexPro.Application.UseCases.Xml.CalcularTransportadoras;
 
 public class CalcularDadosTransportadoraCommand : IRequest<IActionResult>
 {

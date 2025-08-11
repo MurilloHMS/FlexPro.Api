@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace FlexPro.Api.Application.Commands.Abastecimento;
+namespace FlexPro.Application.UseCases.FuelSupply.Update;
 
 public class UpdateAbastecimentoCommand : IRequest
 {

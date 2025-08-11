@@ -1,8 +1,7 @@
-using FlexPro.Api.Application.Queries.Abastecimento;
 using FlexPro.Domain.Repositories;
 using MediatR;
 
-namespace FlexPro.Api.Application.Handlers.Abastecimento;
+namespace FlexPro.Application.UseCases.FuelSupply.Report;
 
 public class FuelSupplyGeneratorHandler : IRequestHandler<FuelSuppyReportGeneratorQuery, byte[]>
 {

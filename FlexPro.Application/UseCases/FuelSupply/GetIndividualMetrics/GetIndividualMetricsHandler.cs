@@ -1,9 +1,8 @@
-using FlexPro.Api.Application.Queries.Abastecimento;
 using FlexPro.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlexPro.Api.Application.Handlers.Abastecimento;
+namespace FlexPro.Application.UseCases.FuelSupply.GetIndividualMetrics;
 
 public class GetIndividualMetricsHandler : IRequestHandler<GetIndividualMetricsQuery, IActionResult>
 {

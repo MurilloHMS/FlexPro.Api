@@ -1,8 +1,6 @@
-using MediatR;
+namespace FlexPro.Application.DTOs.FuelSupply;
 
-namespace FlexPro.Api.Application.Commands.Abastecimento;
-
-public class CreateAbastecimentoCommand : IRequest<int>
+public class FuelSupplyRequest
 {
     public DateTime DataDoAbastecimento { get; set; }
     public string Uf { get; set; } = string.Empty;

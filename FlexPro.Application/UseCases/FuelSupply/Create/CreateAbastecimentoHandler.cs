@@ -1,9 +1,8 @@
 using AutoMapper;
-using FlexPro.Api.Application.Commands.Abastecimento;
 using FlexPro.Domain.Repositories;
 using MediatR;
 
-namespace FlexPro.Api.Application.Handlers.Abastecimento;
+namespace FlexPro.Application.UseCases.FuelSupply.Create;
 
 public class CreateAbastecimentoHandler : IRequestHandler<CreateAbastecimentoCommand, int>
 {

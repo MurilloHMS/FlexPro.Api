@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace FlexPro.Api.Application.Queries.Abastecimento;
+namespace FlexPro.Application.UseCases.FuelSupply.Report;
 
 public class FuelSuppyReportGeneratorQuery : IRequest<byte[]>
 {
