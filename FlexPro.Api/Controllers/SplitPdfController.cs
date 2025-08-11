@@ -5,7 +5,6 @@ using FlexPro.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-// TODO: Migrate this to Mediator Pattern
 namespace FlexPro.Api.Controllers;
 
 [Route("api/[controller]")]
