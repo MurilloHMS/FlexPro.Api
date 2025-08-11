@@ -1,8 +1,8 @@
-using FlexPro.Api.Application.Commands.Auth;
 using FlexPro.Api.Controllers;
 using FlexPro.Application.DTOs.Auth;
 using FlexPro.Application.UseCases.Auth;
 using FlexPro.Application.UseCases.Users.Create;
+using FlexPro.Application.UseCases.Users.UpdateUserRole;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
