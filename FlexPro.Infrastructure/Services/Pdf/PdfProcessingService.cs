@@ -2,7 +2,7 @@ using FlexPro.Domain.Interfaces;
 using FlexPro.Domain.Interfaces.Pdf;
 using FlexPro.Domain.Models;
 
-namespace FlexPro.Application.Services;
+namespace FlexPro.Infrastructure.Services.Pdf;
 
 public class PdfProcessingService(IPdfReader pdfReader, IPdfWriter pdfWriter) : IPdfProcessing
 {
