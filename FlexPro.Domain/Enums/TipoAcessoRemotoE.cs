@@ -1,6 +1,6 @@
 namespace FlexPro.Domain.Enums;
 
-public enum TipoAcessoRemoto
+public enum TipoAcessoRemotoE
 {
     Anydesk,
     TeamViewer,
