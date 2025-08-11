@@ -6,9 +6,9 @@ namespace FlexPro.Infrastructure.Services;
 
 public class FileStorageService : IFileStorageService
 {
-    public async Task<string> SaveTemporaryFileAsync(IFormFile file)
+    public async Task<string> SaveTemporaryFileAsync(IFormFile file, string extension)
     {
-        var tempFileName = $"{Guid.NewGuid()}.pdf";
+        var tempFileName = $"{Guid.NewGuid()}{extension}";
         var tempFilePath = Path.Combine(Path.GetTempPath(), tempFileName);
 
         using (var stream = new FileStream(tempFilePath, FileMode.Create))

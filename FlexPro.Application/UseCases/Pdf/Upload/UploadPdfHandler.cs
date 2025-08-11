@@ -8,7 +8,7 @@ public class UploadPdfHandler(IPdfProcessing pdfProcessingService, IFileStorageS
 {
     public async Task<List<PdfPageInfo>> Handle(UploadPdfCommand request, CancellationToken cancellationToken)
     {
-        var tempFilePath = await fileStorage.SaveTemporaryFileAsync(request.FileName);
+        var tempFilePath = await fileStorage.SaveTemporaryFileAsync(request.FileName, ".pdf");
         try
         {
             var pages = pdfProcessingService.GetPdfByPage(tempFilePath);
