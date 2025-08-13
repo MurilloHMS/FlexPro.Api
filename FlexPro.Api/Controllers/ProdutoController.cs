@@ -1,6 +1,8 @@
-using FlexPro.Api.Application.Commands.ProdutoLoja;
-using FlexPro.Api.Application.Queries.Produtos;
 using FlexPro.Application.DTOs.ProdutoLoja;
+using FlexPro.Application.UseCases.ShopProduct.AddDepartment;
+using FlexPro.Application.UseCases.ShopProduct.AddPacking;
+using FlexPro.Application.UseCases.ShopProduct.CreateWithPacking;
+using FlexPro.Application.UseCases.ShopProduct.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

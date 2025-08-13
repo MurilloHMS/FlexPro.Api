@@ -1,6 +1,6 @@
-using FlexPro.Api.Application.Commands.Contato;
-using FlexPro.Api.Application.Queries.Contato;
 using FlexPro.Application.DTOs.Contato;
+using FlexPro.Application.UseCases.Contact.Create;
+using FlexPro.Application.UseCases.Contact.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

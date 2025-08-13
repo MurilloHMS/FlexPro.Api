@@ -1,5 +1,5 @@
-using FlexPro.Api.Application.Commands.Categoria;
 using FlexPro.Application.DTOs.Categoria;
+using FlexPro.Application.UseCases.Category.Create;
 using FlexPro.Domain.Entities;
 using FlexPro.Domain.Repositories;
 using MediatR;

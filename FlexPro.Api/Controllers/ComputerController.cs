@@ -1,6 +1,6 @@
-using FlexPro.Api.Application.Commands.Computer;
-using FlexPro.Api.Application.Queries.Computer;
 using FlexPro.Application.DTOs.Computer;
+using FlexPro.Application.UseCases.Computer.Create;
+using FlexPro.Application.UseCases.Computer.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

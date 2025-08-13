@@ -1,6 +1,9 @@
-using FlexPro.Api.Application.Commands.Cliente;
-using FlexPro.Api.Application.Queries.Cliente;
 using FlexPro.Application.DTOs.Cliente;
+using FlexPro.Application.UseCases.Client.Create;
+using FlexPro.Application.UseCases.Client.Delete;
+using FlexPro.Application.UseCases.Client.GetAll;
+using FlexPro.Application.UseCases.Client.GetById;
+using FlexPro.Application.UseCases.Client.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
