@@ -33,7 +33,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole, str
     public DbSet<AcessoRemoto> AcessoRemoto { get; set; } = null!;
     public DbSet<Especificacoes> Especificacoes { get; set; } = null!;
     public DbSet<InventoryMovement> InventoryMovement { get; set; } = null!;
-    public DbSet<Products> Products { get; set; } = null!;
+    public DbSet<InventoryProducts> InventoryProducts { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

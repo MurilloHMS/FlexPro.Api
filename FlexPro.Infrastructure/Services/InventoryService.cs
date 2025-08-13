@@ -20,42 +20,33 @@ public class InventoryService
         {
             if (date == null) return null;
 
-            var mov = await _context.InventoryMovement.ToListAsync();
-            var dayStock = mov
-                .Where(m => m.Data.Equals(date))
-                .Union(
-                    mov.Where(m => m.Data < date)
-                        .GroupBy(m => m.SystemId)
-                        .Select(g => g.OrderByDescending(m => m.Data).First())
-                )
+            var dayStock = await _context.InventoryMovement
+                .Where(m => m.Data <= date)
                 .GroupBy(m => m.SystemId)
-                .Select(g => g.OrderByDescending(m => m.Data).First()).ToList();
+                .Select(g => g.OrderByDescending(m => m.Data).First())
+                .Include(m => m.InventoryProduct)
+                .ToListAsync();
 
-            var products = await _context.Products.ToListAsync();
-            using (var workbook = new XLWorkbook())
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Movimentações");
+            
+            worksheet.Cell(1, 1).Value = "ID";
+            worksheet.Cell(1, 2).Value = "Nome";
+            worksheet.Cell(1, 3).Value = "Data do ultimo estoque";
+            worksheet.Cell(1, 4).Value = "Quantidade";
+
+            for (int i = 0; i < dayStock.Count; i++)
             {
-                var worksheet = workbook.Worksheets.Add("Movimentacoes");
-                worksheet.Cell(1, 1).Value = "ID";
-                worksheet.Cell(1, 2).Value = "Nome";
-                worksheet.Cell(1, 3).Value = "Data do ultimo estoque";
-                worksheet.Cell(1, 4).Value = "Quantidade";
-
-                for (var i = 0; i < dayStock.Count; i++)
-                {
-                    var movimentations = dayStock[i];
-                    var product = products.FirstOrDefault(m => m.Id == int.Parse(movimentations.SystemId));
-                    worksheet.Cell(i + 2, 1).Value = movimentations.SystemId;
-                    worksheet.Cell(i + 2, 2).Value = product?.Nome;
-                    worksheet.Cell(i + 2, 3).Value = movimentations.Data!.Value.ToString("dd/MM/yyyy");
-                    worksheet.Cell(i + 2, 4).Value = movimentations.Quantity;
-                }
-
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    return stream.ToArray();
-                }
+                var mov = dayStock[i];
+                worksheet.Cell(i + 2, 1).Value = mov.SystemId;
+                worksheet.Cell(i + 2, 2).Value = mov.InventoryProduct?.Name;
+                worksheet.Cell(i + 2, 3).Value = mov.Data?.ToString("dd/MM/yyyy");
+                worksheet.Cell(i + 2, 4).Value = mov.Quantity;
             }
+            
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return stream.ToArray();
         }
         catch (Exception e)
         {
@@ -64,15 +55,13 @@ public class InventoryService
         }
     }
 
-    public async Task<IEnumerable<Products>> GetAllProductsWithLowStockAsync()
+    public async Task<IEnumerable<InventoryProducts>> GetAllProductsWithLowStockAsync()
     {
-        var query = await _context.Products.Select(p => new
-            {
-                Produto = p,
-                Total = _context.InventoryMovement.Where(m => m.SystemId.Equals(p.Id)).Sum(m => m.Quantity)
-            }).Where(p => p.Produto.MinimumStock.HasValue && p.Total <= p.Produto.MinimumStock.Value)
-            .Select(p => p.Produto)
+        return await _context.InventoryProducts
+            .Where(p => p.MinimumStock.HasValue &&
+                        _context.InventoryMovement
+                            .Where(m => m.SystemId == p.Id)
+                            .Sum(m => m.Quantity) <= p.MinimumStock.Value)
             .ToListAsync();
-        return query;
     }
 }

@@ -26,5 +26,9 @@ public class InventoryMovementMap : EntityBaseMap<InventoryMovement>
             .HasColumnName("quantity")
             .IsRequired()
             .HasColumnType("int");
+
+        builder.HasOne(m => m.InventoryProduct)
+            .WithMany(p => p.Movements)
+            .HasForeignKey(m => m.SystemId);
     }
 }
