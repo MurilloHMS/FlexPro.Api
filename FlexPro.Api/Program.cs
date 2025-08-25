@@ -11,12 +11,15 @@ using FlexPro.Infrastructure.Data;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using QuestPDF;
 using QuestPDF.Infrastructure;
 using Serilog;
 using Serilog.Formatting.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
@@ -107,6 +110,30 @@ else
         c.SupportedSubmitMethods();
     });
 }
+
+app.UseExceptionHandler(errApp =>
+{
+    errApp.Run(async context =>
+    {
+        var exceptionFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        var logger = context.RequestServices.GetRequiredService<ILogger<FlexPro.Api.Program>>();
+
+        var exc = exceptionFeature?.Error;
+        var msgErro = exc?.Message;
+        logger.LogError(exc, $"Erro inesperado: {msgErro}");
+
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        var resp = JsonSerializer.Serialize(new
+        {
+            error = "Erro inesperado.",
+            detail = msgErro
+        });
+
+        await context.Response.WriteAsync(resp);
+    });
+});
 
 using (var scope = app.Services.CreateScope())
 {
