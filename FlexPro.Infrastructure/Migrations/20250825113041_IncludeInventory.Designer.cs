@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FlexPro.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250813143840_IncludeInventoryMovementAndProducts")]
-    partial class IncludeInventoryMovementAndProducts
+    [Migration("20250825113041_IncludeInventory")]
+    partial class IncludeInventory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -521,19 +521,17 @@ namespace FlexPro.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date");
 
+                    b.Property<int>("InventoryProductId")
+                        .HasColumnType("integer")
+                        .HasColumnName("inventory_product_id");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int")
                         .HasColumnName("quantity");
 
-                    b.Property<string>("SystemId")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar")
-                        .HasColumnName("system_code");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("SystemId");
+                    b.HasIndex("InventoryProductId");
 
                     b.ToTable("inventory_movements", (string)null);
                 });
@@ -1032,7 +1030,7 @@ namespace FlexPro.Infrastructure.Migrations
                 {
                     b.HasOne("FlexPro.Domain.Entities.InventoryProducts", "InventoryProduct")
                         .WithMany("Movements")
-                        .HasForeignKey("SystemId")
+                        .HasForeignKey("InventoryProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

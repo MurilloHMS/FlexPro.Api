@@ -28,11 +28,5 @@ public class InventoryProductMap : EntityBaseMap<InventoryProducts>
             .IsRequired(false)
             .HasColumnName("minimum_stock")
             .HasColumnType("int");
-        
-        // Relacionamento 1:N
-        builder.HasMany(p => p.Movements)
-            .WithOne(m => m.InventoryProduct)
-            .HasForeignKey(m => m.SystemId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

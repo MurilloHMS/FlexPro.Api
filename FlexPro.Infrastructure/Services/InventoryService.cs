@@ -22,7 +22,7 @@ public class InventoryService
 
             var dayStock = await _context.InventoryMovement
                 .Where(m => m.Data <= date)
-                .GroupBy(m => m.SystemId)
+                .GroupBy(m => m.InventoryProductId)
                 .Select(g => g.OrderByDescending(m => m.Data).First())
                 .Include(m => m.InventoryProduct)
                 .ToListAsync();
@@ -38,7 +38,7 @@ public class InventoryService
             for (int i = 0; i < dayStock.Count; i++)
             {
                 var mov = dayStock[i];
-                worksheet.Cell(i + 2, 1).Value = mov.SystemId;
+                worksheet.Cell(i + 2, 1).Value = mov.InventoryProductId;
                 worksheet.Cell(i + 2, 2).Value = mov.InventoryProduct?.Name;
                 worksheet.Cell(i + 2, 3).Value = mov.Data?.ToString("dd/MM/yyyy");
                 worksheet.Cell(i + 2, 4).Value = mov.Quantity;
@@ -60,7 +60,7 @@ public class InventoryService
         return await _context.InventoryProducts
             .Where(p => p.MinimumStock.HasValue &&
                         _context.InventoryMovement
-                            .Where(m => m.SystemId == p.Id)
+                            .Where(m => m.InventoryProductId == p.Id)
                             .Sum(m => m.Quantity) <= p.MinimumStock.Value)
             .ToListAsync();
     }

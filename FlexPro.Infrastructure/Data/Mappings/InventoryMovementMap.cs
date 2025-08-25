@@ -12,12 +12,6 @@ public class InventoryMovementMap : EntityBaseMap<InventoryMovement>
 
         builder.ToTable("inventory_movements");
 
-        builder.Property(x => x.SystemId)
-            .IsRequired()
-            .HasMaxLength(10)
-            .HasColumnName("system_code")
-            .HasColumnType("varchar");
-
         builder.Property(x => x.Data)
             .HasColumnName("date")
             .IsRequired(false);
@@ -27,8 +21,13 @@ public class InventoryMovementMap : EntityBaseMap<InventoryMovement>
             .IsRequired()
             .HasColumnType("int");
 
+        builder.Property(x => x.InventoryProductId)
+            .HasColumnName("inventory_product_id")
+            .IsRequired();
+
         builder.HasOne(m => m.InventoryProduct)
             .WithMany(p => p.Movements)
-            .HasForeignKey(m => m.SystemId);
+            .HasForeignKey(m => m.InventoryProductId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -8,7 +8,7 @@ public class InventoryRepository(AppDbContext context)
 {
     public async Task InsertMovementAsync(InventoryMovement inventoryMovement)
     {
-        if(inventoryMovement.SystemId <= 0)
+        if(inventoryMovement.InventoryProductId <= 0)
             throw new ArgumentException("O movimento deve estar vinculado ao produto");
         
         await context.InventoryMovement.AddAsync(inventoryMovement);

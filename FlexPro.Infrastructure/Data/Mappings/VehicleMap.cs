@@ -11,7 +11,5 @@ public class VehicleMap : EntityBaseMap<Vehicle>
         base.Configure(builder);
 
         builder.ToTable("Veiculo");
-
-        builder.HasKey(x => x.Id);
     }
 }

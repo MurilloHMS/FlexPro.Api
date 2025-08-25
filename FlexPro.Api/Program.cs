@@ -24,7 +24,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 var config = builder.Configuration;
 var env = builder.Environment;
-var connectionStringName = env.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
+var connectionStringName = !env.IsDevelopment() ? "TestConnectionString" : "ConnectionString";
 var connectionString = config[connectionStringName] ??
                        throw new InvalidOperationException($"Connection string: {connectionStringName}");
 
