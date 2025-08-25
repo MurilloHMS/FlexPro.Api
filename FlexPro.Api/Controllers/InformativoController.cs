@@ -1,5 +1,8 @@
-using FlexPro.Api.Application.Commands.Informativo;
 using FlexPro.Application.DTOs.Informativo;
+using FlexPro.Application.UseCases.Newsletter.Calculate;
+using FlexPro.Application.UseCases.Newsletter.UploadNfeData;
+using FlexPro.Application.UseCases.Newsletter.UploadOsData;
+using FlexPro.Application.UseCases.Newsletter.UploadPecasTrocadas;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

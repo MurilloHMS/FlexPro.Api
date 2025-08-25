@@ -1,4 +1,4 @@
-using FlexPro.Api.Application.Commands.CalculoTransportadora;
+using FlexPro.Application.UseCases.Xml.CalcularTransportadoras;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

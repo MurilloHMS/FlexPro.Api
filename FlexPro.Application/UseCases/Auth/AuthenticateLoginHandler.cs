@@ -18,9 +18,9 @@ public sealed class AuthenticateLoginHandler(
 
         var login = request.LoginRequest.Username;
 
-        if (Email.IsValid(login))
+        if (Flexpro.Application.ValueObjects.Email.IsValid(login))
         {
-            var email = new Email(login);
+            var email = new Flexpro.Application.ValueObjects.Email(login);
             user = await userManager.FindByEmailAsync(email);
         }
         else

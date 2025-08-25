@@ -1,4 +1,5 @@
-using FlexPro.Api.Application.Commands.Email;
+using FlexPro.Application.UseCases.Email.Send;
+using FlexPro.Application.UseCases.Email.SendNewsletter;
 using FlexPro.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

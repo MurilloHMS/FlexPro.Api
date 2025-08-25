@@ -1,9 +1,10 @@
 using FlexPro.Application.DTOs;
+using FlexPro.Application.DTOs.FuelSupply;
 using FluentValidation;
 
 namespace FlexPro.Application.Validators.Abastecimento;
 
-public class AbastecimentoDtoValidator : AbstractValidator<AbastecimentoDto>
+public class AbastecimentoDtoValidator : AbstractValidator<FuelSupplyResponse>
 {
     public AbastecimentoDtoValidator()
     {

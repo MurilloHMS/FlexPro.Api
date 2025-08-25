@@ -14,6 +14,11 @@
 
     <ItemGroup>
         <ProjectReference Include="..\FlexPro.Domain\FlexPro.Domain.csproj"/>
+        <ProjectReference Include="..\FlexPro.Infrastructure\FlexPro.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="UseCases\FuelSupply\Delete\" />
     </ItemGroup>
 
 </Project>

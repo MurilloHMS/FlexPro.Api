@@ -9,7 +9,7 @@ public sealed class UpdateVehicleHandler(IVeiculoRepository repository, IMapper 
 {
     public async Task Handle(UpdateVehicleCommand request, CancellationToken cancellationToken)
     {
-        var entity  = mapper.Map<Veiculo>(request);
-        await repository.InsertOrUpdateAsync(entity, x => x.Id.Equals(request.Dto.Id));
+        var entity  = mapper.Map<Vehicle>(request);
+        await repository.InsertOrUpdateAsync(entity, x => x.Id.Equals(request.ResponseDto.Id));
     }
 }

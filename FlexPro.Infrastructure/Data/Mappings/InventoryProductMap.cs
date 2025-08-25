@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FlexPro.Infrastructure.Data.Mappings;
 
-public class InventoryProductMap : EntityBaseMap<Products>
+public class InventoryProductMap : EntityBaseMap<InventoryProducts>
 {
-    public override void Configure(EntityTypeBuilder<Products> builder)
+    public override void Configure(EntityTypeBuilder<InventoryProducts> builder)
     {
         base.Configure(builder);
 
         builder.ToTable("inventory_products");
 
-        builder.Property(x => x.Nome)
+        builder.Property(x => x.Name)
             .IsRequired()
             .HasMaxLength(200)
             .HasColumnType("TEXT")

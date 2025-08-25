@@ -1,6 +1,8 @@
-using FlexPro.Api.Application.Commands.Parceiro;
-using FlexPro.Api.Application.Queries.Parceiro;
 using FlexPro.Application.DTOs.Parceiro;
+using FlexPro.Application.UseCases.Partners.Create;
+using FlexPro.Application.UseCases.Partners.CreateBySheet;
+using FlexPro.Application.UseCases.Partners.GetAll;
+using FlexPro.Application.UseCases.Partners.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

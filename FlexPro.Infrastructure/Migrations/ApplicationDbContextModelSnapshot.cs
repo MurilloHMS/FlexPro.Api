@@ -518,22 +518,22 @@ namespace FlexPro.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("date");
 
+                    b.Property<int>("InventoryProductId")
+                        .HasColumnType("integer")
+                        .HasColumnName("inventory_product_id");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int")
                         .HasColumnName("quantity");
 
-                    b.Property<string>("SystemId")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar")
-                        .HasColumnName("system_code");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("InventoryProductId");
 
                     b.ToTable("inventory_movements", (string)null);
                 });
 
-            modelBuilder.Entity("FlexPro.Domain.Entities.Products", b =>
+            modelBuilder.Entity("FlexPro.Domain.Entities.InventoryProducts", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -546,7 +546,7 @@ namespace FlexPro.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasColumnName("minimum_stock");
 
-                    b.Property<string>("Nome")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("TEXT")
@@ -690,7 +690,7 @@ namespace FlexPro.Infrastructure.Migrations
                     b.ToTable("Revisao");
                 });
 
-            modelBuilder.Entity("FlexPro.Domain.Entities.Veiculo", b =>
+            modelBuilder.Entity("FlexPro.Domain.Entities.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1023,6 +1023,17 @@ namespace FlexPro.Infrastructure.Migrations
                     b.Navigation("Computador");
                 });
 
+            modelBuilder.Entity("FlexPro.Domain.Entities.InventoryMovement", b =>
+                {
+                    b.HasOne("FlexPro.Domain.Entities.InventoryProducts", "InventoryProduct")
+                        .WithMany("Movements")
+                        .HasForeignKey("InventoryProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InventoryProduct");
+                });
+
             modelBuilder.Entity("FlexPro.Domain.Entities.ReceitaMateriaPrima", b =>
                 {
                     b.HasOne("FlexPro.Domain.Entities.MateriaPrima", "MateriaPrima")
@@ -1050,7 +1061,7 @@ namespace FlexPro.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FlexPro.Domain.Entities.Veiculo", "Veiculo")
+                    b.HasOne("FlexPro.Domain.Entities.Vehicle", "Veiculo")
                         .WithMany()
                         .HasForeignKey("VeiculoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1110,6 +1121,11 @@ namespace FlexPro.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FlexPro.Domain.Entities.InventoryProducts", b =>
+                {
+                    b.Navigation("Movements");
                 });
 
             modelBuilder.Entity("FlexPro.Domain.Entities.Receita", b =>

@@ -1,0 +1,61 @@
+﻿using FlexPro.Application.DTOs;
+using FlexPro.Application.DTOs.Vehicle;
+using FlexPro.Application.UseCases.Vehicles.Create;
+using FlexPro.Application.UseCases.Vehicles.GetAll;
+using FlexPro.Application.UseCases.Vehicles.GetById;
+using FlexPro.Application.UseCases.Vehicles.DeleteById;
+using FlexPro.Application.UseCases.Vehicles.Update;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FlexPro.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class VehicleController(IMediator mediator) : ControllerBase
+{
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var command = new GetAllVehicleQuery();
+        var result = await mediator.Send(command);
+        return result.IsSuccess
+            ? Ok(result.Value.Veiculos)
+            : NotFound(result.Error);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IResult> GetById(int id)
+    {
+        var command = new GetVehicleByIdQuery(id);
+        var result = await mediator.Send(command);
+        return  result.IsSuccess
+            ? Results.Ok(result.Value.ResponseDto)
+            : Results.NotFound(result.Error);
+    }
+
+    [HttpPost]
+    public async Task<IResult> Create([FromBody] VehicleRequestDto requestDto)
+    {
+        var command = new CreateVehicleCommand(requestDto);
+        var result = await mediator.Send(command);
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
+            : Results.BadRequest(result.Error);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Update(int id, [FromBody] VehicleResponseDto responseDto)
+    {
+        if (id != responseDto.Id) return BadRequest();
+        await mediator.Send(new UpdateVehicleCommand(responseDto));
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await mediator.Send(new DeleteVehicleByIdCommand(id));
+        return NoContent();
+    }
+}

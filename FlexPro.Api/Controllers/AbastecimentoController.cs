@@ -1,5 +1,9 @@
-using FlexPro.Api.Application.Commands.Abastecimento;
-using FlexPro.Api.Application.Queries.Abastecimento;
+using FlexPro.Application.UseCases.FuelSupply.GetAll;
+using FlexPro.Application.UseCases.FuelSupply.GetGeneralMetrics;
+using FlexPro.Application.UseCases.FuelSupply.GetIndividualMetrics;
+using FlexPro.Application.UseCases.FuelSupply.GetSectorMetrics;
+using FlexPro.Application.UseCases.FuelSupply.Report;
+using FlexPro.Application.UseCases.FuelSupply.Upload;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

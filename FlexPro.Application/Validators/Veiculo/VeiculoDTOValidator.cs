@@ -1,9 +1,10 @@
 ﻿using FlexPro.Application.DTOs;
+using FlexPro.Application.DTOs.Vehicle;
 using FluentValidation;
 
 namespace FlexPro.Application.Validators.Veiculo;
 
-public class VeiculoDtoValidator : AbstractValidator<VehicleDto>
+public class VeiculoDtoValidator : AbstractValidator<VehicleResponseDto>
 {
     public VeiculoDtoValidator()
     {

@@ -7,7 +7,7 @@ public class AcessoRemoto : Entity
 {
     public string? Usuario { get; set; }
     public string Senha { get; set; } = string.Empty;
-    public TipoAcessoRemoto TipoAcessoRemoto { get; set; }
+    public TipoAcessoRemotoE TipoAcessoRemoto { get; set; }
     public string Conexao { get; set; } = string.Empty;
 
     public int IdComputador { get; set; }

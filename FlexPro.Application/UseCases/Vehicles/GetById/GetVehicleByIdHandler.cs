@@ -1,5 +1,6 @@
 using AutoMapper;
 using FlexPro.Application.DTOs;
+using FlexPro.Application.DTOs.Vehicle;
 using FlexPro.Domain.Abstractions;
 using FlexPro.Domain.Repositories;
 using MediatR;
@@ -12,7 +13,7 @@ public sealed class GetVehicleByIdHandler(IVeiculoRepository repository, IMapper
     {
         var vehicle = await repository.GetByIdAsync(request.Id);
         return vehicle != null
-            ? Result.Success(new GetVehicleByIdResponse(mapper.Map<VehicleDto>(vehicle)))
+            ? Result.Success(new GetVehicleByIdResponse(mapper.Map<VehicleResponseDto>(vehicle)))
             : Result.Failure<GetVehicleByIdResponse>(new Error("404", "Veiculo não encontrado"));
     }
 }

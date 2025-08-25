@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 using DotNetEnv;
 using FlexPro.Api.Extensions;
-using FlexPro.Api.Hubs;
 using FlexPro.Api.Middlewares;
 using FlexPro.Application;
 using FlexPro.Application.DTOs;
+using FlexPro.Application.Hubs;
 using FlexPro.Domain.Entities;
 using FlexPro.Infrastructure;
 using FlexPro.Infrastructure.Data;
@@ -143,7 +143,5 @@ app.Run();
 
 namespace FlexPro.Api
 {
-    public class Program
-    {
-    }
+    public class Program { }
 }

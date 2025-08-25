@@ -1,5 +1,6 @@
 using FlexPro.Api.Controllers;
 using FlexPro.Application.DTOs;
+using FlexPro.Application.DTOs.Vehicle;
 using FlexPro.Application.UseCases.Vehicles.GetAll;
 using FlexPro.Application.UseCases.Vehicles.GetById;
 using FlexPro.Domain.Abstractions;
@@ -13,23 +14,23 @@ namespace FlexPro.Api.Test.Controllers;
 [TestClass]
 public class VehicleControllerTests
 {
-    private VeiculoController _controller = null!;
+    private VehicleController _controller = null!;
     private Mock<IMediator> _mediatorMock = null!;
 
     [TestInitialize]
     public void Setup()
     {
         _mediatorMock = new Mock<IMediator>();
-        _controller = new VeiculoController(_mediatorMock.Object);
+        _controller = new VehicleController(_mediatorMock.Object);
     }
 
     [TestMethod]
     public async Task Should_ReturnOk_When_VehicleList_Is_Valid()
     {
-        var veiculos = new List<VehicleDto>
+        var veiculos = new List<VehicleResponseDto>
         {
-            new VehicleDto { Placa = "ABC1234", Nome = "Uno" },
-            new VehicleDto { Placa = "XYZ5678", Nome = "Gol" }
+            new VehicleResponseDto { Placa = "ABC1234", Nome = "Uno" },
+            new VehicleResponseDto { Placa = "XYZ5678", Nome = "Gol" }
         };
 
         var response = new GetAllVehicleResponse(veiculos);
@@ -72,7 +73,7 @@ public class VehicleControllerTests
     [TestMethod]
     public async Task Shold_ReturnsOk_When_Vehicle_Are_Valid()
     {
-        var vehicle = new VehicleDto { Placa = "ABC1234", Nome = "Uno" };
+        var vehicle = new VehicleResponseDto { Placa = "ABC1234", Nome = "Uno" };
         var response = new GetVehicleByIdResponse(vehicle);
         var expectedResult = Result.Success(response);
 
@@ -80,10 +81,10 @@ public class VehicleControllerTests
             It.IsAny<CancellationToken>())).ReturnsAsync(expectedResult);
         
         var actionResult = await _controller.GetById(vehicle.Id);
-        Assert.IsInstanceOfType(actionResult, typeof(Ok<VehicleDto>));
-        var okResult = actionResult as Ok<VehicleDto>;
+        Assert.IsInstanceOfType(actionResult, typeof(Ok<VehicleResponseDto>));
+        var okResult = actionResult as Ok<VehicleResponseDto>;
         Assert.IsNotNull(okResult);
-        Assert.AreEqual(response.Dto, okResult.Value);
+        Assert.AreEqual(response.ResponseDto, okResult.Value);
         Assert.AreEqual(200, okResult.StatusCode);
     }
 
